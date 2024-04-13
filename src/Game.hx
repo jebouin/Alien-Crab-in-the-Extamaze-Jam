@@ -226,6 +226,7 @@ class Game extends Scene {
             trace(heroId);
             hero = cast(entities[heroId], Summon);
             s.endLoad();
+            level.updateActive();
             if(onSuccess != null) {
                 onSuccess();
             }
@@ -272,6 +273,7 @@ class Game extends Scene {
         }, function(err) {
             showStatus("Failed to undo: " + err);
         });
+        onChange();
     }
 
     public function canRedo() {
@@ -290,6 +292,7 @@ class Game extends Scene {
         }, function(err) {
             showStatus("Failed to redo: " + err);
         });
+        onChange();
     }
 
     public function showStatus(str:String) {

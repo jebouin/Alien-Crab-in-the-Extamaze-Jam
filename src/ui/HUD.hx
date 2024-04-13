@@ -117,6 +117,8 @@ class HUD {
         defText.text = "DEF: " + Game.inst.hero.def;
         mpText.text = "MP: " + Game.inst.hero.mp;
         addSpells();
+        undoButton.enabled = Game.inst.canUndo();
+        redoButton.enabled = Game.inst.canRedo();
     }
 
     function onUndoClicked() {

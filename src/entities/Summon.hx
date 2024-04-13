@@ -34,17 +34,17 @@ class Summon extends Entity {
         sodY = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayY(), Precise);
         super("", roomId, tx, ty, summon.hp, summon.atk, summon.def);
         mp = summon.mp;
-        targetable = true;
-        friendly = true;
         if(!initial) {
             onMoved();
         }
         Game.inst.setHero(this);
-        queueTimer = new EaseTimer(STEP_DURATION);
     }
 
     override public function init(?animName:String=null) {
         super.init(getAnimName());
+        queueTimer = new EaseTimer(STEP_DURATION);
+        targetable = true;
+        friendly = true;
     }
 
     public function tryMove(dx:Int, dy:Int) {

@@ -9,7 +9,7 @@ import h2d.Flow;
 class Button extends Flow {
     public var text(default, null) : Text = null;
     var isPushed : Bool = false;
-    var enabled : Bool = true;
+    public var enabled(default, set) : Bool = true;
 
     public function new(onClick:Void->Void, ?parent) {
         super(parent);
@@ -48,6 +48,12 @@ class Button extends Flow {
             t = Assets.getTile("ui", "buttonOver");
         }
         backgroundTile = t;
+    }
+
+    public function set_enabled(v:Bool) {
+        enabled = v;
+        updateTile();
+        return v;
     }
 
     public static function fromText(str:String, onClick:Void->Void, ?parent:Object=null, ?minWidth = 16, ?align=Middle) {

@@ -1,16 +1,15 @@
-- Undo/redo
-- Pause menu
-
 DAY 2
+- Save inventory
+- Pause menu
+- Level select
+- Doors and keys
 - Make cursor pointer work
 - Attack fx
 - Level up
-- Doors and keys
 - Gnome
 - Dragon
 - Exit
 - Eye doors (save eye count)
-- Level select
 
 DAY 3
 - Polish

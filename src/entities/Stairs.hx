@@ -6,11 +6,11 @@ class Stairs extends Entity {
     public function new(roomId:String, tx:Int, ty:Int, isDown:Bool) {
         this.isDown = isDown;
         super("", roomId, tx, ty);
-        isGround = true;
     }
 
     override public function init(?animName:String=null) {
         super.init(isDown ? "stairDown" : "stairUp");
+        isGround = true;
     }
 
     override public function onSteppedOnBy(e:Summon) {

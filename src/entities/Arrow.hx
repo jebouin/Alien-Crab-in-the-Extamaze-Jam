@@ -13,11 +13,11 @@ class Arrow extends Entity {
     public function new(roomId:String, tx:Int, ty:Int, dir:Direction) {
         this.dir = dir;
         super("", roomId, tx, ty);
-        isGround = true;
     }
 
     override public function init(?animName:String=null) {
         super.init(getAnimName());
+        isGround = true;
     }
 
     inline function getAnimName() {

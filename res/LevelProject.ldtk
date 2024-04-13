@@ -2752,6 +2752,22 @@
 							"fieldInstances": [],
 							"__worldX": 48,
 							"__worldY": 496
+						},
+						{
+							"__identifier": "ScrollSlime",
+							"__grid": [8,6],
+							"__pivot": [0,0],
+							"__tags": ["item"],
+							"__tile": { "tilesetUid": 30, "x": 144, "y": 16, "w": 16, "h": 16 },
+							"__smartColor": "#3E2731",
+							"iid": "2b5977e0-d7b0-11ee-972c-03a8827ff552",
+							"width": 15,
+							"height": 15,
+							"defUid": 104,
+							"px": [128,96],
+							"fieldInstances": [],
+							"__worldX": 128,
+							"__worldY": 512
 						}
 					]
 				},

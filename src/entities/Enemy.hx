@@ -8,10 +8,10 @@ class Enemy extends Entity {
         this.kind = kind;
         enemy = Data.enemy.get(kind);
         super("", roomId, tx, ty, enemy.hp, enemy.atk, enemy.def);
-        targetable = true;
     }
 
     override public function init(?animName:String=null) {
         super.init(kind.toString());
+        targetable = true;
     }
 }
