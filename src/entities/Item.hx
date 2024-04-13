@@ -29,11 +29,11 @@ class Item extends Entity {
         } else if(kind == key3) {
             Game.inst.inventory.gainKey(3);
         } else if(kind == scrollSlime) {
-            Game.inst.inventory.addSpell(slime);
+            Game.inst.hero.tryPickScroll(slime);
         } else if(kind == scrollGnome) {
-            Game.inst.inventory.addSpell(gnome);
+            Game.inst.hero.tryPickScroll(gnome);
         } else if(kind == scrollDragon) {
-            Game.inst.inventory.addSpell(dragon);
+            Game.inst.hero.tryPickScroll(dragon);
         }
         delete();
         Game.inst.onChange();

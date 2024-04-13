@@ -21,6 +21,8 @@ class Entity implements Serializable {
     public var active(default, set) : Bool = false;
     public var friendly : Bool = false;
     public var name(get, never) : String;
+    public var sodX : SecondOrderDynamics;
+    public var sodY : SecondOrderDynamics;
 
     public function new(animName:String, floorId:Int, tx:Int, ty:Int, ?hp:Int=1, ?atk:Int=0, ?def:Int=0) {
         this.floorId = floorId;
@@ -37,6 +39,8 @@ class Entity implements Serializable {
     public function init(?animName:String="") {
         anim = Anim.fromName("entities", animName);
         Game.inst.world.add(anim, Game.LAYER_ENTITIES);
+        sodX = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayX(), Precise);
+        sodY = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayY(), Precise);
         updateVisual();
     }
 
@@ -49,6 +53,8 @@ class Entity implements Serializable {
 
     public function update(dt:Float) {
         anim.update(dt);
+        sodX.update(dt, getDisplayX());
+        sodY.update(dt, getDisplayY());
     }
 
     public function wouldKill(other:Entity) {

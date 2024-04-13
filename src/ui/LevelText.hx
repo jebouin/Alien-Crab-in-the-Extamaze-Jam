@@ -22,7 +22,7 @@ class LevelText extends Flow {
             val = Std.int(val / 10);
         }
         digits.reverse();
-        var x = baseTile.width;
+        var x = baseTile.width + 2;
         for(d in digits) {
             var t = Assets.getTile("ui", "textLV" + d);
             tg.add(x, 0, t);

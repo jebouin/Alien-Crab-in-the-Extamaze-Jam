@@ -249,32 +249,62 @@
 					"typeStr": "3",
 					"name": "unlockLevel",
 					"kind": null
+				},
+				{
+					"typeStr": "6:summon",
+					"name": "usedBy",
+					"kind": null
 				}
 			],
 			"lines": [
 				{
 					"id": "kick",
-					"name": "Magic kick",
+					"name": "Kick",
 					"cost": 0,
-					"unlockLevel": 1
+					"unlockLevel": 1,
+					"usedBy": "hero"
 				},
 				{
 					"id": "slime",
 					"name": "Summon a slippery slime",
 					"cost": 10,
-					"unlockLevel": 1
+					"unlockLevel": 1,
+					"usedBy": "hero"
 				},
 				{
 					"id": "gnome",
 					"name": "Summon an armored gnome",
-					"cost": 10,
-					"unlockLevel": 1
+					"cost": 20,
+					"unlockLevel": 1,
+					"usedBy": "hero"
 				},
 				{
 					"id": "dragon",
 					"name": "Summon an epic dragon",
 					"cost": 200,
-					"unlockLevel": 1
+					"unlockLevel": 1,
+					"usedBy": "hero"
+				},
+				{
+					"id": "sleep",
+					"name": "Gain 20 HP",
+					"cost": 20,
+					"unlockLevel": 1,
+					"usedBy": "slime"
+				},
+				{
+					"id": "levelUp",
+					"name": "Gain a level",
+					"cost": 50,
+					"unlockLevel": 1,
+					"usedBy": "gnome"
+				},
+				{
+					"id": "fireBreath",
+					"name": "Halve target's attack",
+					"cost": 100,
+					"unlockLevel": 1,
+					"usedBy": "dragon"
 				}
 			],
 			"separators": [],
@@ -319,7 +349,7 @@
 				{
 					"id": "hero",
 					"hp": 100,
-					"atk": 1000,
+					"atk": 10,
 					"def": 0,
 					"mp": 15,
 					"name": "Alien Crab"
@@ -327,23 +357,23 @@
 				{
 					"id": "slime",
 					"hp": 10,
-					"atk": 2,
+					"atk": 3,
 					"def": 0,
 					"mp": 0,
 					"name": "Slippery Slime"
 				},
 				{
 					"id": "gnome",
-					"hp": 50,
-					"atk": 3,
+					"hp": 200,
+					"atk": 1,
 					"def": 0,
 					"mp": 0,
 					"name": "Armored Gnome"
 				},
 				{
 					"id": "dragon",
-					"hp": 2000,
-					"atk": 100,
+					"hp": 1000,
+					"atk": 50,
 					"def": 0,
 					"mp": 0,
 					"name": "Epic Dragon"

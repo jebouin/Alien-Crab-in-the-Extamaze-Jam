@@ -90,10 +90,10 @@ class Game extends Scene {
         if(hero.canTakeAction) {
             holdActions.update(dt);
             if(controller.isPressed(Action.spell1)) {
-                castSpell(inventory.spells[0]);
+                castSpell(hero.spells[0]);
             }
-            if(controller.isPressed(Action.spell2) && inventory.spells.length > 1) {
-                castSpell(inventory.spells[1]);
+            if(controller.isPressed(Action.spell2) && hero.spells.length > 1) {
+                castSpell(hero.spells[1]);
             }
             if(controller.isPressed(Action.changeControl)) {
                 changeControl();
@@ -172,6 +172,9 @@ class Game extends Scene {
     }
     public function castSpell(id:Data.SpellKind) {
         hero.castSpell(id);
+    }
+    public function chooseLevelUpPerk(isHP:Bool) {
+        hero.chooseLevelUpPerk(isHP);
     }
     function getSummonList() {
         var summonList = [];

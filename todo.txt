@@ -1,6 +1,5 @@
 DAY 2
 - Level up
-	- XP Bar
 	- Level up choice with undo
 - Fix floor bug
 - Make cursor pointer work

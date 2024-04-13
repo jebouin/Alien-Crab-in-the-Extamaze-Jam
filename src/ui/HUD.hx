@@ -1,76 +1,12 @@
 package ui;
 
+import entities.Enemy;
 import h2d.Bitmap;
 import hxd.Cursor.CustomCursor;
 import sdl.Cursor;
 import h2d.Text;
 import h2d.Tile;
 import h2d.Flow;
-
-class SpellFlow extends Flow {
-    public var enabled(default, set) : Bool = false;
-    var over : Bool = false;
-
-    public function new(parent:Flow) {
-        super(parent);
-        padding = 3;
-        minWidth = maxWidth = HUD.SPELL_WIDTH;
-        minHeight = 35;
-        borderWidth = borderHeight = 4;
-        enableInteractive = true;
-        layout = Vertical;
-        interactive.onOver = function(_) {
-            over = true;
-            updateBack();
-        }
-        interactive.onOut = function(_) {
-            over = false;
-            updateBack();
-        }
-        updateBack();
-    }
-
-    public function update(i:Int, ?kind:Data.SpellKind=null) {
-        removeChildren();
-        var def = kind == null ? null : Data.spell.get(kind);
-        enabled = def != null && Game.inst.hero.canCastSpell(def.id);
-        if(def != null) {
-            var name = new Text(Assets.font, this);
-            name.text = def.name;
-            name.lineSpacing = -1;
-            name.textColor = !enabled ? 0x5a6988 : 0xFFFFFF;
-            var cost = new Text(Assets.font, this);
-            cost.text = def.cost + " MP";
-            cost.textColor = !enabled ? 0x5a6988 : (Game.inst.hero.mp < def.cost ? 0x743f39 : 0x2ce8f5);
-            var props = getProperties(cost);
-            props.verticalAlign = Bottom;
-            props.paddingBottom = 2;
-        }
-        interactive.onClick = function(_) {
-            if(enabled) {
-                Game.inst.castSpell(def.id);
-            }
-        }
-    }
-
-    public function set_enabled(v:Bool) {
-        enabled = v;
-        updateBack();
-        return v;
-    }
-
-    inline function getTile(over:Bool) {
-        var name = "spellBlocked";
-        if(enabled) {
-            name = over ? "spellOver" : "spell";
-        }
-        return Assets.getTile("ui", name);
-    }
-
-    function updateBack() {
-        backgroundTile = getTile(over);
-    }
-}
 
 class HUD {
     public static inline var WIDTH = 140;
@@ -93,6 +29,7 @@ class HUD {
 
     var levelRow : Flow;
     var xpBar : XPBar;
+    var choices : Array<LevelUpChoiceFlow> = [];
 
     var cursor : Anim;
     var timer : Float = 0.;
@@ -148,7 +85,11 @@ class HUD {
         spells = [new SpellFlow(spellRow), new SpellFlow(spellRow)];
 
         levelRow = getRow();
+        levelRow.layout = Vertical;
         xpBar = new XPBar(levelRow, WIDTH);
+
+        var choicesRow = getRow();
+        choices = [new LevelUpChoiceFlow(choicesRow), new LevelUpChoiceFlow(choicesRow)];
 
         cursor = new Anim();
         cursor.playFromName("ui", "cursor");
@@ -159,12 +100,6 @@ class HUD {
     function getEmptySpellFlow(parent:Flow) {
         var f = new Flow(parent);
         return f;
-    }
-
-    function updateSpells() {
-        for(i in 0...2) {
-            spells[i].update(i, Game.inst.inventory.spells.length > i ? Game.inst.inventory.spells[i] : null);
-        }
     }
 
     public function update(dt:Float) {
@@ -184,7 +119,12 @@ class HUD {
 
     public function onChange() {
         floorText.text = Game.inst.level.currentLevelName + " - Floor " + Game.inst.level.currentFloorId;
-        updateSpells();
+        for(i in 0...2) {
+            spells[i].update(i, Game.inst.hero.spells.length > i ? Game.inst.hero.spells[i] : null);
+        }
+        for(i in 0...2) {
+            choices[i].update(i, i == 0, i == 0 ? Game.inst.hero.getLevelUpPerkHP() : Game.inst.hero.getLevelUpPerkAtk());
+        }
         undoButton.enabled = Game.inst.canUndo();
         redoButton.enabled = Game.inst.canRedo();
         controlButton.enabled = Game.inst.canChangeControl();
@@ -196,7 +136,7 @@ class HUD {
         function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int) {
             var f = new Flow(fightRow);
             f.minWidth = 70;
-            f.minHeight = 50;
+            f.minHeight = 55;
             f.backgroundTile = Assets.getTile("ui", "hudBack");
             f.borderHeight = f.borderWidth = 4;
             f.layout = Vertical;
@@ -224,8 +164,15 @@ class HUD {
             return f;
         }
         fightRow.removeChildren();
-        getFighterCell(true, Game.inst.hero, Game.inst.hero.level);
-        getFighterCell(false, null, 1);
+        var hero = Game.inst.hero;
+        getFighterCell(true, hero, hero == null ? 0 : hero.level);
+        if(hero != null) {
+            var target = hero.getEntityFront(), enemy = null;
+            if(target != null && Std.isOfType(target, Enemy)) {
+                enemy = cast(target, Enemy);
+            }
+            getFighterCell(false, enemy, enemy == null ? 0 : enemy.level);
+        }
     }
 
     function onUndoClicked() {

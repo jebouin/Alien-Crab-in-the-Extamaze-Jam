@@ -11,6 +11,8 @@ enum Step {
 }
 
 class Summon extends Entity {
+    public static inline var PERK_MULT_HP = 20;
+    public static inline var PERK_MULT_ATK = 1;
     public static inline var STEP_DURATION_WALK = 2. / 60;
     public static inline var STEP_DURATION_HIT = 5. / 60;
     @:s var kind : Data.SummonKind;
@@ -22,9 +24,8 @@ class Summon extends Entity {
     var queue : Array<Step> = [];
     public var canTakeAction : Bool = true;
     var queueTimer : EaseTimer;
-    @:s public var sodX : SecondOrderDynamics;
-    @:s public var sodY : SecondOrderDynamics;
 
+    @:s public var spells : Array<Data.SpellKind> = [];
     @:s public var xp : Int = 0;
     @:s public var level : Int = 1;
     @:s public var levelsPending : Int = 0;
@@ -34,16 +35,20 @@ class Summon extends Entity {
     public function new(kind:Data.SummonKind, floorId:Int, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
         summon = Data.summon.get(kind);
-        this.tx = tx;
-        this.ty = ty;
-        sodX = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayX(), Precise);
-        sodY = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayY(), Precise);
         super("", floorId, tx, ty, summon.hp, summon.atk, summon.def);
         mp = summon.mp;
         if(!initial) {
             onMoved();
         }
         Game.inst.setHero(this);
+        spells = [kick];
+        if(kind == slime) {
+            spells.push(sleep);
+        } else if(kind == gnome) {
+            spells.push(levelUp);
+        } else if(kind == dragon) {
+            spells.push(fireBreath);
+        }
     }
 
     override public function init(?animName:String=null) {
@@ -142,8 +147,6 @@ class Summon extends Entity {
                 queueTimer.restartAt(delay);
             }
         }
-        sodX.update(dt, getDisplayX());
-        sodY.update(dt, getDisplayY());
         xpPendingSOD.update(dt, xpPending);
     }
 
@@ -158,7 +161,7 @@ class Summon extends Entity {
     public function castSpell(id:Data.SpellKind) {
         var def = Data.spell.get(id);
         if(mp < def.cost) return false;
-        var entityFront = Game.inst.getEntity(tx + facingX, ty + facingY);
+        var entityFront = getEntityFront();
         var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY);
         if(collidesFront) return false;
         switch(id) {
@@ -174,11 +177,34 @@ class Summon extends Entity {
             case dragon:
                 if(entityFront != null) return false;
                 new Summon(Data.SummonKind.dragon, floorId, tx + facingX, ty + facingY, false);
+            case sleep:
+                hp += 20;
+            case levelUp:
+                giveXP(getXPNeeded());
+            case fireBreath:
+                if(entityFront == null || entityFront.isGround) return false;
+                entityFront.atk >>= 1;
         }
         Game.inst.level.updateActive();
         mp -= def.cost;
         Game.inst.onChange();
         return true;
+    }
+    public function chooseLevelUpPerk(isHP:Bool) {
+        if(isHP) {
+            hp += getLevelUpPerkHP();
+        } else {
+            atk += getLevelUpPerkAtk();
+        }
+        levelsPending--;
+        level++;
+        Game.inst.onChange();
+    }
+    public function getLevelUpPerkHP() {
+        return PERK_MULT_HP * level;
+    }
+    public function getLevelUpPerkAtk() {
+        return PERK_MULT_ATK * level;
     }
 
     public function canCastSpell(id:Data.SpellKind) {
@@ -187,7 +213,7 @@ class Summon extends Entity {
         var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY);
         if(collidesFront) return false;
         switch(id) {
-            case kick:
+            case kick | fireBreath:
                 return true;
             case slime:
                 if(entityFront != null) return false;
@@ -195,6 +221,8 @@ class Summon extends Entity {
                 if(entityFront != null) return false;
             case dragon:
                 if(entityFront != null) return false;
+            case sleep | levelUp:
+                return true;
         }
         return mp >= def.cost;
     }
@@ -287,5 +315,18 @@ class Summon extends Entity {
 
     public function get_xpPending() {
         return getXPBetween(level, levelsPending) + xp;
+    }
+
+    inline public function getEntityFront() {
+        return Game.inst.getEntity(tx + facingX, ty + facingY);
+    }
+
+    public function tryPickScroll(spell:Data.SpellKind) {
+        if(this.kind != hero) return false;
+        if(spells.length == 2) {
+            spells.pop();
+        }
+        spells.push(spell);
+        return true;
     }
 }
