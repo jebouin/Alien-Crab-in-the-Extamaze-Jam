@@ -85,7 +85,7 @@ class Level {
     var mouseTY : Int = -1;
     var floorCount : Int = 0;
     public var currentLevelName : String = "";
-    var currentFloorId : Int = 1;
+    public var currentFloorId : Int = 1;
 
     public function new() {
         project = new LevelProject();

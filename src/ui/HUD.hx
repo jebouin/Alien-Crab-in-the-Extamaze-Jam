@@ -10,6 +10,8 @@ class HUD {
     public static inline var WIDTH = 140;
     public static inline var SPELL_WIDTH = 70;
     var container : Flow;
+    var floorRow : Flow;
+    var floorText : Text;
     var spellRow : Flow;
     var hpText : Text;
     var atkText : Text;
@@ -27,8 +29,17 @@ class HUD {
         container.backgroundTile = Assets.getTile("ui", "hudBack");
         container.borderHeight = container.borderWidth = 4;
         container.layout = Vertical;
-        spellRow = new Flow(container);
-        spellRow.minWidth = container.minWidth;
+        function getRow() {
+            var f = new Flow(container);
+            f.minWidth = container.minWidth;
+            return f;
+        }
+        floorRow = getRow();
+        floorRow.horizontalAlign = Middle;
+        floorRow.paddingTop = 2;
+        floorRow.paddingBottom = 3;
+        floorText = new Text(Assets.font, floorRow);
+        spellRow = getRow();
         addSpells();
         var statsFlow = new Flow(container);
         statsFlow.layout = Vertical;
@@ -51,18 +62,24 @@ class HUD {
     }
 
     function getSpellFlow(?kind:Data.SpellKind=null) {
-        trace(kind);
         var def = kind == null ? null : Data.spell.get(kind);
+        var blocked = def == null || !Game.inst.hero.canCastSpell(def.id);
         var f = new Flow();
+        f.padding = 3;
         if(def != null) {
             var name = new Text(Assets.font, f);
             name.text = def.name;
+            name.lineSpacing = -1;
+            name.textColor = blocked ? 0x5a6988 : 0xFFFFFF;
             var cost = new Text(Assets.font, f);
             cost.text = def.cost + " MP";
+            cost.textColor = blocked ? 0x5a6988 : (Game.inst.hero.mp < def.cost ? 0x743f39 : 0x2ce8f5);
+            var props = f.getProperties(cost);
+            props.verticalAlign = Bottom;
+            props.paddingBottom = 2;
         }
         f.minWidth = f.maxWidth = SPELL_WIDTH;
         f.minHeight = 50;
-        var blocked = def == null || !Game.inst.hero.canCastSpell(def.id);
         f.backgroundTile = Assets.getTile("ui", blocked ? "spellBlocked" : "spell");
         f.borderWidth = f.borderHeight = 4;
         f.enableInteractive = true;
@@ -89,6 +106,7 @@ class HUD {
     }
 
     public function onChange() {
+        floorText.text = Game.inst.level.currentLevelName + " - Floor " + Game.inst.level.currentFloorId;
         hpText.text = "HP: " + Game.inst.hero.hp;
         atkText.text = "ATK: " + Game.inst.hero.atk;
         defText.text = "DEF: " + Game.inst.hero.def;
