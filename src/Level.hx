@@ -1,5 +1,6 @@
 package ;
 
+import entities.Item;
 import entities.Stairs;
 import entities.Door;
 import h2d.Graphics;
@@ -231,6 +232,12 @@ class Level {
             }
             for(s in floor.l_Entities.all_StairDown) {
                 new Stairs(roomName, s.cx, s.cy, true);
+            }
+            for(item in floor.l_Entities.getAllUntyped()) {
+                if(item.defJson.tags.indexOf("item") == -1) continue;
+                var itemId = item.entityType.getName();
+                itemId = itemId.charAt(0).toLowerCase() + itemId.substr(1);
+                new Item(itemId, roomName, item.cx, item.cy);
             }
         }
         onFloorChange(currentLevelName + currentFloorId);

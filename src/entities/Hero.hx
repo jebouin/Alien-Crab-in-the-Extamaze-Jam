@@ -7,6 +7,7 @@ class Hero extends Entity {
     public function new(roomId:String, tx:Int, ty:Int) {
         super("heroDown", roomId, tx, ty, 100, 0, 10);
         targetable = true;
+        mp = 10;
     }
 
     override public function tryMove(dx:Int, dy:Int) {

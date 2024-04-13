@@ -1,3 +1,5 @@
+- Spells
+- Level up
 - Undo/redo
 - Doors and keys
 - Medal room

@@ -1,0 +1,185 @@
+{
+	"sheets": [
+		{
+			"name": "levels",
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "id",
+					"kind": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": "localizable"
+				}
+			],
+			"lines": [
+				{
+					"id": "Tutorial",
+					"name": "Tutorial"
+				},
+				{
+					"id": "Second",
+					"name": "Second"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "item",
+			"columns": [
+				{
+					"typeStr": "14",
+					"name": "icon",
+					"kind": null
+				},
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "1",
+					"name": "description",
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "3",
+					"name": "rarity",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hpAdd",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "mpAdd",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "key1",
+					"name": "Green Key",
+					"description": "Opens green doors",
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 3,
+						"y": 1
+					},
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0
+				},
+				{
+					"id": "key2",
+					"name": "Blue Key",
+					"description": "Opens green doors",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 4,
+						"y": 1
+					},
+					"hpAdd": 0,
+					"mpAdd": 0
+				},
+				{
+					"id": "key3",
+					"name": "White Key",
+					"description": "Open white doors",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 5,
+						"y": 1
+					},
+					"hpAdd": 0,
+					"mpAdd": 0
+				},
+				{
+					"id": "potionHPLarge",
+					"name": "Large HP potion",
+					"description": "Gain 100 HP",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 6,
+						"y": 1
+					},
+					"hpAdd": 100,
+					"mpAdd": 0
+				},
+				{
+					"id": "potionHPSmall",
+					"name": "Small HP potion",
+					"description": "Gain 40 HP",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 7,
+						"y": 1
+					},
+					"hpAdd": 40,
+					"mpAdd": 0
+				},
+				{
+					"id": "potionMPLarge",
+					"name": "Large mana potion",
+					"description": "Gain 100 MP",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 6,
+						"y": 2
+					},
+					"hpAdd": 0,
+					"mpAdd": 100
+				},
+				{
+					"id": "potionMPSmall",
+					"name": "Small mana potion",
+					"description": "Gain 40 MP",
+					"rarity": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 7,
+						"y": 2
+					},
+					"hpAdd": 0,
+					"mpAdd": 40
+				}
+			],
+			"separators": [],
+			"props": {
+				"displayIcon": "icon"
+			}
+		},
+		{
+			"name": "spell",
+			"columns": [],
+			"lines": [],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}

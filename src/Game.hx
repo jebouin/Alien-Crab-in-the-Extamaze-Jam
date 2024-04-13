@@ -1,5 +1,6 @@
 package ;
 
+import ui.HUD;
 import hxd.Key;
 import h2d.Graphics;
 import ui.HoldActions;
@@ -22,6 +23,8 @@ class Game extends Scene {
     public var level : Level;
     public var entities : Array<Entity> = [];
     public var hero : Hero;
+    public var hudElement : HUD;
+    public var inventory : Inventory;
     var holdActions : HoldActions;
     var mouseX : Float = 0;
     var mouseY : Float = 0;
@@ -41,6 +44,8 @@ class Game extends Scene {
         level.loadLevel("Tutorial");
         world.x = WORLD_OFF_X;
         world.y = WORLD_OFF_Y;
+        hudElement = new HUD();
+        inventory = new Inventory();
     }
 
     override public function delete() {
@@ -76,20 +81,30 @@ class Game extends Scene {
         }
     }
 
+    function moveOrFace(dx:Int, dy:Int) {
+        if(Key.isDown(Key.SHIFT)) {
+            hero.setFacing(dx, dy);
+        } else {
+            hero.tryMove(dx, dy);
+        }
+    }
     function onMoveLeft() {
-        hero.tryMove(-1, 0);
+        moveOrFace(-1, 0);
     }
     function onMoveRight() {
-        hero.tryMove(1, 0);
+        moveOrFace(1, 0);
     }
     function onMoveUp() {
-        hero.tryMove(0, -1);
+        moveOrFace(0, -1);
     }
     function onMoveDown() {
-        hero.tryMove(0, 1);
+        moveOrFace(0, 1);
     }
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
+    }
+    public function onChange() {
+        hudElement.onChange();
     }
 }

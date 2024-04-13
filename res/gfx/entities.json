@@ -33,7 +33,11 @@
    { "name": "stairDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 48, "w": 16, "h": 16 } }] },
    { "name": "heroUp", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 16, "w": 32, "h": 16 } }] },
    { "name": "heroRight", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 32, "w": 32, "h": 16 } }] },
-   { "name": "heroLeft", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 48, "w": 32, "h": 16 } }] }
+   { "name": "heroLeft", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 48, "w": 32, "h": 16 } }] },
+   { "name": "potionHPLarge", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 16, "w": 16, "h": 16 } }] },
+   { "name": "potionHPSmall", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 16, "w": 16, "h": 16 } }] },
+   { "name": "potionMPLarge", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 32, "w": 16, "h": 16 } }] },
+   { "name": "potionMPSmall", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 32, "w": 16, "h": 16 } }] }
   ]
  }
 }

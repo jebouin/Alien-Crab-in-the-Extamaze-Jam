@@ -1,5 +1,7 @@
 package ;
 
+import hxd.Res;
+import hxd.res.Font;
 import assets.AsepriteJson;
 import h2d.Tile;
 import haxe.ds.StringMap;
@@ -20,8 +22,10 @@ class Assets {
     static inline var LOOPS_COL_TRUE = "#0000ffff";
     static inline var LOOPS_COL_FALSE = "#fe5b59ff";
     static var sheets : StringMap<SpriteSheet>;
+    public static var font : h2d.Font;
 
     public static function init() {
+        Data.load(hxd.Res.data.entry.getText());
         loadAllSpriteSheets();
         HtmlText.defaultLoadImage = function(url:String) : Tile {
             var pos = url.indexOf("/");
@@ -29,6 +33,7 @@ class Assets {
             var tile = url.substr(pos + 1);
             return getTile(sheet, tile);
         }
+        font = Res.fonts._04b03.toFont();
     }
 
     static function loadAllSpriteSheets() {

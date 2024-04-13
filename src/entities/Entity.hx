@@ -9,6 +9,9 @@ class Entity {
     public var hp : Int;
     public var def : Int;
     public var atk : Int;
+    public var mp : Int;
+    public var xp : Int = 0;
+    public var level : Int = 1;
     var anim : Anim;
     public var deleted(default, null) : Bool = false;
     public var targetable : Bool = false;
@@ -22,6 +25,7 @@ class Entity {
         this.hp = hp;
         this.def = def;
         this.atk = atk;
+        this.mp = 0;
         anim = Anim.fromName("entities", animName);
         Game.inst.world.add(anim, Game.LAYER_ENTITIES);
         updateVisual();
@@ -58,6 +62,11 @@ class Entity {
         if(other.hp <= 0) {
             other.die();
         }
+        Game.inst.onChange();
+    }
+
+    public function giveXP(amount:Int) {
+        xp += amount;
     }
 
     function die() {
@@ -72,6 +81,7 @@ class Entity {
                 break;
             }
         }
+        Game.inst.onChange();
     }
     function onSteppedOnBy(e:Entity) {
 
@@ -109,5 +119,9 @@ class Entity {
 
     inline public function collides(tx:Int, ty:Int) {
         return !isGround && active && this.tx == tx && this.ty == ty;
+    }
+
+    inline public function getXPNeed() {
+        return level * 10;
     }
 }
