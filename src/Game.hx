@@ -56,7 +56,19 @@ class Game extends Scene {
 
     override public function update(dt:Float) {
         super.update(dt);
-        holdActions.update(dt);
+        var controller = Main.inst.controller;
+        if(hero.canTakeAction) {
+            holdActions.update(dt);
+            if(controller.isPressed(Action.spell1)) {
+                castSpell(inventory.spells[0]);
+            }
+            if(controller.isPressed(Action.spell2) && inventory.spells.length > 1) {
+                castSpell(inventory.spells[1]);
+            }
+            if(controller.isPressed(Action.changeControl)) {
+                changeControl();
+            }
+        }
         var i = 0;
         while(i < entities.length) {
             var entity = entities[i];
@@ -66,16 +78,6 @@ class Game extends Scene {
             } else {
                 i++;
             }
-        }
-        var controller = Main.inst.controller;
-        if(controller.isPressed(Action.spell1)) {
-            castSpell(inventory.spells[0]);
-        }
-        if(controller.isPressed(Action.spell2) && inventory.spells.length > 1) {
-            castSpell(inventory.spells[1]);
-        }
-        if(controller.isPressed(Action.changeControl)) {
-            changeControl();
         }
     }
 

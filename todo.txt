@@ -1,5 +1,21 @@
-- Spells
-- Level up
+- Move anim
+- Move with mouse (pathfinding)
 - Undo/redo
+
+DAY 2
+- Attack fx
+- Level up
 - Doors and keys
+- Gnome
+- Dragon
+- Exit
+- Eye doors
+- Level select
+
+DAY 3
+- Polish
+- Audio
+- Playtest
+
+IF TIME LEFT
 - Medal room

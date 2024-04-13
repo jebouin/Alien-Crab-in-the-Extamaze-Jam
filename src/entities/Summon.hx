@@ -1,15 +1,35 @@
 package entities;
 
+import format.as1.Data.PushItem;
+
+enum Step {
+    Move(dx:Int, dy:Int);
+    Hit(target:Enemy);
+}
+
 class Summon extends Entity {
+    public static inline var SOD_F = 4.583;
+    public static inline var SOD_Z = .559;
+    public static inline var SOD_R = -1.016;
+    public static inline var STEP_DURATION = .06;
     var kind : Data.SummonKind;
     var facingX : Int = 0;
     var facingY : Int = 1;
     var summon : Data.Summon;
     public var controlled(default, set) : Bool = false;
+    var queue : Array<Step> = [];
+    public var canTakeAction : Bool = true;
+    var queueTimer : EaseTimer;
+    var sodX : SecondOrderDynamics;
+    var sodY : SecondOrderDynamics;
 
     public function new(kind:Data.SummonKind, roomId:String, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
         summon = Data.summon.get(kind);
+        this.tx = tx;
+        this.ty = ty;
+        sodX = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayX(), Precise);
+        sodY = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayY(), Precise);
         super(getAnimName(), roomId, tx, ty, summon.hp, summon.def, summon.atk);
         mp = summon.mp;
         targetable = true;
@@ -18,20 +38,22 @@ class Summon extends Entity {
             onMoved();
         }
         Game.inst.setHero(this);
+        queueTimer = new EaseTimer(STEP_DURATION);
     }
 
     public function tryMove(dx:Int, dy:Int) {
         var level = Game.inst.level;
         var moving = true, moved = false, attacked = false;
+        var ctx = tx, cty = ty;
         while(moving) {
-            setFacing(dx, dy);
-            var nx = tx + dx;
-            var ny = ty + dy;
+            var nx = ctx + dx;
+            var ny = cty + dy;
             if(!level.collides(nx, ny)) {
-                tx = nx;
-                ty = ny;
+                pushStep(Move(dx, dy));
+                ctx = nx;
+                cty = ny;
                 moved = true;
-                if(!level.isSlippery(tx, ty) || kind == slime) {
+                if(!level.isSlippery(ctx, cty) || kind == slime) {
                     moving = false;
                 }
             } else {
@@ -39,22 +61,12 @@ class Summon extends Entity {
                     if(!e.collides(nx, ny)) continue;
                     if(Std.isOfType(e, Enemy)) {
                         var enemy = cast(e, Enemy);
-                        hit(enemy);
-                        if(!enemy.deleted) {
-                            enemy.hit(this);
-                        }
+                        pushStep(Hit(enemy));
                         break;
                     }
                 }
                 break;
             }
-        }
-        if(moved) {
-            onMoved();
-        }
-        if(moved || attacked) {
-            updateVisual();
-            Game.inst.onChange();
         }
         return moved;
     }
@@ -97,8 +109,25 @@ class Summon extends Entity {
         return base + dirStr;
     }
 
+    public override function update(dt:Float) {
+        super.update(dt);
+        if(!canTakeAction) {
+            queueTimer.update(dt);
+            if(queueTimer.isDone()) {
+                popStep();
+                queueTimer.restart();
+            }
+        }
+        sodX.update(dt, getDisplayX());
+        sodY.update(dt, getDisplayY());
+    }
+
     function updateAnim() {
         anim.playFromName("entities", getAnimName());
+    }
+    override function updateVisual() {
+        anim.x = sodX.pos;
+        anim.y = sodY.pos;
     }
 
     public function castSpell(id:Data.SpellKind) {
@@ -148,5 +177,34 @@ class Summon extends Entity {
     public function set_controlled(v:Bool) {
         this.controlled = v;
         return v;
+    }
+
+    function pushStep(step:Step) {
+        if(queue.length == 0) {
+            queueTimer.t = 1;
+        }
+        queue.push(step);
+        canTakeAction = false;
+    }
+    function popStep() {
+        var step = queue.shift();
+        switch(step) {
+            case Move(dx, dy):
+                tx += dx;
+                ty += dy;
+                setFacing(dx, dy);
+                onMoved();
+            case Hit(target):
+                hit(target);
+                if(!target.deleted) {
+                    target.hit(this);
+                }
+        }
+        updateVisual();
+        Game.inst.onChange();
+        if(queue.length == 0) {
+            canTakeAction = true;
+            return;
+        }
     }
 }

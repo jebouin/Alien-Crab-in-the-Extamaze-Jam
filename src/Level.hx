@@ -318,9 +318,13 @@ class Level {
     }
 
     public function addSlime(tx:Int, ty:Int) {
+        for(e in Game.inst.entities) {
+            if(e.isGround && e.active && e.tx == tx && e.ty == ty) return false;
+        }
         var fid = currentFloorId - 1;
         hasSlime[fid][ty][tx] = true;
         renders[fid].renderSlime(this, fid);
+        return true;
     }
 
     public function isSlippery(tx:Int, ty:Int) {

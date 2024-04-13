@@ -101,8 +101,8 @@ class HUD {
     public function update(dt:Float) {
         timer += dt;
         cursor.update(dt);
-        cursor.x = (Game.inst.hero.tx + .5) * Level.TS + Game.inst.world.x;
-        cursor.y = (Game.inst.hero.ty + .5) * Level.TS + Game.inst.world.y - 14 + Math.sin(timer * 10.) * 2.5;
+        cursor.x = Game.inst.hero.anim.x + Game.inst.world.x;
+        cursor.y = Game.inst.hero.anim.y + Game.inst.world.y - 14 + Math.sin(timer * 10.) * 2.5;
     }
 
     public function onChange() {

@@ -12,7 +12,7 @@ class Entity {
     public var mp : Int;
     public var xp : Int = 0;
     public var level : Int = 1;
-    var anim : Anim;
+    public var anim : Anim;
     public var deleted(default, null) : Bool = false;
     public var targetable : Bool = false;
     public var isGround(default, set) : Bool = false;
@@ -71,8 +71,14 @@ class Entity {
     }
 
     function updateVisual() {
-        anim.x = (tx + .5) * Level.TS;
-        anim.y = (ty + .5) * Level.TS;
+        anim.x = getDisplayX();
+        anim.y = getDisplayY();
+    }
+    inline function getDisplayX() {
+        return (tx + .5) * Level.TS;
+    }
+    inline function getDisplayY() {
+        return (ty + .5) * Level.TS;
     }
 
     inline function getLayer() {
