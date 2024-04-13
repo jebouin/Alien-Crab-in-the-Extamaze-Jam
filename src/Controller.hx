@@ -47,20 +47,11 @@ enum abstract ControllerType(Int) {
 }
 
 enum abstract Action(Int) {
-    var action1;
-    var action2;
-    var pause;
+    var moveLeft;
+    var moveRight;
+    var moveUp;
+    var moveDown;
     var menuEnter;
-    var menuExit;
-    var menuUp;
-    var menuRight;
-    var menuDown;
-    var menuLeft;
-
-    var debug1;
-    var debug2;
-    var debugLeft;
-    var debugRight;
 }
 
 class Controller {

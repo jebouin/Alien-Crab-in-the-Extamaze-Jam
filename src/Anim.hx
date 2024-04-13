@@ -13,6 +13,12 @@ class Anim extends Drawable {
 	public var loops : Bool = true;
 	var curFrame : Float;
 
+	public static function fromName(sheet:String, name:String, ?parent:Object) {
+		var anim = Assets.getAnimData(sheet, name);
+		if(anim == null) return null;
+		return new Anim(anim.tiles, anim.fps, true, parent);
+	}
+
 	public function new(?frames:Array<Tile>, speed:Float = 15, loops:Bool=true, ?parent:h2d.Object) {
 		super(parent);
 		this.frames = frames == null ? [] : frames;

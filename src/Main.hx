@@ -31,12 +31,14 @@ class Main extends hxd.App {
         Assets.init();
         engine.fullScreen = false;
         engine.autoResize = true;
+        engine.backgroundColor = 0x0;
         var window = hxd.Window.getInstance();
         window.title = GAME_NAME;
         window.addEventTarget(onEvent);
         SceneManager.init();
         initController();
         started = true;
+        new Game();
     }
     function onEvent(event:hxd.Event) {
         if(!started) return;
@@ -58,6 +60,10 @@ class Main extends hxd.App {
     }
     function initController() {
         controller = new Controller();
+        controller.bindKey(Action.moveLeft, Key.R);
+        controller.bindKey(Action.moveRight, Key.T);
+        controller.bindKey(Action.moveUp, Key.F);
+        controller.bindKey(Action.moveDown, Key.S);
     }
     function tick() {
         try {

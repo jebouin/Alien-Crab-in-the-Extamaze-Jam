@@ -1,1 +1,3 @@
-- Make game
+- Undo/redo
+- Doors and keys
+- Medal room
