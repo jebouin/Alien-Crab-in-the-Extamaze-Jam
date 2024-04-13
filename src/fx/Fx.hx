@@ -210,7 +210,7 @@ class Fx {
     }
     public function summonKilled(x:Float, y:Float, dx:Int, dy:Int, summon:Data.Summon) {
         screenShake(3, 3, 1., 1, 1);
-        screenFlash(Game.inst.world, 0xFF0000, .12, 2.);
+        screenFlash(Game.inst.world, 0xFF0000, .2, 1.);
     }
 
     public function enemyHit(x:Float, y:Float, dx:Int, dy:Int, enemy:Data.Enemy) {

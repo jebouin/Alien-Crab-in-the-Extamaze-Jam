@@ -22,7 +22,7 @@
   ],
   "slices": [
    { "name": "heroDown", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 32, "h": 16 } }] },
-   { "name": "ghost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 95, "w": 32, "h": 17 }, "pivot": {"x": 8, "y": 9 } }] },
+   { "name": "fleshGhost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 95, "w": 32, "h": 17 }, "pivot": {"x": 8, "y": 9 } }] },
    { "name": "door1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 16, "w": 16, "h": 16 } }] },
    { "name": "door2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 32, "w": 16, "h": 16 } }] },
    { "name": "door3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 48, "w": 16, "h": 16 } }] },
@@ -49,7 +49,9 @@
    { "name": "arrowDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 64, "w": 16, "h": 16 } }] },
    { "name": "arrowLeft", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 16, "h": 16 } }] },
    { "name": "arrowUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 16, "h": 16 } }] },
-   { "name": "key4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 32, "w": 16, "h": 16 } }] }
+   { "name": "key4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 32, "w": 16, "h": 16 } }] },
+   { "name": "cyclopGhost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 127, "w": 32, "h": 17 }, "pivot": {"x": 8, "y": 9 } }] },
+   { "name": "xmultra", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 140, "y": 69, "w": 24, "h": 27 }, "pivot": {"x": 12, "y": 19 } }] }
   ]
  }
 }

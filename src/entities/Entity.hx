@@ -22,6 +22,7 @@ class Entity implements Serializable {
     public var isGround(default, set) : Bool = false;
     public var active(default, set) : Bool = false;
     public var friendly : Bool = false;
+    public var name(get, never) : String;
 
     public function new(animName:String, floorId:Int, tx:Int, ty:Int, ?hp:Int=1, ?atk:Int=0, ?def:Int=0) {
         this.floorId = floorId;
@@ -148,5 +149,9 @@ class Entity implements Serializable {
 
     inline public function getXPNeed() {
         return level * 10;
+    }
+
+    public function get_name() {
+        return "";
     }
 }

@@ -37,7 +37,18 @@
    { "name": "key3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 149, "y": 16, "w": 7, "h": 14 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "keyBack", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 16, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "key4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 114, "y": 34, "w": 12, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
-   { "name": "control", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 0, "w": 11, "h": 11 }, "pivot": {"x": 0, "y": 0 } }] }
+   { "name": "control", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 0, "w": 11, "h": 11 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 80, "w": 18, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 64, "w": 6, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 64, "w": 10, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV5", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "texLV6", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV7", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV8", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV9", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] }
   ]
  }
 }

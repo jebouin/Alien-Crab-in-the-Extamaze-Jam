@@ -83,6 +83,8 @@ class HUD {
     var controlButton : Button;
     var floorText : Text;
 
+    var fightRow : Flow;
+
     var invRow : Flow;
     var keyTexts : Array<Text> = [];
 
@@ -123,6 +125,8 @@ class HUD {
         floorText = new Text(Assets.font, floorRow);
         var props = floorRow.getProperties(floorText);
         props.paddingLeft = 16;
+
+        fightRow = getRow();
 
         invRow = getRow();
         invRow.paddingLeft = 1;
@@ -187,6 +191,26 @@ class HUD {
             var keyCount = Game.inst.inventory.keys[i];
             keyTexts[i].text = "" + keyCount;
         }
+
+        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null) {
+            var f = new Flow(fightRow);
+            f.minWidth = 70;
+            f.minHeight = 50;
+            f.backgroundTile = Assets.getTile("ui", "hudBack");
+            f.borderHeight = f.borderWidth = 4;
+            f.layout = Vertical;
+            f.horizontalAlign = isLeft ? Left : Right;
+            f.padding = 2;
+            if(e != null) {
+                var level = new LevelText(f, e.level);
+                var name = new Text(Assets.font, f);
+                name.text = e.name;
+            }
+            return f;
+        }
+        fightRow.removeChildren();
+        getFighterCell(true, Game.inst.hero);
+        getFighterCell(false, null);
     }
 
     function onUndoClicked() {

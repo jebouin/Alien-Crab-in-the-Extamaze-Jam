@@ -290,6 +290,11 @@
 					"scope": null
 				},
 				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": null
+				},
+				{
 					"typeStr": "3",
 					"name": "hp",
 					"kind": null
@@ -316,28 +321,32 @@
 					"hp": 100,
 					"atk": 10,
 					"def": 0,
-					"mp": 15
+					"mp": 15,
+					"name": "Alien Crab"
 				},
 				{
 					"id": "slime",
 					"hp": 10,
 					"atk": 2,
 					"def": 0,
-					"mp": 0
+					"mp": 0,
+					"name": "Slippery Slime"
 				},
 				{
 					"id": "gnome",
 					"hp": 50,
 					"atk": 3,
 					"def": 0,
-					"mp": 0
+					"mp": 0,
+					"name": "Armored Gnome"
 				},
 				{
 					"id": "dragon",
 					"hp": 2000,
 					"atk": 100,
 					"def": 0,
-					"mp": 0
+					"mp": 0,
+					"name": "Epic Dragon"
 				}
 			],
 			"separators": [],
@@ -357,6 +366,11 @@
 					"scope": null
 				},
 				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": null
+				},
+				{
 					"typeStr": "3",
 					"name": "hp",
 					"kind": null
@@ -370,20 +384,55 @@
 					"typeStr": "3",
 					"name": "def",
 					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "level",
+					"kind": null
 				}
 			],
 			"lines": [
 				{
 					"atk": 3,
-					"id": "ghost",
+					"id": "fleshGhost",
 					"icon": {
 						"file": "gfx/entities.png",
 						"size": 16,
-						"x": 0,
-						"y": 4
+						"x": 4,
+						"y": 6
 					},
+					"hp": 30,
+					"def": 0,
+					"level": 3,
+					"name": "Flesh Ghost"
+				},
+				{
+					"id": "cyclopGhost",
+					"name": "Cyclop Ghost",
 					"hp": 50,
-					"def": 0
+					"atk": 10,
+					"def": 0,
+					"level": 5,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 4,
+						"y": 8
+					}
+				},
+				{
+					"id": "xmultra",
+					"name": "XM Ultra",
+					"hp": 1000,
+					"atk": 200,
+					"def": 0,
+					"level": 30,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 9,
+						"y": 4
+					}
 				}
 			],
 			"separators": [],

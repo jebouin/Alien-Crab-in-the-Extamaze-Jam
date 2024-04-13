@@ -237,4 +237,7 @@ class Summon extends Entity {
     public function get_ignoreSlippery() {
         return kind == slime;
     }
+    override public function get_name() {
+        return summon.name;
+    }
 }

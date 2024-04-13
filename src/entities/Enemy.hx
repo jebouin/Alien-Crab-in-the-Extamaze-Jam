@@ -20,6 +20,7 @@ class Enemy extends Entity {
         super.init(kind.toString());
         targetable = true;
         anim.currentFrame = Math.random() * anim.frames.length;
+        level = enemy.level;
     }
 
     override public function update(dt:Float) {
@@ -31,5 +32,9 @@ class Enemy extends Entity {
     override function updateVisual() {
         anim.x = sodX.pos;
         anim.y = sodY.pos;
+    }
+
+    override public function get_name() {
+        return enemy.name;
     }
 }

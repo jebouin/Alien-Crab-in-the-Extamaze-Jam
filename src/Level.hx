@@ -263,9 +263,6 @@ class Level {
                 Game.inst.hero = new Summon(Data.SummonKind.hero, floorId, hero.cx, hero.cy, true);
                 break;
             }
-            for(enemy in floor.l_Entities.all_Enemy) {
-                new Enemy(ghost, floorId, enemy.cx, enemy.cy);
-            }
             for(d in floor.l_Entities.all_Door1) {
                 new Door(floorId, d.cx, d.cy, 1);
             }
@@ -293,11 +290,24 @@ class Level {
             for(a in floor.l_Entities.all_ArrowDown) {
                 new Arrow(floorId, a.cx, a.cy, Direction.Down);
             }
-            for(item in floor.l_Entities.getAllUntyped()) {
-                if(item.defJson.tags.indexOf("item") == -1) continue;
-                var itemId = item.entityType.getName();
-                itemId = itemId.charAt(0).toLowerCase() + itemId.substr(1);
-                new Item(itemId, floorId, item.cx, item.cy);
+            for(e in floor.l_Entities.getAllUntyped()) {
+                var id = e.entityType.getName(), idd = "";
+                var p = 0;
+                while(p < id.length && id.charAt(p).toLowerCase() != id.charAt(p)) {
+                    idd += id.charAt(p).toLowerCase();
+                    p++;
+                }
+                if(p < id.length) {
+                    idd += id.substr(p);
+                }
+                id = idd;
+                for(t in e.defJson.tags) {
+                    if(t == "item") {
+                        new Item(id, floorId, e.cx, e.cy);
+                    } else if(t == "enemy") {
+                        new Enemy(Data.enemy.resolve(id).id, floorId, e.cx, e.cy);
+                    }
+                }
             }
         }
     }
