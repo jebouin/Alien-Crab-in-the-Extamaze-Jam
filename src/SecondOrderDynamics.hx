@@ -1,12 +1,14 @@
 package ;
 
+import hxbit.Serializable;
+
 enum StableKind {
     Fast;
     Precise;
 }
 
 // https://www.youtube.com/watch?v=KPoeNZZ6H4s
-class SecondOrderDynamics {
+class SecondOrderDynamics implements Serializable {
     @:s var prevTargetPos : Float;
     @:s public var pos : Float;
     @:s public var vel(default, null) : Float;

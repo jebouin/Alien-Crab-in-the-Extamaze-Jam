@@ -1,8 +1,17 @@
 package entities;
 
 class Enemy extends Entity {
-    public function new(roomId:String, tx:Int, ty:Int) {
-        super("ghost", roomId, tx, ty, 10, 0, 3);
+    @:s var kind : Data.EnemyKind;
+    var enemy : Data.Enemy;
+
+    public function new(kind:Data.EnemyKind, roomId:String, tx:Int, ty:Int) {
+        this.kind = kind;
+        enemy = Data.enemy.get(kind);
+        super("", roomId, tx, ty, enemy.hp, enemy.atk, enemy.def);
         targetable = true;
+    }
+
+    override public function init(?animName:String=null) {
+        super.init(kind.toString());
     }
 }

@@ -1,14 +1,18 @@
 package entities;
 
 class Item extends Entity {
-    public var id : String;
+    @:s public var kind : Data.ItemKind;
     var item : Data.Item = null;
 
     public function new(id:String, roomId:String, tx:Int, ty:Int) {
-        super(id, roomId, tx, ty);
+        super("", roomId, tx, ty);
         isGround = true;
         item = Data.item.resolve(id);
-        this.id = id;
+        this.kind = item.id;
+    }
+
+    override public function init(?animName:String=null) {
+        super.init(kind.toString());
     }
 
     override public function onSteppedOnBy(e:Summon) {
@@ -18,17 +22,17 @@ class Item extends Entity {
         if(item.mpAdd > 0) {
             Game.inst.hero.mp += item.mpAdd;
         }
-        if(id == "key1") {
+        if(kind == key1) {
             Game.inst.inventory.gainKey(1);
-        } else if(id == "key2") {
+        } else if(kind == key2) {
             Game.inst.inventory.gainKey(2);
-        } else if(id == "key3") {
+        } else if(kind == key3) {
             Game.inst.inventory.gainKey(3);
-        } else if(id == "scrollSlime") {
+        } else if(kind == scrollSlime) {
             Game.inst.inventory.addSpell(slime);
-        } else if(id == "scrollGnome") {
+        } else if(kind == scrollGnome) {
             Game.inst.inventory.addSpell(gnome);
-        } else if(id == "scrollDragon") {
+        } else if(kind == scrollDragon) {
             Game.inst.inventory.addSpell(dragon);
         }
         delete();

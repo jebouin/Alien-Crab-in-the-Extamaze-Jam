@@ -11,6 +11,8 @@ class HUD {
     public static inline var SPELL_WIDTH = 70;
     var container : Flow;
     var floorRow : Flow;
+    var undoButton : Button;
+    var redoButton : Button;
     var floorText : Text;
     var spellRow : Flow;
     var hpText : Text;
@@ -35,10 +37,13 @@ class HUD {
             return f;
         }
         floorRow = getRow();
-        floorRow.horizontalAlign = Middle;
         floorRow.paddingTop = 2;
         floorRow.paddingBottom = 3;
+        undoButton = Button.fromTile(Assets.getTile("ui", "undo"), onUndoClicked, floorRow);
+        redoButton = Button.fromTile(Assets.getTile("ui", "redo"), onRedoClicked, floorRow);
         floorText = new Text(Assets.font, floorRow);
+        var props = floorRow.getProperties(floorText);
+        props.paddingLeft = 20;
         spellRow = getRow();
         addSpells();
         var statsFlow = new Flow(container);
@@ -112,5 +117,12 @@ class HUD {
         defText.text = "DEF: " + Game.inst.hero.def;
         mpText.text = "MP: " + Game.inst.hero.mp;
         addSpells();
+    }
+
+    function onUndoClicked() {
+        Game.inst.undo();
+    }
+    function onRedoClicked() {
+        Game.inst.redo();
     }
 }

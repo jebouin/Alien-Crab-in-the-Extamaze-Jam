@@ -1,5 +1,6 @@
 package ;
 
+import hxbit.Serializable;
 import h2d.Tile;
 import haxe.ds.Vector;
 import entities.Arrow;
@@ -43,12 +44,12 @@ class LevelRender {
         slime.clear();
         for(i in 0...Level.HEIGHT_TILES) {
             for(j in 0...Level.WIDTH_TILES) {
-                var has = level.hasSlime[floorId][i][j];
+                var has = level.hasSlime(floorId, i, j);
                 if(!has) continue;
-                var hasUp = i > 0 && level.hasSlime[floorId][i - 1][j];
-                var hasDown = i < Level.HEIGHT_TILES - 1 && level.hasSlime[floorId][i + 1][j];
-                var hasLeft = j > 0 && level.hasSlime[floorId][i][j - 1];
-                var hasRight = j < Level.WIDTH_TILES - 1 && level.hasSlime[floorId][i][j + 1];
+                var hasUp = i > 0 && level.hasSlime(floorId, i - 1, j);
+                var hasRight = j < Level.WIDTH_TILES - 1 && level.hasSlime(floorId, i, j + 1);
+                var hasDown = i < Level.HEIGHT_TILES - 1 && level.hasSlime(floorId, i + 1, j);
+                var hasLeft = j > 0 && level.hasSlime(floorId, i, j - 1);
                 var mask = (hasUp ? 1 : 0) + (hasRight ? 2 : 0) + (hasDown ? 4 : 0) + (hasLeft ? 8 : 0);
                 var pos = AUTO_TILE_PERM.indexOf(mask);
                 var tx = pos & 3, ty = pos >> 2;
@@ -80,16 +81,16 @@ class Level {
     public static inline var HEIGHT_TILES = 13;
     var project : LevelProject;
     var floors : Array<LevelProject_Level> = [];
-    public var hasSlime : Vector<Vector<Vector<Bool> > >;
+    public var renders : Array<LevelRender> = [];
+    public var state : LevelState = null;
     var dist : Vector<Vector<Int> >;
     var prevPos : Vector<Vector<{x:Int, y:Int}>>;
-    public var renders : Array<LevelRender> = [];
     var highlight : Graphics;
     var mouseTX : Int = -1;
     var mouseTY : Int = -1;
     var floorCount : Int = 0;
     public var currentLevelName : String = "";
-    public var currentFloorId : Int = 1;
+    public var currentFloorId(get, never) : Int;
 
     public function new() {
         project = new LevelProject();
@@ -139,7 +140,7 @@ class Level {
 
     public function changeFloor(dir:Int) {
         if(currentFloorId + dir < 1 || currentFloorId + dir > floorCount) return;
-        currentFloorId += dir;
+        state.floorId += dir;
         var roomName = currentLevelName + currentFloorId;
         onFloorChange(roomName);
     }
@@ -202,16 +203,20 @@ class Level {
         }
     }
 
+    function clearEntities() {
+        for(e in Game.inst.entities) {
+            e.delete();
+        }
+        Game.inst.entities = [];
+    }
+
     function clear() {
         for(r in renders) {
             r.delete();
         }
         renders = [];
         floors = [];
-        for(e in Game.inst.entities) {
-            e.delete();
-        }
-        Game.inst.entities = [];
+        clearEntities();
     }
     public function delete() {
         clear();
@@ -229,13 +234,7 @@ class Level {
         }
         currentLevelName = name;
         floorCount = floors.length;
-        hasSlime = new Vector(floorCount);
-        for(fid in 0...floorCount) {
-            hasSlime[fid] = new Vector(HEIGHT_TILES);
-            for(i in 0...HEIGHT_TILES) {
-                hasSlime[fid][i] = new Vector(WIDTH_TILES, false);
-            }
-        }
+        state = new LevelState(floorCount);
         dist = new Vector(HEIGHT_TILES);
         prevPos = new Vector(HEIGHT_TILES);
         for(i in 0...HEIGHT_TILES) {
@@ -249,7 +248,6 @@ class Level {
             r.setVisible(renders.length == 0);
             renders.push(r);
         }
-        currentFloorId = 1;
         loadEntities();
     }
 
@@ -261,7 +259,7 @@ class Level {
                 break;
             }
             for(enemy in floor.l_Entities.all_Enemy) {
-                new Enemy(roomName, enemy.cx, enemy.cy);
+                new Enemy(ghost, roomName, enemy.cx, enemy.cy);
             }
             for(d in floor.l_Entities.all_Door1) {
                 new Door(roomName, d.cx, d.cy, 1);
@@ -319,13 +317,13 @@ class Level {
             if(e.isGround && e.active && e.tx == tx && e.ty == ty) return false;
         }
         var fid = currentFloorId - 1;
-        hasSlime[fid][ty][tx] = true;
+        state.hasSlime[fid][ty][tx] = true;
         renders[fid].renderSlime(this, fid);
         return true;
     }
 
     public function isSlippery(tx:Int, ty:Int) {
-        return hasSlime[currentFloorId - 1][ty][tx];
+        return state.hasSlime[currentFloorId - 1][ty][tx];
     }
 
     public function collides(tx:Int, ty:Int, ?includeEntities:Bool=true) {
@@ -400,5 +398,20 @@ class Level {
         path.reverse();
         if(path.length < 2) return null;
         return path;
+    }
+
+    public function get_currentFloorId() {
+        return state.floorId;
+    }
+    inline public function hasSlime(f:Int, i:Int, j:Int) {
+        return state.hasSlime[f][i][j];
+    }
+
+    public function setState(state:LevelState) {
+        clearEntities();
+        this.state = state;
+        onFloorChange(currentLevelName + currentFloorId);
+        var fid = currentFloorId - 1;
+        renders[currentFloorId - 1].renderSlime(this, fid);
     }
 }

@@ -1,5 +1,7 @@
 package ;
 
+import hxbit.Serializer;
+import haxe.io.Bytes;
 import h2d.Interactive;
 import ui.Path;
 import entities.Summon;
@@ -11,7 +13,14 @@ import Controller.Action;
 import SceneManager.Scene;
 import entities.Entity;
 
+typedef State = {
+    var change : String;
+    var content : Bytes;
+};
+
 class Game extends Scene {
+    public static inline var UNDO_STACK_SIZE = 10;
+    public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
     public static inline var WORLD_OFF_X = -Level.TS + 2;
     public static inline var WORLD_OFF_Y = -Level.TS + 2;
     public static var inst : Game;
@@ -35,6 +44,10 @@ class Game extends Scene {
     var mouseY : Float = 0;
     var mouseDown : Bool = false;
     var interactive : Interactive;
+    var undoStack : Array<State> = [];
+    var redoStack : Array<State> = [];
+    var undoMemory : Int = 0;
+    var lastChangeName : String = "Initial state";
 
     public function new() {
         super("game");
@@ -48,7 +61,8 @@ class Game extends Scene {
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
         level = new Level();
-        level.loadLevel("Tutorial");
+        //level.loadLevel("Tutorial");
+        level.loadLevel("Test");
         world.x = WORLD_OFF_X;
         world.y = WORLD_OFF_Y;
         inventory = new Inventory();
@@ -181,5 +195,104 @@ class Game extends Scene {
             }
         }
         return null;
+    }
+
+    public function saveState(change:String) {
+        var state = {change: change, content: getState()};
+        undoStack.push(state);
+        undoMemory += state.content.length;
+        while(undoMemory > UNDO_STACK_MEM || undoStack.length > UNDO_STACK_SIZE) {
+            var rem = undoStack[0].content.length;
+            undoStack.shift();
+            undoMemory -= rem;
+        }
+        trace(undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
+        redoStack = [];
+    }
+
+    public function setState(bytes:Bytes, onSuccess:Void->Void, onError:String->Void) {
+        try {
+            var s = new Serializer();
+            s.beginLoad(bytes);
+            var levelState = s.getDynamic();
+            level.setState(levelState);
+            var entityCount = s.getInt();
+            for(_ in 0...entityCount) {
+                var e = cast(s.getDynamic(), Entity);
+                e.init();
+                entities.push(e);
+            }
+            var heroId = s.getInt();
+            trace(heroId);
+            hero = cast(entities[heroId], Summon);
+            s.endLoad();
+            if(onSuccess != null) {
+                onSuccess();
+            }
+        } catch(e) {
+            trace(e.details());
+            if(onError != null) {
+                onError(e.details());
+            }
+        }
+    }
+
+    public function getState() {
+        var s = new Serializer();
+        s.beginSave();
+        s.addDynamic(level.state);
+        s.addInt(entities.length);
+        var entitiesToSave = [];
+        for(e in entities) {
+            if(e.deleted) continue;
+            entitiesToSave.push(e);
+        }
+        for(e in entitiesToSave) {
+            s.addDynamic(e);
+        }
+        var heroId = entities.indexOf(hero);
+        s.addInt(heroId);
+        return s.endSave();
+    }
+
+    public function canUndo() {
+        return undoStack.length > 1;
+    }
+    public function undo() {
+        // TODO: implement
+        if(undoStack.length == 1) {
+            showStatus("Nothing to undo");
+            return;
+        }
+        redoStack.push({change: lastChangeName, content: getState()});
+        var state = undoStack.pop();
+        setState(state.content, function() {
+            showStatus("Undo " + lastChangeName);
+            lastChangeName = undoStack[undoStack.length - 1].change;
+        }, function(err) {
+            showStatus("Failed to undo: " + err);
+        });
+    }
+
+    public function canRedo() {
+        return redoStack.length > 0;
+    }
+    public function redo() {
+        if(redoStack.length == 0) {
+            showStatus("Nothing to redo");
+            return;
+        }
+        undoStack.push({change: lastChangeName, content: getState()});
+        var state = redoStack.pop();
+        setState(state.content, function() {
+            showStatus("Redo" + lastChangeName);
+            lastChangeName = state.change;
+        }, function(err) {
+            showStatus("Failed to redo: " + err);
+        });
+    }
+
+    public function showStatus(str:String) {
+        trace("Game status: " + str);
     }
 }

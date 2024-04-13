@@ -13,17 +13,17 @@ class Summon extends Entity {
     public static inline var SOD_Z = .559;
     public static inline var SOD_R = -1.016;
     public static inline var STEP_DURATION = 2. / 60;
-    var kind : Data.SummonKind;
-    var facingX : Int = 0;
-    var facingY : Int = 1;
+    @:s var kind : Data.SummonKind;
     var summon : Data.Summon;
+    @:s var facingX : Int = 0;
+    @:s var facingY : Int = 1;
     public var controlled(default, set) : Bool = false;
     public var ignoreSlippery(get, never) : Bool;
     var queue : Array<Step> = [];
     public var canTakeAction : Bool = true;
     var queueTimer : EaseTimer;
-    var sodX : SecondOrderDynamics;
-    var sodY : SecondOrderDynamics;
+    @:s var sodX : SecondOrderDynamics;
+    @:s var sodY : SecondOrderDynamics;
 
     public function new(kind:Data.SummonKind, roomId:String, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
@@ -32,7 +32,7 @@ class Summon extends Entity {
         this.ty = ty;
         sodX = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayX(), Precise);
         sodY = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayY(), Precise);
-        super(getAnimName(), roomId, tx, ty, summon.hp, summon.def, summon.atk);
+        super("", roomId, tx, ty, summon.hp, summon.atk, summon.def);
         mp = summon.mp;
         targetable = true;
         friendly = true;
@@ -41,6 +41,10 @@ class Summon extends Entity {
         }
         Game.inst.setHero(this);
         queueTimer = new EaseTimer(STEP_DURATION);
+    }
+
+    override public function init(?animName:String=null) {
+        super.init(getAnimName());
     }
 
     public function tryMove(dx:Int, dy:Int) {
@@ -70,6 +74,7 @@ class Summon extends Entity {
                 break;
             }
         }
+        Game.inst.saveState("move");
         return moved;
     }
 

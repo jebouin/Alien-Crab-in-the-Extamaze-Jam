@@ -12,16 +12,28 @@
 					"typeStr": "1",
 					"name": "name",
 					"kind": "localizable"
+				},
+				{
+					"typeStr": "2",
+					"name": "show",
+					"kind": null
 				}
 			],
 			"lines": [
 				{
 					"id": "Tutorial",
-					"name": "Tutorial"
+					"name": "Tutorial",
+					"show": true
 				},
 				{
 					"id": "Second",
-					"name": "Second"
+					"name": "Second",
+					"show": true
+				},
+				{
+					"id": "Test",
+					"name": "Test",
+					"show": false
 				}
 			],
 			"separators": [],
@@ -330,6 +342,54 @@
 			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "enemy",
+			"columns": [
+				{
+					"typeStr": "14",
+					"name": "icon"
+				},
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "atk",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "def",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"atk": 0,
+					"id": "ghost",
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 0,
+						"y": 4
+					},
+					"hp": 10,
+					"def": 3
+				}
+			],
+			"separators": [],
+			"props": {
+				"displayIcon": "tile"
+			}
 		}
 	],
 	"customTypes": [],

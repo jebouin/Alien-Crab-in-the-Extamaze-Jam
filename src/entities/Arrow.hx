@@ -8,12 +8,16 @@ enum Direction {
 }
 
 class Arrow extends Entity {
-    var dir : Direction;
+    @:s var dir : Direction;
 
     public function new(roomId:String, tx:Int, ty:Int, dir:Direction) {
         this.dir = dir;
-        super(getAnimName(), roomId, tx, ty);
+        super("", roomId, tx, ty);
         isGround = true;
+    }
+
+    override public function init(?animName:String=null) {
+        super.init(getAnimName());
     }
 
     inline function getAnimName() {

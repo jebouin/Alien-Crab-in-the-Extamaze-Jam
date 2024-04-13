@@ -1,17 +1,18 @@
 package entities;
 
+import hxbit.Serializable;
 import h2d.Graphics;
 
-class Entity {
-    public var roomId : String;
-    public var tx : Int;
-    public var ty : Int;
-    public var hp : Int;
-    public var def : Int;
-    public var atk : Int;
-    public var mp : Int;
-    public var xp : Int = 0;
-    public var level : Int = 1;
+class Entity implements Serializable {
+    @:s public var roomId : String;
+    @:s public var tx : Int;
+    @:s public var ty : Int;
+    @:s public var hp : Int;
+    @:s public var def : Int;
+    @:s public var atk : Int;
+    @:s public var mp : Int;
+    @:s public var xp : Int = 0;
+    @:s public var level : Int = 1;
     public var anim : Anim;
     public var deleted(default, null) : Bool = false;
     public var targetable : Bool = false;
@@ -19,7 +20,7 @@ class Entity {
     public var active(default, set) : Bool = false;
     public var friendly : Bool = false;
 
-    public function new(animName:String, roomId:String, tx:Int, ty:Int, ?hp:Int=1, ?def:Int=0, ?atk:Int=0) {
+    public function new(animName:String, roomId:String, tx:Int, ty:Int, ?hp:Int=1, ?atk:Int=0, ?def:Int=0) {
         this.roomId = roomId;
         this.tx = tx;
         this.ty = ty;
@@ -27,10 +28,14 @@ class Entity {
         this.def = def;
         this.atk = atk;
         this.mp = 0;
+        init(animName);
+        Game.inst.entities.push(this);
+    }
+
+    public function init(?animName:String="") {
         anim = Anim.fromName("entities", animName);
         Game.inst.world.add(anim, Game.LAYER_ENTITIES);
         updateVisual();
-        Game.inst.entities.push(this);
     }
 
     public function delete() {
@@ -87,8 +92,10 @@ class Entity {
 
     function set_isGround(v:Bool) {
         isGround = v;
-        anim.remove();
-        Game.inst.world.add(anim, Game.LAYER_ENTITIES_GROUND);
+        if(anim != null) {
+            anim.remove();
+            Game.inst.world.add(anim, getLayer());
+        }
         return v;
     }
 

@@ -1,15 +1,15 @@
-- Move anim
-- Move with mouse (pathfinding)
 - Undo/redo
+- Pause menu
 
 DAY 2
+- Make cursor pointer work
 - Attack fx
 - Level up
 - Doors and keys
 - Gnome
 - Dragon
 - Exit
-- Eye doors
+- Eye doors (save eye count)
 - Level select
 
 DAY 3
