@@ -23,9 +23,9 @@
   "slices": [
    { "name": "heroDown", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 32, "h": 16 } }] },
    { "name": "ghost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 64, "w": 32, "h": 16 } }] },
-   { "name": "door1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 0, "w": 16, "h": 16 } }] },
-   { "name": "door2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 0, "w": 16, "h": 16 } }] },
-   { "name": "door3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 0, "w": 16, "h": 16 } }] },
+   { "name": "door1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 16, "w": 16, "h": 16 } }] },
+   { "name": "door2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 32, "w": 16, "h": 16 } }] },
+   { "name": "door3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 48, "w": 16, "h": 16 } }] },
    { "name": "key1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 16, "w": 16, "h": 16 } }] },
    { "name": "key2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 16, "w": 16, "h": 16 } }] },
    { "name": "key3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 16, "w": 16, "h": 16 } }] },
@@ -48,7 +48,11 @@
    { "name": "arrowRight", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 64, "w": 16, "h": 16 } }] },
    { "name": "arrowDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 64, "w": 16, "h": 16 } }] },
    { "name": "arrowLeft", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 16, "h": 16 } }] },
-   { "name": "arrowUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 16, "h": 16 } }] }
+   { "name": "arrowUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "door1Open", "color": "#0000ffff", "data": "4,30", "keys": [{ "frame": 0, "bounds": {"x": 208, "y": 16, "w": 64, "h": 16 } }] },
+   { "name": "door2Open", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 208, "y": 32, "w": 64, "h": 16 } }] },
+   { "name": "door3Open", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 208, "y": 48, "w": 64, "h": 16 } }] },
+   { "name": "key4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 32, "w": 16, "h": 16 } }] }
   ]
  }
 }

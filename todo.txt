@@ -1,8 +1,6 @@
 DAY 2
-- Save inventory
-- Pause menu
-- Level select
 - Doors and keys
+- Save inventory
 - Make cursor pointer work
 - Attack fx
 - Level up
@@ -10,6 +8,8 @@ DAY 2
 - Dragon
 - Exit
 - Eye doors (save eye count)
+- Pause menu
+- Level select
 
 DAY 3
 - Polish
@@ -18,3 +18,4 @@ DAY 3
 
 IF TIME LEFT
 - Medal room
+- Hold undo

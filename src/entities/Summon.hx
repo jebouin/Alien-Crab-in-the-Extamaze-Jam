@@ -6,6 +6,7 @@ enum Step {
     Move(dx:Int, dy:Int);
     TryMove(dx:Int, dy:Int);
     Hit(target:Enemy);
+    Open(door:Door);
 }
 
 class Summon extends Entity {
@@ -49,7 +50,7 @@ class Summon extends Entity {
 
     public function tryMove(dx:Int, dy:Int) {
         var level = Game.inst.level;
-        var moving = true, moved = false, attacked = false;
+        var moving = true, moved = false, attacked = false, opened = false;
         var ctx = tx, cty = ty;
         while(moving) {
             var nx = ctx + dx;
@@ -68,13 +69,20 @@ class Summon extends Entity {
                     if(Std.isOfType(e, Enemy)) {
                         var enemy = cast(e, Enemy);
                         pushStep(Hit(enemy));
+                        attacked = true;
+                        break;
+                    }
+                    if(Std.isOfType(e, Door)) {
+                        var door = cast(e, Door);
+                        pushStep(Open(door));
+                        opened = true;
                         break;
                     }
                 }
                 break;
             }
         }
-        return moved;
+        return moved || opened || attacked;
     }
 
     function onMoved() {
@@ -95,6 +103,7 @@ class Summon extends Entity {
         facingX = dx;
         facingY = dy;
         updateAnim();
+        Game.inst.onChange();
     }
 
     inline function getAnimName() {
@@ -207,6 +216,10 @@ class Summon extends Entity {
                 hit(target);
                 if(!target.deleted) {
                     target.hit(this);
+                }
+            case Open(door):
+                if(Game.inst.inventory.spendKey(door.type)) {
+                    door.open();
                 }
         }
         updateVisual();

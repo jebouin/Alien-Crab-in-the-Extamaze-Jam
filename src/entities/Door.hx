@@ -1,7 +1,7 @@
 package entities;
 
 class Door extends Entity {
-    @:s var type : Int;
+    @:s public var type : Int;
 
     public function new(roomId:String, tx:Int, ty:Int, type:Int) {
         this.type = type;
@@ -10,5 +10,10 @@ class Door extends Entity {
 
     override public function init(?animName:String=null) {
         super.init("door" + type);
+    }
+
+    public function open() {
+        Game.inst.onChange();
+        delete();
     }
 }

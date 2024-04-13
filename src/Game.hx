@@ -61,8 +61,8 @@ class Game extends Scene {
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
         level = new Level();
-        level.loadLevel("Tutorial");
-        //level.loadLevel("Test");
+        //level.loadLevel("Tutorial");
+        level.loadLevel("Test");
         world.x = WORLD_OFF_X;
         world.y = WORLD_OFF_Y;
         inventory = new Inventory();
@@ -226,8 +226,8 @@ class Game extends Scene {
                 entities.push(e);
             }
             var heroId = s.getInt();
-            trace(heroId);
             hero = cast(entities[heroId], Summon);
+            inventory = s.getDynamic();
             s.endLoad();
             level.updateActive();
             if(onSuccess != null) {
@@ -256,6 +256,7 @@ class Game extends Scene {
         }
         var heroId = entities.indexOf(hero);
         s.addInt(heroId);
+        s.addDynamic(inventory);
         return s.endSave();
     }
 
