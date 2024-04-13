@@ -418,4 +418,12 @@ class Level {
         var fid = currentFloorId - 1;
         renders[currentFloorId - 1].renderSlime(this, fid);
     }
+
+    public function collidesAt(x:Float, y:Float) {
+        var tx = Math.floor(x / TS);
+        var ty = Math.floor(y / TS);
+        if(!isInBounds(tx, ty)) return true;
+        if(floors[currentFloorId - 1].l_Walls.getInt(tx, ty) > 0) return true;
+        return false;
+    }
 }

@@ -6,11 +6,13 @@ enum Step {
     Move(dx:Int, dy:Int);
     TryMove(dx:Int, dy:Int);
     Hit(target:Enemy);
+    TakeHit(source:Entity);
     Open(door:Door);
 }
 
 class Summon extends Entity {
-    public static inline var STEP_DURATION = 2. / 60;
+    public static inline var STEP_DURATION_WALK = 2. / 60;
+    public static inline var STEP_DURATION_HIT = 5. / 60;
     @:s var kind : Data.SummonKind;
     public var summon : Data.Summon;
     @:s var facingX : Int = 0;
@@ -40,7 +42,7 @@ class Summon extends Entity {
 
     override public function init(?animName:String=null) {
         super.init(getAnimName());
-        queueTimer = new EaseTimer(STEP_DURATION);
+        queueTimer = new EaseTimer(STEP_DURATION_WALK);
         targetable = true;
         friendly = true;
     }
@@ -66,6 +68,9 @@ class Summon extends Entity {
                     if(Std.isOfType(e, Enemy)) {
                         var enemy = cast(e, Enemy);
                         pushStep(Hit(enemy));
+                        if(!wouldKill(enemy)) {
+                            pushStep(TakeHit(enemy));
+                        }
                         attacked = true;
                         break;
                     }
@@ -126,8 +131,8 @@ class Summon extends Entity {
         if(!canTakeAction) {
             queueTimer.update(dt);
             if(queueTimer.isDone()) {
-                popStep();
-                queueTimer.restart();
+                var delay = popStep();
+                queueTimer.restartAt(delay);
             }
         }
         sodX.update(dt, getDisplayX());
@@ -200,7 +205,7 @@ class Summon extends Entity {
     }
     function popStep() {
         var step = queue.shift();
-        trace("popStep", step);
+        var delay  = STEP_DURATION_WALK;
         switch(step) {
             case Move(dx, dy):
                 tx += dx;
@@ -212,9 +217,10 @@ class Summon extends Entity {
             case Hit(target):
                 setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
                 hit(target, facingX, facingY);
-                if(!target.deleted) {
-                    target.hit(this, -facingX, -facingY);
-                }
+                delay = STEP_DURATION_HIT;
+            case TakeHit(target):
+                target.hit(this, -facingX, -facingY);
+                delay = STEP_DURATION_HIT;
             case Open(door):
                 if(Game.inst.inventory.spendKey(door.type)) {
                     door.open();
@@ -224,8 +230,8 @@ class Summon extends Entity {
         Game.inst.onChange();
         if(queue.length == 0) {
             canTakeAction = true;
-            return;
         }
+        return delay;
     }
 
     public function get_ignoreSlippery() {

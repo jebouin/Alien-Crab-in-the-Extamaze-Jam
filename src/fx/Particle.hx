@@ -30,6 +30,7 @@ class Particle extends CustomSpriteBatch.BatchElement {
     public var bounciness : Float = .5;
     
     public var timer : EaseTimer;
+    public var collides : Bool = false;
 
     public function new(tile:Tile, time:Float, ?col=0xFFFFFF) {
         super(tile);
@@ -55,8 +56,32 @@ class Particle extends CustomSpriteBatch.BatchElement {
         if(frx < 1.) vx *= Math.pow(frx, dt);
         if(fry < 1.) vy *= Math.pow(fry, dt);
         if(frz < 1.) vz *= Math.pow(frz, dt);
-        xx += vx * dt;
-        yy += vy * dt;
+        var dx = vx * dt, dy = vy * dt;
+        if(collides) {
+            if(Game.inst.level.collidesAt(xx + dx, yy)) {
+                if(vx > 0) {
+                    xx = Math.ceil(xx / Level.TS) * Level.TS;
+                } else {
+                    xx = Math.floor(xx / Level.TS) * Level.TS;
+                }
+                vx *= -bounciness;
+            } else {
+                xx += dx;
+            }
+            if(Game.inst.level.collidesAt(xx, yy + dy)) {
+                if(vy > 0) {
+                    yy = Math.ceil(yy / Level.TS) * Level.TS;
+                } else {
+                    yy = Math.floor(yy / Level.TS) * Level.TS;
+                }
+                vy *= -bounciness;
+            } else {
+                yy += dy;
+            }
+        } else {
+            xx += dx;
+            yy += dy;
+        }
         zz += vz * dt;
         if(zz < 0) {
             zz = 0;

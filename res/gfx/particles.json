@@ -24,7 +24,8 @@
    { "name": "door1", "color": "#0000ffff", "data": "4,30", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 16, "w": 64, "h": 16 } }] },
    { "name": "door2", "color": "#0000ffff", "data": "4,30", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 32, "w": 64, "h": 16 } }] },
    { "name": "door3", "color": "#0000ffff", "data": "4,30", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 48, "w": 64, "h": 16 } }] },
-   { "name": "blood2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 9, "y": 10, "w": 4, "h": 3 } }] }
+   { "name": "blood2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 9, "y": 10, "w": 4, "h": 3 } }] },
+   { "name": "attack", "color": "#0000ffff", "data": "4,30", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 80, "w": 64, "h": 16 } }] }
   ]
  }
 }

@@ -18,5 +18,6 @@ DAY 3
 - Playtest
 
 IF TIME LEFT
+- Shadows
 - Medal room
 - Hold undo

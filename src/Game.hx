@@ -193,6 +193,7 @@ class Game extends Scene {
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
+        fx.clear();
         fx.floorChange();
     }
     public function onChange() {

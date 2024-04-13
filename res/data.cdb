@@ -315,7 +315,7 @@
 					"id": "hero",
 					"hp": 100,
 					"atk": 10,
-					"def": 5,
+					"def": 0,
 					"mp": 15
 				},
 				{
@@ -329,14 +329,14 @@
 					"id": "gnome",
 					"hp": 50,
 					"atk": 3,
-					"def": 30,
+					"def": 0,
 					"mp": 0
 				},
 				{
 					"id": "dragon",
 					"hp": 2000,
 					"atk": 100,
-					"def": 100,
+					"def": 0,
 					"mp": 0
 				}
 			],
@@ -374,7 +374,7 @@
 			],
 			"lines": [
 				{
-					"atk": 0,
+					"atk": 3,
 					"id": "ghost",
 					"icon": {
 						"file": "gfx/entities.png",
@@ -382,8 +382,8 @@
 						"x": 0,
 						"y": 4
 					},
-					"hp": 10,
-					"def": 3
+					"hp": 50,
+					"def": 0
 				}
 			],
 			"separators": [],

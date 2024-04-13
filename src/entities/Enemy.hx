@@ -19,11 +19,13 @@ class Enemy extends Entity {
     override public function init(?animName:String=null) {
         super.init(kind.toString());
         targetable = true;
+        anim.currentFrame = Math.random() * anim.frames.length;
     }
 
     override public function update(dt:Float) {
         sodX.update(dt, getDisplayX());
         sodY.update(dt, getDisplayY());
+        super.update(dt);
     }
 
     override function updateVisual() {

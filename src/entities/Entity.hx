@@ -52,6 +52,10 @@ class Entity implements Serializable {
         anim.update(dt);
     }
 
+    public function wouldKill(other:Entity) {
+        return atk >= other.hp + other.def;
+    }
+
     public function hit(other:Entity, dx:Int, dy:Int) {
         if(!other.targetable) return;
         var damage = Util.imax(0, atk - other.def);

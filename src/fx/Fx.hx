@@ -175,33 +175,54 @@ class Fx {
         p.yy = y;
     }
 
+    function hitAnim(x:Float, y:Float, dx:Int, dy:Int) {
+        var p = createAnimParticle(true, Assets.getAnimData("particles", "attack"));
+        if(p == null) return;
+        p.xx = x;
+        p.yy = y;
+        var angle = Math.atan2(dy, dx);
+        p.rotation = angle;
+    }
+    function blood(x:Float, y:Float, vx:Float, vy:Float) {
+        var tileName = "blood" + (rand.int(2) + 1);
+        var life = rand.rangeFloat(.8, 1.2);
+        var p = createParticle(true, Assets.getTile("particles", tileName), life);
+        if(p == null) return;
+        p.xx = x;
+        p.yy = y;
+        p.vx = vx;
+        p.vy = vy;
+        p.frx = p.fry = .1;
+        p.vz = 300;
+        p.az = -2000;
+        p.scaleToX = 0.;
+        p.scaleToY = 0.;
+        p.collides = true;
+    }
+
     public function summonHit(x:Float, y:Float, dx:Int, dy:Int, summon:Data.Summon) {
-        // TODO
+        hitAnim(x, y, dx, dy);
+        for(i in 0...10) {
+            var addVel = rand.circle(60, 120);
+            var spd = 200;
+            blood(x, y, spd * dx + addVel.x, spd * dy + addVel.y);
+        }
     }
     public function summonKilled(x:Float, y:Float, dx:Int, dy:Int, summon:Data.Summon) {
-        // TODO
+        screenShake(3, 3, 1., 1, 1);
+        screenFlash(Game.inst.world, 0xFF0000, .12, 2.);
     }
 
     public function enemyHit(x:Float, y:Float, dx:Int, dy:Int, enemy:Data.Enemy) {
+        hitAnim(x, y, dx, dy);
         for(i in 0...10) {
-            var tileName = "blood" + (rand.int(2) + 1);
-            var life = rand.rangeFloat(.8, 1.2);
-            var p = createParticle(true, Assets.getTile("particles", tileName), life);
-            if(p == null) return;
-            p.xx = x;
-            p.yy = y;
             var addVel = rand.circle(60, 120);
             var spd = 200;
-            p.vx = spd * dx + addVel.x;
-            p.vy = spd * dy + addVel.y;
-            p.frx = p.fry = .1;
-            p.vz = 300;
-            p.az = -2000;
-            p.scaleToX = 0.;
-            p.scaleToY = 0.;
+            blood(x, y, spd * dx + addVel.x, spd * dy + addVel.y);
         }
     }
     public function enemyKilled(x:Float, y:Float, dx:Int, dy:Int, enemy:Data.Enemy) {
         enemyHit(x, y, dx, dy, enemy);
+        screenShake(1, 1, 2., 1, 1);
     }
 }
