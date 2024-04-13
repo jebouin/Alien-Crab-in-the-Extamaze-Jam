@@ -5,35 +5,71 @@ class Summon extends Entity {
     var facingX : Int = 0;
     var facingY : Int = 1;
     var summon : Data.Summon;
+    public var controlled(default, set) : Bool = false;
 
-    public function new(kind:Data.SummonKind, roomId:String, tx:Int, ty:Int) {
+    public function new(kind:Data.SummonKind, roomId:String, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
         summon = Data.summon.get(kind);
         super(getAnimName(), roomId, tx, ty, summon.hp, summon.def, summon.atk);
         mp = summon.mp;
         targetable = true;
         friendly = true;
+        if(!initial) {
+            onMoved();
+        }
+        Game.inst.setHero(this);
     }
 
-    override public function tryMove(dx:Int, dy:Int) {
-        setFacing(dx, dy);
-        if(super.tryMove(dx, dy)) {
-            Game.inst.onChange();
-            return true;
-        }
-        var nx = tx + dx, ny = ty + dy;
-        for(e in Game.inst.entities) {
-            if(!e.collides(nx, ny)) continue;
-            if(Std.isOfType(e, Enemy)) {
-                var enemy = cast(e, Enemy);
-                hit(enemy);
-                if(!enemy.deleted) {
-                    enemy.hit(this);
+    public function tryMove(dx:Int, dy:Int) {
+        var level = Game.inst.level;
+        var moving = true, moved = false, attacked = false;
+        while(moving) {
+            setFacing(dx, dy);
+            var nx = tx + dx;
+            var ny = ty + dy;
+            if(!level.collides(nx, ny)) {
+                tx = nx;
+                ty = ny;
+                moved = true;
+                if(!level.isSlippery(tx, ty) || kind == slime) {
+                    moving = false;
+                }
+            } else {
+                for(e in Game.inst.entities) {
+                    if(!e.collides(nx, ny)) continue;
+                    if(Std.isOfType(e, Enemy)) {
+                        var enemy = cast(e, Enemy);
+                        hit(enemy);
+                        if(!enemy.deleted) {
+                            enemy.hit(this);
+                        }
+                        break;
+                    }
                 }
                 break;
             }
         }
-        return false;
+        if(moved) {
+            onMoved();
+        }
+        if(moved || attacked) {
+            updateVisual();
+            Game.inst.onChange();
+        }
+        return moved;
+    }
+
+    function onMoved() {
+        for(e in Game.inst.entities) {
+            if(!e.deleted && e.isGround && e.tx == tx && e.ty == ty && e.active) {
+                e.onSteppedOnBy(this);
+                break;
+            }
+        }
+        Game.inst.onChange();
+        if(kind == slime) {
+            Game.inst.level.addSlime(tx, ty);
+        }
     }
 
     public function setFacing(dx:Int, dy:Int) {
@@ -77,13 +113,13 @@ class Summon extends Entity {
                 hit(entityFront);
             case slime:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.slime, roomId, tx + facingX, ty + facingY);
+                new Summon(Data.SummonKind.slime, roomId, tx + facingX, ty + facingY, false);
             case gnome:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.gnome, roomId, tx + facingX, ty + facingY);
+                new Summon(Data.SummonKind.gnome, roomId, tx + facingX, ty + facingY, false);
             case dragon:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.dragon, roomId, tx + facingX, ty + facingY);
+                new Summon(Data.SummonKind.dragon, roomId, tx + facingX, ty + facingY, false);
         }
         Game.inst.level.updateActive();
         mp -= def.cost;
@@ -107,5 +143,10 @@ class Summon extends Entity {
                 if(entityFront != null) return false;
         }
         return mp >= def.cost;
+    }
+
+    public function set_controlled(v:Bool) {
+        this.controlled = v;
+        return v;
     }
 }

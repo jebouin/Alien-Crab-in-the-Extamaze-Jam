@@ -44,17 +44,6 @@ class Entity {
         anim.update(dt);
     }
 
-    public function tryMove(dx:Int, dy:Int) {
-        var nx = tx + dx;
-        var ny = ty + dy;
-        if(Game.inst.level.collides(nx, ny)) return false;
-        tx = nx;
-        ty = ny;
-        updateVisual();
-        onMoved();
-        return true;
-    }
-
     public function hit(other:Entity) {
         if(!other.targetable) return;
         var damage = Util.imax(0, atk - other.def);
@@ -73,18 +62,7 @@ class Entity {
     function die() {
         delete();
     }
-
-    function onMoved() {
-        if(isGround) return;
-        for(e in Game.inst.entities) {
-            if(!e.deleted && e.isGround && e.tx == tx && e.ty == ty && e.active) {
-                e.onSteppedOnBy(this);
-                break;
-            }
-        }
-        Game.inst.onChange();
-    }
-    function onSteppedOnBy(e:Entity) {
+    function onSteppedOnBy(e:Summon) {
 
     }
 

@@ -44,7 +44,11 @@
    { "name": "slimeDown", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 80, "w": 32, "h": 16 } }] },
    { "name": "slimeUp", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 96, "w": 32, "h": 16 } }] },
    { "name": "slimeRight", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 112, "w": 32, "h": 16 } }] },
-   { "name": "slimeLeft", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 128, "w": 32, "h": 16 } }] }
+   { "name": "slimeLeft", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 128, "w": 32, "h": 16 } }] },
+   { "name": "arrowRight", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "arrowDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "arrowLeft", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 16, "h": 16 } }] },
+   { "name": "arrowUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 16, "h": 16 } }] }
   ]
  }
 }

@@ -53,6 +53,7 @@ enum abstract Action(Int) {
     var moveDown;
     var spell1;
     var spell2;
+    var changeControl;
     var menuEnter;
 }
 

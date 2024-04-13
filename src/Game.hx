@@ -15,6 +15,7 @@ class Game extends Scene {
     public static var inst : Game;
     static var _layer = 0;
     public static var LAYER_GROUND = _layer++;
+    public static var LAYER_GROUND_SLIME = _layer++;
     public static var LAYER_ENTITIES_GROUND = _layer++;
     public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_WALLS = _layer++;
@@ -22,7 +23,7 @@ class Game extends Scene {
     public static var LAYER_EFFECTS = _layer++;
     public var level : Level;
     public var entities : Array<Entity> = [];
-    public var hero : Summon;
+    public var hero : Summon = null;
     public var hudElement : HUD;
     public var inventory : Inventory;
     var holdActions : HoldActions;
@@ -73,6 +74,9 @@ class Game extends Scene {
         if(controller.isPressed(Action.spell2) && inventory.spells.length > 1) {
             castSpell(inventory.spells[1]);
         }
+        if(controller.isPressed(Action.changeControl)) {
+            changeControl();
+        }
     }
 
     override public function updateConstantRate(dt:Float) {
@@ -111,12 +115,29 @@ class Game extends Scene {
     public function castSpell(id:Data.SpellKind) {
         hero.castSpell(id);
     }
+    public function changeControl() {
+        var summonList = [];
+        for(e in entities) {
+            if(e.friendly && e.active && !e.deleted && Std.isOfType(e, Summon)) {
+                summonList.push(cast(e, Summon));
+            }
+        }
+        var id = summonList.indexOf(hero);
+        setHero(summonList[(id + 1) % summonList.length]);
+    }
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
     }
     public function onChange() {
         hudElement.onChange();
+    }
+    public function setHero(s:Summon) {
+        if(hero != null) {
+            hero.controlled = false;
+        }
+        hero = s;
+        hero.controlled = true;
     }
 
     public function getEntity(tx:Int, ty:Int) {

@@ -11,7 +11,7 @@ class Item extends Entity {
         this.id = id;
     }
 
-    override public function onSteppedOnBy(e:Entity) {
+    override public function onSteppedOnBy(e:Summon) {
         if(item.hpAdd > 0) {
             Game.inst.hero.hp += item.hpAdd;
         }

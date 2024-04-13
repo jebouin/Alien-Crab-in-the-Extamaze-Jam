@@ -66,6 +66,7 @@ class Main extends hxd.App {
         controller.bindKey(Action.moveDown, Key.S);
         controller.bindKey(Action.spell1, Key.N);
         controller.bindKey(Action.spell2, Key.E);
+        controller.bindKey(Action.changeControl, Key.I);
     }
     function tick() {
         try {

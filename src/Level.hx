@@ -1,5 +1,8 @@
 package ;
 
+import h2d.Tile;
+import haxe.ds.Vector;
+import entities.Arrow;
 import entities.Summon;
 import entities.Item;
 import entities.Stairs;
@@ -10,7 +13,10 @@ import h2d.TileGroup;
 import entities.Enemy;
 
 class LevelRender {
+    static var AUTO_TILE_PERM = [6, 14, 12, 4, 7, 15, 13, 5, 3, 11, 9, 1, 2, 10, 8, 0];
+    static var slimeTile : Tile = null;
     var ground : TileGroup = null;
+    var slime : TileGroup = null;
     var walls : TileGroup = null;
 
     public function new(level:LevelProject_Level) {
@@ -25,6 +31,32 @@ class LevelRender {
         Game.inst.world.add(walls, Game.LAYER_WALLS);
         ground = level.l_Ground.render();
         Game.inst.world.add(ground, Game.LAYER_GROUND);
+        if(slimeTile == null) {
+            slimeTile = Assets.getTile("tileset", "slime");
+        }
+        slime = new TileGroup(slimeTile);
+        slime.alpha = .5;
+        Game.inst.world.add(slime, Game.LAYER_GROUND_SLIME);
+    }
+
+    public function renderSlime(level:Level, floorId:Int) {
+        slime.clear();
+        for(i in 0...Level.HEIGHT_TILES) {
+            for(j in 0...Level.WIDTH_TILES) {
+                var has = level.hasSlime[floorId][i][j];
+                if(!has) continue;
+                var hasUp = i > 0 && level.hasSlime[floorId][i - 1][j];
+                var hasDown = i < Level.HEIGHT_TILES - 1 && level.hasSlime[floorId][i + 1][j];
+                var hasLeft = j > 0 && level.hasSlime[floorId][i][j - 1];
+                var hasRight = j < Level.WIDTH_TILES - 1 && level.hasSlime[floorId][i][j + 1];
+                var mask = (hasUp ? 1 : 0) + (hasRight ? 2 : 0) + (hasDown ? 4 : 0) + (hasLeft ? 8 : 0);
+                var pos = AUTO_TILE_PERM.indexOf(mask);
+                var tx = pos & 3, ty = pos >> 2;
+                trace(mask, pos, tx, ty);
+                var tile = slimeTile.sub(tx * Level.TS, ty * Level.TS, Level.TS, Level.TS);
+                slime.add(j * Level.TS, i * Level.TS, tile);
+            }
+        }
     }
 
     public function delete() {
@@ -35,6 +67,7 @@ class LevelRender {
     public function setVisible(v:Bool) {
         ground.visible = v;
         walls.visible = v;
+        slime.visible = v;
     }
 }
 
@@ -45,6 +78,7 @@ class Level {
     public static inline var HEIGHT_TILES = 13;
     var project : LevelProject;
     var floors : Array<LevelProject_Level> = [];
+    public var hasSlime : Vector<Vector<Vector<Bool> > >;
     public var renders : Array<LevelRender> = [];
     var highlight : Graphics;
     var mouseTX : Int = -1;
@@ -202,6 +236,13 @@ class Level {
         }
         currentLevelName = name;
         floorCount = floors.length;
+        hasSlime = new Vector(floorCount);
+        for(fid in 0...floorCount) {
+            hasSlime[fid] = new Vector(HEIGHT_TILES);
+            for(i in 0...HEIGHT_TILES) {
+                hasSlime[fid][i] = new Vector(WIDTH_TILES, false);
+            }
+        }
         floors.sort(function(a, b) return splitLevelName(a.identifier).floor - splitLevelName(b.identifier).floor);
         trace("Loaded " + floors.length + " floors");
         for(f in floors) {
@@ -217,7 +258,7 @@ class Level {
         for(floor in floors) {
             var roomName = floor.identifier;
             for(hero in floor.l_Entities.all_Hero) {
-                Game.inst.hero = new Summon(Data.SummonKind.hero, roomName, hero.cx, hero.cy);
+                Game.inst.hero = new Summon(Data.SummonKind.hero, roomName, hero.cx, hero.cy, true);
                 break;
             }
             for(enemy in floor.l_Entities.all_Enemy) {
@@ -237,6 +278,18 @@ class Level {
             }
             for(s in floor.l_Entities.all_StairDown) {
                 new Stairs(roomName, s.cx, s.cy, true);
+            }
+            for(a in floor.l_Entities.all_ArrowLeft) {
+                new Arrow(roomName, a.cx, a.cy, Direction.Left);
+            }
+            for(a in floor.l_Entities.all_ArrowRight) {
+                new Arrow(roomName, a.cx, a.cy, Direction.Right);
+            }
+            for(a in floor.l_Entities.all_ArrowUp) {
+                new Arrow(roomName, a.cx, a.cy, Direction.Up);
+            }
+            for(a in floor.l_Entities.all_ArrowDown) {
+                new Arrow(roomName, a.cx, a.cy, Direction.Down);
             }
             for(item in floor.l_Entities.getAllUntyped()) {
                 if(item.defJson.tags.indexOf("item") == -1) continue;
@@ -262,5 +315,15 @@ class Level {
         highlight.y = ty * TS;
         mouseTX = tx;
         mouseTY = ty;
+    }
+
+    public function addSlime(tx:Int, ty:Int) {
+        var fid = currentFloorId - 1;
+        hasSlime[fid][ty][tx] = true;
+        renders[fid].renderSlime(this, fid);
+    }
+
+    public function isSlippery(tx:Int, ty:Int) {
+        return hasSlime[currentFloorId - 1][ty][tx];
     }
 }

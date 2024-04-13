@@ -9,7 +9,7 @@ class Stairs extends Entity {
         isGround = true;
     }
 
-    override public function onSteppedOnBy(e:Entity) {
+    override public function onSteppedOnBy(e:Summon) {
         if(e == Game.inst.hero) {
             Game.inst.changeFloor(isDown ? -1 : 1);
         }
