@@ -174,8 +174,49 @@
 		},
 		{
 			"name": "spell",
-			"columns": [],
-			"lines": [],
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "cost",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "unlockLevel",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "kick",
+					"name": "Magic kick",
+					"cost": 0,
+					"unlockLevel": 1
+				},
+				{
+					"id": "slime",
+					"name": "Summon a weak slime",
+					"cost": 10,
+					"unlockLevel": 2
+				},
+				{
+					"id": "dragon",
+					"name": "Summon an epic dragon",
+					"cost": 200,
+					"unlockLevel": 5
+				}
+			],
 			"separators": [],
 			"props": {}
 		}
