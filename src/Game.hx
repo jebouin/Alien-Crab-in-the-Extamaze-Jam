@@ -1,5 +1,7 @@
 package ;
 
+import h2d.Interactive;
+import ui.Path;
 import entities.Summon;
 import ui.HUD;
 import hxd.Key;
@@ -21,14 +23,18 @@ class Game extends Scene {
     public static var LAYER_WALLS = _layer++;
     public static var LAYER_OVER = _layer++;
     public static var LAYER_EFFECTS = _layer++;
+    public static var LAYER_PATH = _layer++;
     public var level : Level;
     public var entities : Array<Entity> = [];
     public var hero : Summon = null;
     public var hudElement : HUD;
     public var inventory : Inventory;
+    public var path : Path;
     var holdActions : HoldActions;
     var mouseX : Float = 0;
     var mouseY : Float = 0;
+    var mouseDown : Bool = false;
+    var interactive : Interactive;
 
     public function new() {
         super("game");
@@ -47,6 +53,11 @@ class Game extends Scene {
         world.y = WORLD_OFF_Y;
         inventory = new Inventory();
         hudElement = new HUD();
+        path = new Path();
+        interactive = new Interactive(320 - HUD.WIDTH, 320 - HUD.WIDTH, hud);
+        interactive.onClick = onClick;
+        interactive.onPush = onPush;
+        interactive.onRelease = onRelease;
     }
 
     override public function delete() {
@@ -88,11 +99,32 @@ class Game extends Scene {
         }
         mouseX = Main.inst.s2d.mouseX / Main.inst.renderer.pixelPerfectScale;
         mouseY = Main.inst.s2d.mouseY / Main.inst.renderer.pixelPerfectScale;
-        level.updateMousePos(mouseX, mouseY);
+        var mtx = Std.int((mouseX - Game.WORLD_OFF_X) / Level.TS);
+        var mty = Std.int((mouseY - Game.WORLD_OFF_Y) / Level.TS);
+        if(hero.canTakeAction) {
+            path.compute(hero.tx, hero.ty, mtx, mty, hero.ignoreSlippery);
+            path.visible = path.path != null && mouseDown;
+            level.updateMousePos(mtx, mty, path.path != null);
+        } else {
+            path.visible = false;
+            level.updateMousePos(mtx, mty, false);
+        }
         if(Key.isDown(Key.Y)) {
             level.loadLevel(level.currentLevelName);
         }
         hudElement.update(dt);
+    }
+
+    function onClick(_) {
+        if(hero.canTakeAction) {
+            path.run();
+        }
+    }
+    function onPush(_) {
+        mouseDown = true;
+    }
+    function onRelease(_) {
+        mouseDown = false;
     }
 
     function moveOrFace(dx:Int, dy:Int) {

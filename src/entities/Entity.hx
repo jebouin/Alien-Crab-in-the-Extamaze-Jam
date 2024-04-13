@@ -105,6 +105,9 @@ class Entity {
     inline public function collides(tx:Int, ty:Int) {
         return !isGround && active && this.tx == tx && this.ty == ty;
     }
+    inline public function collidesGround(tx:Int, ty:Int) {
+        return active && this.tx == tx && this.ty == ty;
+    }
 
     inline public function getXPNeed() {
         return level * 10;

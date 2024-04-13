@@ -21,7 +21,8 @@
    { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
-   { "name": "slime", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 0, "w": 64, "h": 64 } }] }
+   { "name": "slime", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 0, "w": 64, "h": 64 } }] },
+   { "name": "path", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 192, "y": 0, "w": 80, "h": 64 }, "pivot": {"x": 0, "y": 0 } }] }
   ]
  }
 }

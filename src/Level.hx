@@ -52,7 +52,6 @@ class LevelRender {
                 var mask = (hasUp ? 1 : 0) + (hasRight ? 2 : 0) + (hasDown ? 4 : 0) + (hasLeft ? 8 : 0);
                 var pos = AUTO_TILE_PERM.indexOf(mask);
                 var tx = pos & 3, ty = pos >> 2;
-                trace(mask, pos, tx, ty);
                 var tile = slimeTile.sub(tx * Level.TS, ty * Level.TS, Level.TS, Level.TS);
                 slime.add(j * Level.TS, i * Level.TS, tile);
             }
@@ -72,6 +71,9 @@ class LevelRender {
 }
 
 class Level {
+    public static var INF_DIST = 1_000_000;
+    public static var DX = [0, 0, -1, 1];
+    public static var DY = [-1, 1, 0, 0];
     public static var NAMES = ["Tutorial", "Second"];
     public static inline var TS = 16;
     public static inline var WIDTH_TILES = 13;
@@ -79,6 +81,8 @@ class Level {
     var project : LevelProject;
     var floors : Array<LevelProject_Level> = [];
     public var hasSlime : Vector<Vector<Vector<Bool> > >;
+    var dist : Vector<Vector<Int> >;
+    var prevPos : Vector<Vector<{x:Int, y:Int}>>;
     public var renders : Array<LevelRender> = [];
     var highlight : Graphics;
     var mouseTX : Int = -1;
@@ -217,17 +221,6 @@ class Level {
         return tx >= 0 && tx < WIDTH_TILES && ty >= 0 && ty < HEIGHT_TILES;
     }
 
-    public function collides(tx:Int, ty:Int, ?includeEntities:Bool=true) {
-        if(!isInBounds(tx, ty)) return false;
-        if(floors[currentFloorId - 1].l_Walls.getInt(tx, ty) > 0) return true;
-        if(includeEntities) {
-            for(e in Game.inst.entities) {
-                if(e.collides(tx, ty)) return true;
-            }
-        }
-        return false;
-    }
-
     public function loadLevel(name:String) {
         clear();
         floors = getFloorsByLevelName(name);
@@ -242,6 +235,12 @@ class Level {
             for(i in 0...HEIGHT_TILES) {
                 hasSlime[fid][i] = new Vector(WIDTH_TILES, false);
             }
+        }
+        dist = new Vector(HEIGHT_TILES);
+        prevPos = new Vector(HEIGHT_TILES);
+        for(i in 0...HEIGHT_TILES) {
+            dist[i] = new Vector(WIDTH_TILES, 0);
+            prevPos[i] = new Vector(WIDTH_TILES, {x: -1, y: -1});
         }
         floors.sort(function(a, b) return splitLevelName(a.identifier).floor - splitLevelName(b.identifier).floor);
         trace("Loaded " + floors.length + " floors");
@@ -301,10 +300,8 @@ class Level {
         onFloorChange(currentLevelName + currentFloorId);
     }
 
-    public function updateMousePos(mx:Float, my:Float) {
-        var tx = Std.int((mx - Game.WORLD_OFF_X) / TS);
-        var ty = Std.int((my - Game.WORLD_OFF_Y) / TS);
-        if(!isInBounds(tx, ty)) {
+    public function updateMousePos(tx:Int, ty:Int, show:Bool) {
+        if(!isInBounds(tx, ty) || !show) {
             highlight.visible = false;
             mouseTX = -1;
             mouseTY = -1;
@@ -329,5 +326,79 @@ class Level {
 
     public function isSlippery(tx:Int, ty:Int) {
         return hasSlime[currentFloorId - 1][ty][tx];
+    }
+
+    public function collides(tx:Int, ty:Int, ?includeEntities:Bool=true) {
+        if(!isInBounds(tx, ty)) return true;
+        if(floors[currentFloorId - 1].l_Walls.getInt(tx, ty) > 0) return true;
+        if(includeEntities) {
+            for(e in Game.inst.entities) {
+                if(e.collides(tx, ty)) return true;
+            }
+        }
+        return false;
+    }
+
+    function collidesPath(tx:Int, ty:Int, exludeEntities:Array<entities.Entity>, isTarget:Bool, ignoreSlippery:Bool) {
+        if(!isInBounds(tx, ty)) return true;
+        if(floors[currentFloorId - 1].l_Walls.getInt(tx, ty) > 0) return true;
+        if(!isTarget && !ignoreSlippery && isSlippery(tx, ty)) return true;
+        for(e in Game.inst.entities) {
+            if(e != null && e.active && e.collidesGround(tx, ty) && exludeEntities.indexOf(e) == -1) return true;
+        }
+        return false;
+    }
+
+    public function computePath(fx:Int, fy:Int, tx:Int, ty:Int, ignoreSlippery:Bool) : Array<{x:Int, y:Int}> {
+        var exclude = [Game.inst.getEntity(fx, fy), Game.inst.getEntity(tx, ty)];
+        if(fx == tx && fy == ty) return null;
+        if(collidesPath(tx, ty, exclude, true, ignoreSlippery)) return null;
+        for(i in 0...HEIGHT_TILES) {
+            for(j in 0...WIDTH_TILES) {
+                dist[i][j] = INF_DIST;
+            }
+        }
+        var path = [];
+        var q = [{x: fx, y: fy}];
+        dist[fy][fx] = 0;
+        while(q.length > 0) {
+            var cur = q.shift();
+            for(d in 0...4) {
+                var nx = cur.x + DX[d];
+                var ny = cur.y + DY[d];
+                if(collidesPath(nx, ny, exclude, nx == tx && ny == ty, ignoreSlippery)) continue;
+                var nd = dist[cur.y][cur.x] + 1;
+                if(nd < dist[ny][nx]) {
+                    dist[ny][nx] = nd;
+                    prevPos[ny][nx] = {x: cur.x, y: cur.y};
+                    q.push({x: nx, y: ny});
+                }
+            }
+        }
+        /*var ntx = -1, nty = -1, td = INF_DIST;
+        for(i in 0...HEIGHT_TILES) {
+            for(j in 0...WIDTH_TILES) {
+                if(dist[i][j] < INF_DIST) {
+                    var ctd = Util.iabs(j - tx) + Util.iabs(i - ty);
+                    if(ctd <= td) {
+                        td = ctd;
+                        ntx = j;
+                        nty = i;
+                    }
+                }
+            }
+        }
+        tx = ntx;
+        ty = nty;*/
+        if(dist[ty][tx] == INF_DIST) return null;
+        var cur = {x: tx, y: ty};
+        while(cur.x != fx || cur.y != fy) {
+            path.push({x: cur.x, y: cur.y});
+            cur = prevPos[cur.y][cur.x];
+        }
+        path.push({x: fx, y: fy});
+        path.reverse();
+        if(path.length < 2) return null;
+        return path;
     }
 }

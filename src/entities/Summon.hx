@@ -4,6 +4,7 @@ import format.as1.Data.PushItem;
 
 enum Step {
     Move(dx:Int, dy:Int);
+    TryMove(dx:Int, dy:Int);
     Hit(target:Enemy);
 }
 
@@ -11,12 +12,13 @@ class Summon extends Entity {
     public static inline var SOD_F = 4.583;
     public static inline var SOD_Z = .559;
     public static inline var SOD_R = -1.016;
-    public static inline var STEP_DURATION = .06;
+    public static inline var STEP_DURATION = 2. / 60;
     var kind : Data.SummonKind;
     var facingX : Int = 0;
     var facingY : Int = 1;
     var summon : Data.Summon;
     public var controlled(default, set) : Bool = false;
+    public var ignoreSlippery(get, never) : Bool;
     var queue : Array<Step> = [];
     public var canTakeAction : Bool = true;
     var queueTimer : EaseTimer;
@@ -179,7 +181,7 @@ class Summon extends Entity {
         return v;
     }
 
-    function pushStep(step:Step) {
+    public function pushStep(step:Step) {
         if(queue.length == 0) {
             queueTimer.t = 1;
         }
@@ -194,6 +196,8 @@ class Summon extends Entity {
                 ty += dy;
                 setFacing(dx, dy);
                 onMoved();
+            case TryMove(dx, dy):
+                tryMove(dx, dy);
             case Hit(target):
                 hit(target);
                 if(!target.deleted) {
@@ -206,5 +210,9 @@ class Summon extends Entity {
             canTakeAction = true;
             return;
         }
+    }
+
+    public function get_ignoreSlippery() {
+        return kind == slime;
     }
 }
