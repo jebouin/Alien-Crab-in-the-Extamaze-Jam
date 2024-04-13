@@ -25,6 +25,12 @@ class Summon extends Entity {
     @:s public var sodX : SecondOrderDynamics;
     @:s public var sodY : SecondOrderDynamics;
 
+    @:s public var xp : Int = 0;
+    @:s public var level : Int = 1;
+    @:s public var levelsPending : Int = 0;
+    public var xpPending(get, never) : Int;
+    public var xpPendingSOD : SecondOrderDynamics;
+
     public function new(kind:Data.SummonKind, floorId:Int, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
         summon = Data.summon.get(kind);
@@ -45,6 +51,7 @@ class Summon extends Entity {
         queueTimer = new EaseTimer(STEP_DURATION_WALK);
         targetable = true;
         friendly = true;
+        xpPendingSOD = new SecondOrderDynamics(1, 1, 1, xpPending, Precise);
     }
 
     public function tryMove(dx:Int, dy:Int) {
@@ -137,6 +144,7 @@ class Summon extends Entity {
         }
         sodX.update(dt, getDisplayX());
         sodY.update(dt, getDisplayY());
+        xpPendingSOD.update(dt, xpPending);
     }
 
     function updateAnim() {
@@ -217,6 +225,9 @@ class Summon extends Entity {
             case Hit(target):
                 setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
                 hit(target, facingX, facingY);
+                if(target.deleted) {
+                    giveXP(target.xp);
+                }
                 delay = STEP_DURATION_HIT;
             case TakeHit(target):
                 target.hit(this, -facingX, -facingY);
@@ -239,5 +250,42 @@ class Summon extends Entity {
     }
     override public function get_name() {
         return summon.name;
+    }
+
+    public function giveXP(amount:Int) {
+        xp += amount;
+        while(xp >= getXPNeeded()) {
+            levelsPending++;
+            xp -= getXPNeeded();
+        }
+        xpPendingSOD.setParameters(3. / Math.pow(1. + levelsPending, .2), 1., 1);
+    }
+
+    public function getXPNeeded() {
+        return getXPNeededAt(level);
+    }
+    inline function getXPNeededAt(level:Int) {
+        return level * 10;
+    }
+    public function getXPBetween(fromLevel:Int, count:Int) {
+        var xp = 0;
+        for(i in 0...count) {
+            xp += (fromLevel + i) * 10;
+        }
+        return xp;
+    }
+
+    public function getDisplayXP() {
+        var levels = 0;
+        var rem = xpPendingSOD.pos;
+        while(rem >= getXPNeededAt(level + levels)) {
+            rem -= getXPNeededAt(level + levels);
+            levels++;
+        }
+        return {levelsPending: levels, ratio: rem / getXPNeededAt(level + levels)};
+    }
+
+    public function get_xpPending() {
+        return getXPBetween(level, levelsPending) + xp;
     }
 }

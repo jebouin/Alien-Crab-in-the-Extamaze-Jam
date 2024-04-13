@@ -14,8 +14,6 @@ class Entity implements Serializable {
     @:s public var def : Int;
     @:s public var atk : Int;
     @:s public var mp : Int;
-    @:s public var xp : Int = 0;
-    @:s public var level : Int = 1;
     public var anim : Anim;
     public var deleted(default, null) : Bool = false;
     public var targetable : Bool = false;
@@ -91,10 +89,6 @@ class Entity implements Serializable {
         Game.inst.onChange();
     }
 
-    public function giveXP(amount:Int) {
-        xp += amount;
-    }
-
     function die() {
         delete();
     }
@@ -145,10 +139,6 @@ class Entity implements Serializable {
     }
     inline public function collidesGround(tx:Int, ty:Int) {
         return active && this.tx == tx && this.ty == ty;
-    }
-
-    inline public function getXPNeed() {
-        return level * 10;
     }
 
     public function get_name() {

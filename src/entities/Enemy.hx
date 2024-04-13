@@ -3,6 +3,8 @@ package entities;
 class Enemy extends Entity {
     @:s var kind : Data.EnemyKind;
     public var enemy : Data.Enemy;
+    @:s public var xp : Int = 0;
+    @:s public var level : Int = 1;
     @:s public var sodX : SecondOrderDynamics;
     @:s public var sodY : SecondOrderDynamics;
 
@@ -20,6 +22,7 @@ class Enemy extends Entity {
         super.init(kind.toString());
         targetable = true;
         anim.currentFrame = Math.random() * anim.frames.length;
+        xp = enemy.xp;
         level = enemy.level;
     }
 

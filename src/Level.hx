@@ -1,5 +1,6 @@
 package ;
 
+import fx.DropShadow;
 import hxbit.Serializable;
 import h2d.Tile;
 import haxe.ds.Vector;
@@ -29,6 +30,7 @@ class LevelRender {
             walls.remove();
         }
         walls = level.l_Walls.render();
+        walls.filter = new DropShadow(2, .2);
         Game.inst.world.add(walls, Game.LAYER_WALLS);
         ground = level.l_Ground.render();
         Game.inst.world.add(ground, Game.LAYER_GROUND);

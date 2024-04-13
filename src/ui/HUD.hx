@@ -15,7 +15,7 @@ class SpellFlow extends Flow {
         super(parent);
         padding = 3;
         minWidth = maxWidth = HUD.SPELL_WIDTH;
-        minHeight = 50;
+        minHeight = 35;
         borderWidth = borderHeight = 4;
         enableInteractive = true;
         layout = Vertical;
@@ -91,10 +91,9 @@ class HUD {
     var spellRow : Flow;
     var spells : Array<SpellFlow> = [];
 
-    var hpText : Text;
-    var atkText : Text;
-    var defText : Text;
-    var mpText : Text;
+    var levelRow : Flow;
+    var xpBar : XPBar;
+
     var cursor : Anim;
     var timer : Float = 0.;
 
@@ -147,12 +146,10 @@ class HUD {
 
         spellRow = getRow();
         spells = [new SpellFlow(spellRow), new SpellFlow(spellRow)];
-        var statsFlow = new Flow(container);
-        statsFlow.layout = Vertical;
-        hpText = new Text(Assets.font, statsFlow);
-        atkText = new Text(Assets.font, statsFlow);
-        defText = new Text(Assets.font, statsFlow);
-        mpText = new Text(Assets.font, statsFlow);
+
+        levelRow = getRow();
+        xpBar = new XPBar(levelRow, WIDTH);
+
         cursor = new Anim();
         cursor.playFromName("ui", "cursor");
         Game.inst.hud.add(cursor);
@@ -175,14 +172,18 @@ class HUD {
         cursor.update(dt);
         cursor.x = Game.inst.hero.anim.x + Game.inst.world.x;
         cursor.y = Game.inst.hero.anim.y + Game.inst.world.y - 14 + Math.sin(timer * 10.) * 2.5;
+        var hero = Game.inst.hero;
+        if(hero.deleted) {
+            xpBar.render(0, 0, 0, 0);
+        } else {
+            var display = hero.getDisplayXP();
+            xpBar.render(hero.levelsPending, hero.xp / hero.getXPNeeded(), display.levelsPending, display.ratio);
+        }
+        xpBar.update(dt);
     }
 
     public function onChange() {
         floorText.text = Game.inst.level.currentLevelName + " - Floor " + Game.inst.level.currentFloorId;
-        hpText.text = "HP: " + Game.inst.hero.hp;
-        atkText.text = "ATK: " + Game.inst.hero.atk;
-        defText.text = "DEF: " + Game.inst.hero.def;
-        mpText.text = "MP: " + Game.inst.hero.mp;
         updateSpells();
         undoButton.enabled = Game.inst.canUndo();
         redoButton.enabled = Game.inst.canRedo();
@@ -192,7 +193,7 @@ class HUD {
             keyTexts[i].text = "" + keyCount;
         }
 
-        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null) {
+        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int) {
             var f = new Flow(fightRow);
             f.minWidth = 70;
             f.minHeight = 50;
@@ -202,15 +203,29 @@ class HUD {
             f.horizontalAlign = isLeft ? Left : Right;
             f.padding = 2;
             if(e != null) {
-                var level = new LevelText(f, e.level);
+                var level = new LevelText(f, level);
                 var name = new Text(Assets.font, f);
                 name.text = e.name;
+                var props = f.getProperties(name);
+                props.paddingBottom = 3;
+                function getRow(tile:Tile, text:String) {
+                    var f = new Flow(f);
+                    f.verticalAlign = Middle;
+                    f.horizontalSpacing = 2;
+                    var icon = new Bitmap(tile, f);
+                    var hpText = new Text(Assets.font, f);
+                    hpText.text = text;
+                    return f;
+                }
+                getRow(Assets.getTile("ui", "iconHPLarge"), "" + e.hp);
+                getRow(Assets.getTile("ui", "iconATK"), "" + e.atk);
+                getRow(Assets.getTile("ui", "iconMP"), "" + e.mp);
             }
             return f;
         }
         fightRow.removeChildren();
-        getFighterCell(true, Game.inst.hero);
-        getFighterCell(false, null);
+        getFighterCell(true, Game.inst.hero, Game.inst.hero.level);
+        getFighterCell(false, null, 1);
     }
 
     function onUndoClicked() {

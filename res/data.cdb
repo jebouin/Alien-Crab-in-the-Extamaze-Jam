@@ -319,7 +319,7 @@
 				{
 					"id": "hero",
 					"hp": 100,
-					"atk": 10,
+					"atk": 1000,
 					"def": 0,
 					"mp": 15,
 					"name": "Alien Crab"
@@ -389,6 +389,11 @@
 					"typeStr": "3",
 					"name": "level",
 					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "xp",
+					"kind": null
 				}
 			],
 			"lines": [
@@ -404,7 +409,8 @@
 					"hp": 30,
 					"def": 0,
 					"level": 3,
-					"name": "Flesh Ghost"
+					"name": "Flesh Ghost",
+					"xp": 6
 				},
 				{
 					"id": "cyclopGhost",
@@ -418,7 +424,8 @@
 						"size": 16,
 						"x": 4,
 						"y": 8
-					}
+					},
+					"xp": 15
 				},
 				{
 					"id": "xmultra",
@@ -432,7 +439,8 @@
 						"size": 16,
 						"x": 9,
 						"y": 4
-					}
+					},
+					"xp": 300
 				}
 			],
 			"separators": [],

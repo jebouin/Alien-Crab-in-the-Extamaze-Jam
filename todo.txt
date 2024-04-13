@@ -1,8 +1,12 @@
 DAY 2
-- Make cursor pointer work
 - Level up
+	- XP Bar
+	- Level up choice with undo
+- Fix floor bug
+- Make cursor pointer work
 - Gnome
 - Dragon
+- Kill summons for xp
 - Exit
 - Eye doors (save eye count)
 - Pause menu
@@ -12,12 +16,17 @@ BUGS
 - Don't open door after sliding
 - What if end of arrow blocked by other summon?
 
+LEVEL DESIGN: 16:00
+
 DAY 3
 - Polish
 - Audio
 - Playtest
 
+AUDIO: 12:00
+
 IF TIME LEFT
+- Pause when dead
 - Shadows
 - Medal room
 - Hold undo

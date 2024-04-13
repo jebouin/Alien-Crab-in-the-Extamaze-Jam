@@ -48,7 +48,16 @@
    { "name": "texLV6", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV7", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV8", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
-   { "name": "textLV9", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] }
+   { "name": "textLV9", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "iconHP", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 17, "y": 95, "w": 7, "h": 7 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "iconHPLarge", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 31, "y": 95, "w": 9, "h": 8 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "iconATK", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 104, "w": 8, "h": 8 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "iconMP", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 44, "y": 103, "w": 10, "h": 10 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "xpBar1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 16, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "xpBar0", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "xpBar2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "xpBar3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "xpBar4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] }
   ]
  }
 }
