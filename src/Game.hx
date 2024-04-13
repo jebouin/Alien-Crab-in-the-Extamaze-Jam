@@ -9,6 +9,8 @@ import entities.Entity;
 import entities.Hero;
 
 class Game extends Scene {
+    public static inline var WORLD_OFF_X = -Level.TS + 2;
+    public static inline var WORLD_OFF_Y = -Level.TS + 2;
     public static var inst : Game;
     static var _layer = 0;
     public static var LAYER_GROUND = _layer++;
@@ -37,6 +39,8 @@ class Game extends Scene {
         holdActions.add(Action.moveDown, onMoveDown);
         level = new Level();
         level.loadLevel("Tutorial");
+        world.x = WORLD_OFF_X;
+        world.y = WORLD_OFF_Y;
     }
 
     override public function delete() {

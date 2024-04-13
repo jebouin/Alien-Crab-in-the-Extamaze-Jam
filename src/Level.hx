@@ -39,9 +39,9 @@ class LevelRender {
 
 class Level {
     public static var NAMES = ["Tutorial", "Second"];
-    public static inline var TS = 15;
-    public static inline var WIDTH_TILES = 12;
-    public static inline var HEIGHT_TILES = 12;
+    public static inline var TS = 16;
+    public static inline var WIDTH_TILES = 13;
+    public static inline var HEIGHT_TILES = 13;
     var project : LevelProject;
     var floors : Array<LevelProject_Level> = [];
     public var renders : Array<LevelRender> = [];
@@ -237,8 +237,8 @@ class Level {
     }
 
     public function updateMousePos(mx:Float, my:Float) {
-        var tx = Std.int(mx / TS);
-        var ty = Std.int(my / TS);
+        var tx = Std.int((mx - Game.WORLD_OFF_X) / TS);
+        var ty = Std.int((my - Game.WORLD_OFF_Y) / TS);
         if(!isInBounds(tx, ty)) {
             highlight.visible = false;
             mouseTX = -1;
