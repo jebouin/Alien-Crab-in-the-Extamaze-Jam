@@ -80,6 +80,7 @@ class HUD {
     var floorRow : Flow;
     var undoButton : Button;
     var redoButton : Button;
+    var controlButton : Button;
     var floorText : Text;
 
     var invRow : Flow;
@@ -118,6 +119,7 @@ class HUD {
         floorRow.paddingLeft = 3;
         undoButton = Button.fromTile(Assets.getTile("ui", "undo"), onUndoClicked, floorRow);
         redoButton = Button.fromTile(Assets.getTile("ui", "redo"), onRedoClicked, floorRow);
+        controlButton = Button.fromTile(Assets.getTile("ui", "control"), onControlClicked, floorRow);
         floorText = new Text(Assets.font, floorRow);
         var props = floorRow.getProperties(floorText);
         props.paddingLeft = 16;
@@ -180,6 +182,7 @@ class HUD {
         updateSpells();
         undoButton.enabled = Game.inst.canUndo();
         redoButton.enabled = Game.inst.canRedo();
+        controlButton.enabled = Game.inst.canChangeControl();
         for(i in 0...4) {
             var keyCount = Game.inst.inventory.keys[i];
             keyTexts[i].text = "" + keyCount;
@@ -191,5 +194,8 @@ class HUD {
     }
     function onRedoClicked() {
         Game.inst.redo();
+    }
+    function onControlClicked() {
+        Game.inst.changeControl();
     }
 }

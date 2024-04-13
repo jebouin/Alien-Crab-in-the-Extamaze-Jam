@@ -10,12 +10,9 @@ enum Step {
 }
 
 class Summon extends Entity {
-    public static inline var SOD_F = 4.583;
-    public static inline var SOD_Z = .559;
-    public static inline var SOD_R = -1.016;
     public static inline var STEP_DURATION = 2. / 60;
     @:s var kind : Data.SummonKind;
-    var summon : Data.Summon;
+    public var summon : Data.Summon;
     @:s var facingX : Int = 0;
     @:s var facingY : Int = 1;
     public var controlled(default, set) : Bool = false;
@@ -23,17 +20,17 @@ class Summon extends Entity {
     var queue : Array<Step> = [];
     public var canTakeAction : Bool = true;
     var queueTimer : EaseTimer;
-    @:s var sodX : SecondOrderDynamics;
-    @:s var sodY : SecondOrderDynamics;
+    @:s public var sodX : SecondOrderDynamics;
+    @:s public var sodY : SecondOrderDynamics;
 
-    public function new(kind:Data.SummonKind, roomId:String, tx:Int, ty:Int, initial:Bool) {
+    public function new(kind:Data.SummonKind, floorId:Int, tx:Int, ty:Int, initial:Bool) {
         this.kind = kind;
         summon = Data.summon.get(kind);
         this.tx = tx;
         this.ty = ty;
-        sodX = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayX(), Precise);
-        sodY = new SecondOrderDynamics(SOD_F, SOD_Z, SOD_R, getDisplayY(), Precise);
-        super("", roomId, tx, ty, summon.hp, summon.atk, summon.def);
+        sodX = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayX(), Precise);
+        sodY = new SecondOrderDynamics(Entity.SOD_F, Entity.SOD_Z, Entity.SOD_R, getDisplayY(), Precise);
+        super("", floorId, tx, ty, summon.hp, summon.atk, summon.def);
         mp = summon.mp;
         if(!initial) {
             onMoved();
@@ -154,16 +151,16 @@ class Summon extends Entity {
         switch(id) {
             case kick:
                 if(entityFront == null || entityFront.isGround) return false;
-                hit(entityFront);
+                hit(entityFront, facingX, facingY);
             case slime:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.slime, roomId, tx + facingX, ty + facingY, false);
+                new Summon(Data.SummonKind.slime, floorId, tx + facingX, ty + facingY, false);
             case gnome:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.gnome, roomId, tx + facingX, ty + facingY, false);
+                new Summon(Data.SummonKind.gnome, floorId, tx + facingX, ty + facingY, false);
             case dragon:
                 if(entityFront != null) return false;
-                new Summon(Data.SummonKind.dragon, roomId, tx + facingX, ty + facingY, false);
+                new Summon(Data.SummonKind.dragon, floorId, tx + facingX, ty + facingY, false);
         }
         Game.inst.level.updateActive();
         mp -= def.cost;
@@ -213,9 +210,10 @@ class Summon extends Entity {
             case TryMove(dx, dy):
                 tryMove(dx, dy);
             case Hit(target):
-                hit(target);
+                setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
+                hit(target, facingX, facingY);
                 if(!target.deleted) {
-                    target.hit(this);
+                    target.hit(this, -facingX, -facingY);
                 }
             case Open(door):
                 if(Game.inst.inventory.spendKey(door.type)) {

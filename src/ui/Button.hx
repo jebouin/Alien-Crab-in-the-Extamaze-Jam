@@ -14,7 +14,7 @@ class Button extends Flow {
     public function new(onClick:Void->Void, ?parent) {
         super(parent);
         borderWidth = borderHeight = 2;
-        padding = 5;
+        padding = 3;
         backgroundTile = Assets.getTile("ui", "button");
         enableInteractive = true;
         horizontalAlign = Middle;

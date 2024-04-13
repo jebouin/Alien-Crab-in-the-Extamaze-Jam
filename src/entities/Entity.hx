@@ -4,7 +4,10 @@ import hxbit.Serializable;
 import h2d.Graphics;
 
 class Entity implements Serializable {
-    @:s public var roomId : String;
+    public static inline var SOD_F = 4.583;
+    public static inline var SOD_Z = .559;
+    public static inline var SOD_R = -1.016;
+    @:s public var floorId : Int;
     @:s public var tx : Int;
     @:s public var ty : Int;
     @:s public var hp : Int;
@@ -20,8 +23,8 @@ class Entity implements Serializable {
     public var active(default, set) : Bool = false;
     public var friendly : Bool = false;
 
-    public function new(animName:String, roomId:String, tx:Int, ty:Int, ?hp:Int=1, ?atk:Int=0, ?def:Int=0) {
-        this.roomId = roomId;
+    public function new(animName:String, floorId:Int, tx:Int, ty:Int, ?hp:Int=1, ?atk:Int=0, ?def:Int=0) {
+        this.floorId = floorId;
         this.tx = tx;
         this.ty = ty;
         this.hp = hp;
@@ -49,13 +52,36 @@ class Entity implements Serializable {
         anim.update(dt);
     }
 
-    public function hit(other:Entity) {
+    public function hit(other:Entity, dx:Int, dy:Int) {
         if(!other.targetable) return;
         var damage = Util.imax(0, atk - other.def);
         if(damage == 0) return;
         other.hp -= damage;
-        if(other.hp <= 0) {
+        if(other.hp < 0) other.hp = 0;
+        var killed = other.hp == 0;
+        if(killed) {
             other.die();
+        }
+        var punchDist = 6;
+        if(Std.isOfType(other, Summon)) {
+            var s = cast(other, Summon);
+            s.sodX.pos += dx * punchDist;
+            s.sodY.pos += dy * punchDist;
+            if(killed) {
+                Game.inst.fx.summonKilled(s.anim.x, s.anim.y, dx, dy, s.summon);
+            } else {
+                Game.inst.fx.summonHit(s.anim.x, s.anim.y, dx, dy, s.summon);
+            }
+        }
+        if(Std.isOfType(other, Enemy)) {
+            var e = cast(other, Enemy);
+            e.sodX.pos += dx * punchDist;
+            e.sodY.pos += dy * punchDist;
+            if(killed) {
+                Game.inst.fx.enemyKilled(e.anim.x, e.anim.y, dx, dy, e.enemy);
+            } else {
+                Game.inst.fx.enemyHit(e.anim.x, e.anim.y, dx, dy, e.enemy);
+            }
         }
         Game.inst.onChange();
     }

@@ -1,8 +1,5 @@
 DAY 2
-- Doors and keys
-- Save inventory
 - Make cursor pointer work
-- Attack fx
 - Level up
 - Gnome
 - Dragon
@@ -10,6 +7,10 @@ DAY 2
 - Eye doors (save eye count)
 - Pause menu
 - Level select
+
+BUGS
+- Don't open door after sliding
+- What if end of arrow blocked by other summon?
 
 DAY 3
 - Polish

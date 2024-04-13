@@ -3,9 +3,9 @@ package entities;
 class Door extends Entity {
     @:s public var type : Int;
 
-    public function new(roomId:String, tx:Int, ty:Int, type:Int) {
+    public function new(floorId:Int, tx:Int, ty:Int, type:Int) {
         this.type = type;
-        super("", roomId, tx, ty);
+        super("", floorId, tx, ty);
     }
 
     override public function init(?animName:String=null) {
@@ -14,6 +14,7 @@ class Door extends Entity {
 
     public function open() {
         Game.inst.onChange();
+        Game.inst.fx.doorOpen(anim.x, anim.y, type);
         delete();
     }
 }

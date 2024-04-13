@@ -1,5 +1,6 @@
 package ;
 
+import fx.Fx;
 import hxbit.Serializer;
 import haxe.io.Bytes;
 import h2d.Interactive;
@@ -19,6 +20,7 @@ typedef State = {
 };
 
 class Game extends Scene {
+    public static inline var Z_TO_Y = -.5;
     public static inline var UNDO_STACK_SIZE = 1000;
     public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
     public static inline var WORLD_OFF_X = -Level.TS + 2;
@@ -28,10 +30,11 @@ class Game extends Scene {
     public static var LAYER_GROUND = _layer++;
     public static var LAYER_GROUND_SLIME = _layer++;
     public static var LAYER_ENTITIES_GROUND = _layer++;
+    public static var LAYER_EFFECTS_BACK = _layer++;
     public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_WALLS = _layer++;
     public static var LAYER_OVER = _layer++;
-    public static var LAYER_EFFECTS = _layer++;
+    public static var LAYER_EFFECTS_FRONT = _layer++;
     public static var LAYER_PATH = _layer++;
     public var level : Level;
     public var entities : Array<Entity> = [];
@@ -39,6 +42,7 @@ class Game extends Scene {
     public var hudElement : HUD;
     public var inventory : Inventory;
     public var path : Path;
+    public var fx : Fx;
     var holdActions : HoldActions;
     var mouseX : Float = 0;
     var mouseY : Float = 0;
@@ -60,11 +64,11 @@ class Game extends Scene {
         holdActions.add(Action.moveRight, onMoveRight);
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
+        fx = new Fx();
         level = new Level();
         //level.loadLevel("Tutorial");
         level.loadLevel("Test");
-        world.x = WORLD_OFF_X;
-        world.y = WORLD_OFF_Y;
+        updateWorldPos();
         inventory = new Inventory();
         hudElement = new HUD();
         path = new Path();
@@ -105,6 +109,7 @@ class Game extends Scene {
                 i++;
             }
         }
+        fx.update(dt);
     }
 
     override public function updateConstantRate(dt:Float) {
@@ -128,6 +133,8 @@ class Game extends Scene {
             level.loadLevel(level.currentLevelName);
         }
         hudElement.update(dt);
+        fx.updateConstantRate(dt);
+        updateWorldPos();
     }
 
     function onClick(_) {
@@ -166,19 +173,27 @@ class Game extends Scene {
     public function castSpell(id:Data.SpellKind) {
         hero.castSpell(id);
     }
-    public function changeControl() {
+    function getSummonList() {
         var summonList = [];
         for(e in entities) {
             if(e.friendly && e.active && !e.deleted && Std.isOfType(e, Summon)) {
                 summonList.push(cast(e, Summon));
             }
         }
+        return summonList;
+    }
+    public function changeControl() {
+        var summonList = getSummonList();
         var id = summonList.indexOf(hero);
         setHero(summonList[(id + 1) % summonList.length]);
+    }
+    public function canChangeControl() {
+        return getSummonList().length > 1;
     }
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
+        fx.floorChange();
     }
     public function onChange() {
         hudElement.onChange();
@@ -233,6 +248,7 @@ class Game extends Scene {
             if(onSuccess != null) {
                 onSuccess();
             }
+            fx.clear();
         } catch(e) {
             trace(e.details());
             if(onError != null) {
@@ -301,5 +317,10 @@ class Game extends Scene {
 
     public function showStatus(str:String) {
         trace("Game status: " + str);
+    }
+
+    function updateWorldPos() {
+        world.x = WORLD_OFF_X + fx.shakeX;
+        world.y = WORLD_OFF_Y + fx.shakeY;
     }
 }

@@ -4,9 +4,9 @@ class Item extends Entity {
     @:s public var kind : Data.ItemKind;
     var item : Data.Item = null;
 
-    public function new(id:String, roomId:String, tx:Int, ty:Int) {
+    public function new(id:String, floorId:Int, tx:Int, ty:Int) {
         this.kind = Data.item.resolve(id).id;
-        super("", roomId, tx, ty);
+        super("", floorId, tx, ty);
     }
 
     override public function init(?animName:String=null) {

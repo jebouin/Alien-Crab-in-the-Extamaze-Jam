@@ -10,9 +10,9 @@ enum Direction {
 class Arrow extends Entity {
     @:s var dir : Direction;
 
-    public function new(roomId:String, tx:Int, ty:Int, dir:Direction) {
+    public function new(floorId:Int, tx:Int, ty:Int, dir:Direction) {
         this.dir = dir;
-        super("", roomId, tx, ty);
+        super("", floorId, tx, ty);
     }
 
     override public function init(?animName:String=null) {

@@ -140,16 +140,19 @@ class Level {
 
     public function changeFloor(dir:Int) {
         if(currentFloorId + dir < 1 || currentFloorId + dir > floorCount) return;
-        state.floorId += dir;
-        var roomName = currentLevelName + currentFloorId;
-        onFloorChange(roomName);
+        setFloorId(state.floorId + dir);
+    }
+    function setFloorId(id:Int) {
+        state.floorId = id;
+        onFloorChange();
     }
     public function updateActive() {
-        onFloorChange(currentLevelName + currentFloorId);
+        onFloorChange();
     }
-    function onFloorChange(roomName:String) {
+    function onFloorChange() {
         for(e in Game.inst.entities) {
-            e.active = e == Game.inst.hero || e.roomId == roomName;
+            e.active = e == Game.inst.hero || e.floorId == currentFloorId;
+            trace(e.floorId + " " + currentFloorId + " " + e.active + " " + e);
         }
         for(i in 0...floorCount) {
             renders[i].setVisible(i == currentFloorId - 1);
@@ -249,53 +252,54 @@ class Level {
             renders.push(r);
         }
         loadEntities();
+        setFloorId(Game.inst.hero.floorId);
     }
 
     function loadEntities() {
         for(floor in floors) {
             var roomName = floor.identifier;
+            var floorId = splitLevelName(roomName).floor;
             for(hero in floor.l_Entities.all_Hero) {
-                Game.inst.hero = new Summon(Data.SummonKind.hero, roomName, hero.cx, hero.cy, true);
+                Game.inst.hero = new Summon(Data.SummonKind.hero, floorId, hero.cx, hero.cy, true);
                 break;
             }
             for(enemy in floor.l_Entities.all_Enemy) {
-                new Enemy(ghost, roomName, enemy.cx, enemy.cy);
+                new Enemy(ghost, floorId, enemy.cx, enemy.cy);
             }
             for(d in floor.l_Entities.all_Door1) {
-                new Door(roomName, d.cx, d.cy, 1);
+                new Door(floorId, d.cx, d.cy, 1);
             }
             for(d in floor.l_Entities.all_Door2) {
-                new Door(roomName, d.cx, d.cy, 2);
+                new Door(floorId, d.cx, d.cy, 2);
             }
             for(d in floor.l_Entities.all_Door3) {
-                new Door(roomName, d.cx, d.cy, 3);
+                new Door(floorId, d.cx, d.cy, 3);
             }
             for(s in floor.l_Entities.all_StairUp) {
-                new Stairs(roomName, s.cx, s.cy, false);
+                new Stairs(floorId, s.cx, s.cy, false);
             }
             for(s in floor.l_Entities.all_StairDown) {
-                new Stairs(roomName, s.cx, s.cy, true);
+                new Stairs(floorId, s.cx, s.cy, true);
             }
             for(a in floor.l_Entities.all_ArrowLeft) {
-                new Arrow(roomName, a.cx, a.cy, Direction.Left);
+                new Arrow(floorId, a.cx, a.cy, Direction.Left);
             }
             for(a in floor.l_Entities.all_ArrowRight) {
-                new Arrow(roomName, a.cx, a.cy, Direction.Right);
+                new Arrow(floorId, a.cx, a.cy, Direction.Right);
             }
             for(a in floor.l_Entities.all_ArrowUp) {
-                new Arrow(roomName, a.cx, a.cy, Direction.Up);
+                new Arrow(floorId, a.cx, a.cy, Direction.Up);
             }
             for(a in floor.l_Entities.all_ArrowDown) {
-                new Arrow(roomName, a.cx, a.cy, Direction.Down);
+                new Arrow(floorId, a.cx, a.cy, Direction.Down);
             }
             for(item in floor.l_Entities.getAllUntyped()) {
                 if(item.defJson.tags.indexOf("item") == -1) continue;
                 var itemId = item.entityType.getName();
                 itemId = itemId.charAt(0).toLowerCase() + itemId.substr(1);
-                new Item(itemId, roomName, item.cx, item.cy);
+                new Item(itemId, floorId, item.cx, item.cy);
             }
         }
-        onFloorChange(currentLevelName + currentFloorId);
     }
 
     public function updateMousePos(tx:Int, ty:Int, show:Bool) {
@@ -410,7 +414,7 @@ class Level {
     public function setState(state:LevelState) {
         clearEntities();
         this.state = state;
-        onFloorChange(currentLevelName + currentFloorId);
+        onFloorChange();
         var fid = currentFloorId - 1;
         renders[currentFloorId - 1].renderSlime(this, fid);
     }

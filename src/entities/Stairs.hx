@@ -3,9 +3,9 @@ package entities;
 class Stairs extends Entity {
     @:s var isDown : Bool = false;
 
-    public function new(roomId:String, tx:Int, ty:Int, isDown:Bool) {
+    public function new(floorId:Int, tx:Int, ty:Int, isDown:Bool) {
         this.isDown = isDown;
-        super("", roomId, tx, ty);
+        super("", floorId, tx, ty);
     }
 
     override public function init(?animName:String=null) {
