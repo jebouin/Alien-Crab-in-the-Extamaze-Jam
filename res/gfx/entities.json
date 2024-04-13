@@ -22,7 +22,15 @@
   ],
   "slices": [
    { "name": "hero", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 30, "h": 15 } }] },
-   { "name": "ghost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 15, "w": 30, "h": 15 } }] }
+   { "name": "ghost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 15, "w": 30, "h": 15 } }] },
+   { "name": "door1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 45, "y": 0, "w": 15, "h": 15 } }] },
+   { "name": "door2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 60, "y": 0, "w": 15, "h": 15 } }] },
+   { "name": "door3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 75, "y": 0, "w": 15, "h": 15 } }] },
+   { "name": "key1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 45, "y": 15, "w": 15, "h": 15 } }] },
+   { "name": "key2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 60, "y": 15, "w": 15, "h": 15 } }] },
+   { "name": "key3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 75, "y": 15, "w": 15, "h": 15 } }] },
+   { "name": "stairUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 45, "y": 45, "w": 15, "h": 15 } }] },
+   { "name": "stairDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 60, "y": 45, "w": 15, "h": 15 } }] }
   ]
  }
 }

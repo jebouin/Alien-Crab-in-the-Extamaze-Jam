@@ -5,11 +5,14 @@ import h2d.Graphics;
 import ui.HoldActions;
 import Controller.Action;
 import SceneManager.Scene;
+import entities.Entity;
+import entities.Hero;
 
 class Game extends Scene {
     public static var inst : Game;
     static var _layer = 0;
     public static var LAYER_GROUND = _layer++;
+    public static var LAYER_ENTITIES_GROUND = _layer++;
     public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_WALLS = _layer++;
     public static var LAYER_OVER = _layer++;
@@ -27,13 +30,13 @@ class Game extends Scene {
             throw "Game is a singleton!";
         }
         inst = this;
-        holdActions = new HoldActions();
+        holdActions = new HoldActions(.15, .06);
         holdActions.add(Action.moveLeft, onMoveLeft);
         holdActions.add(Action.moveRight, onMoveRight);
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
         level = new Level();
-        level.loadByName("Tutorial1");
+        level.loadLevel("Tutorial");
     }
 
     override public function delete() {
@@ -77,5 +80,9 @@ class Game extends Scene {
     }
     function onMoveDown() {
         hero.tryMove(0, 1);
+    }
+
+    public function changeFloor(dir:Int) {
+        level.changeFloor(dir);
     }
 }
