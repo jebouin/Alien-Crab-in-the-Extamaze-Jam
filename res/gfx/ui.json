@@ -23,7 +23,9 @@
    { "name": "hudBack", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "spell", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "spellOver", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
-   { "name": "spellDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] }
+   { "name": "spellDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "spellBlocked", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 0, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "cursor", "color": "#0000ffff", "data": "4,15", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 24, "w": 40, "h": 8 } }] }
   ]
  }
 }

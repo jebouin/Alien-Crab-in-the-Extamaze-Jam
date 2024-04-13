@@ -12,18 +12,24 @@ class Item extends Entity {
     }
 
     override public function onSteppedOnBy(e:Entity) {
+        if(item.hpAdd > 0) {
+            Game.inst.hero.hp += item.hpAdd;
+        }
+        if(item.mpAdd > 0) {
+            Game.inst.hero.mp += item.mpAdd;
+        }
         if(id == "key1") {
             Game.inst.inventory.gainKey(1);
         } else if(id == "key2") {
             Game.inst.inventory.gainKey(2);
         } else if(id == "key3") {
             Game.inst.inventory.gainKey(3);
-        }
-        if(item.hpAdd > 0) {
-            Game.inst.hero.hp += item.hpAdd;
-        }
-        if(item.mpAdd > 0) {
-            Game.inst.hero.mp += item.mpAdd;
+        } else if(id == "scrollSlime") {
+            Game.inst.inventory.addSpell(slime);
+        } else if(id == "scrollGnome") {
+            Game.inst.inventory.addSpell(gnome);
+        } else if(id == "scrollDragon") {
+            Game.inst.inventory.addSpell(dragon);
         }
         delete();
         Game.inst.onChange();

@@ -1,12 +1,12 @@
 package ;
 
+import entities.Summon;
 import entities.Item;
 import entities.Stairs;
 import entities.Door;
 import h2d.Graphics;
 import assets.LevelProject;
 import h2d.TileGroup;
-import entities.Hero;
 import entities.Enemy;
 
 class LevelRender {
@@ -105,6 +105,9 @@ class Level {
         var roomName = currentLevelName + currentFloorId;
         onFloorChange(roomName);
     }
+    public function updateActive() {
+        onFloorChange(currentLevelName + currentFloorId);
+    }
     function onFloorChange(roomName:String) {
         for(e in Game.inst.entities) {
             e.active = e == Game.inst.hero || e.roomId == roomName;
@@ -180,11 +183,13 @@ class Level {
         return tx >= 0 && tx < WIDTH_TILES && ty >= 0 && ty < HEIGHT_TILES;
     }
 
-    public function collides(tx:Int, ty:Int) {
+    public function collides(tx:Int, ty:Int, ?includeEntities:Bool=true) {
         if(!isInBounds(tx, ty)) return false;
         if(floors[currentFloorId - 1].l_Walls.getInt(tx, ty) > 0) return true;
-        for(e in Game.inst.entities) {
-            if(e.collides(tx, ty)) return true;
+        if(includeEntities) {
+            for(e in Game.inst.entities) {
+                if(e.collides(tx, ty)) return true;
+            }
         }
         return false;
     }
@@ -212,7 +217,7 @@ class Level {
         for(floor in floors) {
             var roomName = floor.identifier;
             for(hero in floor.l_Entities.all_Hero) {
-                Game.inst.hero = new Hero(roomName, hero.cx, hero.cy);
+                Game.inst.hero = new Summon(Data.SummonKind.hero, roomName, hero.cx, hero.cy);
                 break;
             }
             for(enemy in floor.l_Entities.all_Enemy) {

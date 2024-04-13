@@ -1,5 +1,6 @@
 package ;
 
+import entities.Summon;
 import ui.HUD;
 import hxd.Key;
 import h2d.Graphics;
@@ -7,7 +8,6 @@ import ui.HoldActions;
 import Controller.Action;
 import SceneManager.Scene;
 import entities.Entity;
-import entities.Hero;
 
 class Game extends Scene {
     public static inline var WORLD_OFF_X = -Level.TS + 2;
@@ -22,7 +22,7 @@ class Game extends Scene {
     public static var LAYER_EFFECTS = _layer++;
     public var level : Level;
     public var entities : Array<Entity> = [];
-    public var hero : Hero;
+    public var hero : Summon;
     public var hudElement : HUD;
     public var inventory : Inventory;
     var holdActions : HoldActions;
@@ -44,8 +44,8 @@ class Game extends Scene {
         level.loadLevel("Tutorial");
         world.x = WORLD_OFF_X;
         world.y = WORLD_OFF_Y;
-        hudElement = new HUD();
         inventory = new Inventory();
+        hudElement = new HUD();
     }
 
     override public function delete() {
@@ -66,6 +66,13 @@ class Game extends Scene {
                 i++;
             }
         }
+        var controller = Main.inst.controller;
+        if(controller.isPressed(Action.spell1)) {
+            castSpell(inventory.spells[0]);
+        }
+        if(controller.isPressed(Action.spell2) && inventory.spells.length > 1) {
+            castSpell(inventory.spells[1]);
+        }
     }
 
     override public function updateConstantRate(dt:Float) {
@@ -79,6 +86,7 @@ class Game extends Scene {
         if(Key.isDown(Key.Y)) {
             level.loadLevel(level.currentLevelName);
         }
+        hudElement.update(dt);
     }
 
     function moveOrFace(dx:Int, dy:Int) {
@@ -100,11 +108,23 @@ class Game extends Scene {
     function onMoveDown() {
         moveOrFace(0, 1);
     }
+    public function castSpell(id:Data.SpellKind) {
+        hero.castSpell(id);
+    }
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
     }
     public function onChange() {
         hudElement.onChange();
+    }
+
+    public function getEntity(tx:Int, ty:Int) {
+        for(entity in entities) {
+            if(!entity.deleted && entity.active && entity.tx == tx && entity.ty == ty) {
+                return entity;
+            }
+        }
+        return null;
     }
 }

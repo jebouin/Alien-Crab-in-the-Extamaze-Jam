@@ -17,6 +17,7 @@ class Entity {
     public var targetable : Bool = false;
     public var isGround(default, set) : Bool = false;
     public var active(default, set) : Bool = false;
+    public var friendly : Bool = false;
 
     public function new(animName:String, roomId:String, tx:Int, ty:Int, ?hp:Int=1, ?def:Int=0, ?atk:Int=0) {
         this.roomId = roomId;

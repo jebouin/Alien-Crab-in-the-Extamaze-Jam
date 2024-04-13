@@ -165,6 +165,48 @@
 					},
 					"hpAdd": 0,
 					"mpAdd": 40
+				},
+				{
+					"id": "scrollSlime",
+					"name": "Slime scroll",
+					"description": "Learn the slime spell",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 9,
+						"y": 1
+					}
+				},
+				{
+					"id": "scrollGnome",
+					"name": "Gnome scroll",
+					"description": "Learn the gnome spell",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 10,
+						"y": 1
+					}
+				},
+				{
+					"id": "scrollDragon",
+					"name": "Dragon scroll",
+					"description": "Learn the dragon spell",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 11,
+						"y": 1
+					}
 				}
 			],
 			"separators": [],
@@ -206,15 +248,84 @@
 				},
 				{
 					"id": "slime",
-					"name": "Summon a weak slime",
+					"name": "Summon a slippery slime",
 					"cost": 10,
-					"unlockLevel": 2
+					"unlockLevel": 1
+				},
+				{
+					"id": "gnome",
+					"name": "Summon an armored gnome",
+					"cost": 10,
+					"unlockLevel": 1
 				},
 				{
 					"id": "dragon",
 					"name": "Summon an epic dragon",
 					"cost": 200,
-					"unlockLevel": 5
+					"unlockLevel": 1
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "summon",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "3",
+					"name": "hp",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "atk",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "def",
+					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "mp",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"id": "hero",
+					"hp": 100,
+					"atk": 10,
+					"def": 5,
+					"mp": 15
+				},
+				{
+					"id": "slime",
+					"hp": 10,
+					"atk": 2,
+					"def": 0,
+					"mp": 0
+				},
+				{
+					"id": "gnome",
+					"hp": 50,
+					"atk": 3,
+					"def": 30,
+					"mp": 0
+				},
+				{
+					"id": "dragon",
+					"hp": 2000,
+					"atk": 100,
+					"def": 100,
+					"mp": 0
 				}
 			],
 			"separators": [],
