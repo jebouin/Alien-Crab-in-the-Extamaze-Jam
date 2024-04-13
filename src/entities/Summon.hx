@@ -74,7 +74,6 @@ class Summon extends Entity {
                 break;
             }
         }
-        Game.inst.saveState("move");
         return moved;
     }
 
@@ -195,6 +194,7 @@ class Summon extends Entity {
     }
     function popStep() {
         var step = queue.shift();
+        trace("popStep", step);
         switch(step) {
             case Move(dx, dy):
                 tx += dx;

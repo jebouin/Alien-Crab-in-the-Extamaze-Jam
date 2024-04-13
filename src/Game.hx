@@ -19,7 +19,7 @@ typedef State = {
 };
 
 class Game extends Scene {
-    public static inline var UNDO_STACK_SIZE = 10;
+    public static inline var UNDO_STACK_SIZE = 1000;
     public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
     public static inline var WORLD_OFF_X = -Level.TS + 2;
     public static inline var WORLD_OFF_Y = -Level.TS + 2;
@@ -61,8 +61,8 @@ class Game extends Scene {
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
         level = new Level();
-        //level.loadLevel("Tutorial");
-        level.loadLevel("Test");
+        level.loadLevel("Tutorial");
+        //level.loadLevel("Test");
         world.x = WORLD_OFF_X;
         world.y = WORLD_OFF_Y;
         inventory = new Inventory();
@@ -72,6 +72,7 @@ class Game extends Scene {
         interactive.onClick = onClick;
         interactive.onPush = onPush;
         interactive.onRelease = onRelease;
+        saveState("Initial state");
     }
 
     override public function delete() {
@@ -145,7 +146,9 @@ class Game extends Scene {
         if(Key.isDown(Key.SHIFT)) {
             hero.setFacing(dx, dy);
         } else {
-            hero.tryMove(dx, dy);
+            if(hero.tryMove(dx, dy)) {
+                Game.inst.saveState("move");
+            }
         }
     }
     function onMoveLeft() {
@@ -206,7 +209,7 @@ class Game extends Scene {
             undoStack.shift();
             undoMemory -= rem;
         }
-        trace(undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
+        trace(change + " " + undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
         redoStack = [];
     }
 

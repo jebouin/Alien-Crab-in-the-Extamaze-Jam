@@ -5,14 +5,14 @@ class Item extends Entity {
     var item : Data.Item = null;
 
     public function new(id:String, roomId:String, tx:Int, ty:Int) {
-        item = Data.item.resolve(id);
-        this.kind = item.id;
+        this.kind = Data.item.resolve(id).id;
         super("", roomId, tx, ty);
     }
 
     override public function init(?animName:String=null) {
         super.init(kind.toString());
         isGround = true;
+        item = Data.item.get(kind);
     }
 
     override public function onSteppedOnBy(e:Summon) {

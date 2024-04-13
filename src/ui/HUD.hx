@@ -39,11 +39,13 @@ class HUD {
         floorRow = getRow();
         floorRow.paddingTop = 2;
         floorRow.paddingBottom = 3;
+        floorRow.verticalAlign = Middle;
+        floorRow.paddingLeft = 3;
         undoButton = Button.fromTile(Assets.getTile("ui", "undo"), onUndoClicked, floorRow);
         redoButton = Button.fromTile(Assets.getTile("ui", "redo"), onRedoClicked, floorRow);
         floorText = new Text(Assets.font, floorRow);
         var props = floorRow.getProperties(floorText);
-        props.paddingLeft = 20;
+        props.paddingLeft = 16;
         spellRow = getRow();
         addSpells();
         var statsFlow = new Flow(container);
