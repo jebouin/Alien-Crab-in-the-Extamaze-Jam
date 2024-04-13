@@ -49,7 +49,7 @@ class Level {
     var mouseTX : Int = -1;
     var mouseTY : Int = -1;
     var floorCount : Int = 0;
-    var currentLevelName : String = "";
+    public var currentLevelName : String = "";
     var currentFloorId : Int = 1;
 
     public function new() {

@@ -67,6 +67,9 @@ class Game extends Scene {
         mouseX = Main.inst.s2d.mouseX / Main.inst.renderer.pixelPerfectScale;
         mouseY = Main.inst.s2d.mouseY / Main.inst.renderer.pixelPerfectScale;
         level.updateMousePos(mouseX, mouseY);
+        if(Key.isDown(Key.Y)) {
+            level.loadLevel(level.currentLevelName);
+        }
     }
 
     function onMoveLeft() {

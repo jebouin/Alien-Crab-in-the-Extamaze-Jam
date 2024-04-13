@@ -11,7 +11,7 @@ class Entity {
     public var atk : Int;
     var anim : Anim;
     public var deleted(default, null) : Bool = false;
-    public var heroTarget : Bool = false;
+    public var targetable : Bool = false;
     public var isGround(default, set) : Bool = false;
     public var active(default, set) : Bool = false;
 
@@ -31,6 +31,7 @@ class Entity {
     public function delete() {
         if(deleted) return false;
         deleted = true;
+        anim.remove();
         return true;
     }
 
@@ -47,6 +48,20 @@ class Entity {
         updateVisual();
         onMoved();
         return true;
+    }
+
+    public function hit(other:Entity) {
+        if(!other.targetable) return;
+        var damage = Util.imax(0, atk - other.def);
+        if(damage == 0) return;
+        other.hp -= damage;
+        if(other.hp <= 0) {
+            other.die();
+        }
+    }
+
+    function die() {
+        delete();
     }
 
     function onMoved() {
