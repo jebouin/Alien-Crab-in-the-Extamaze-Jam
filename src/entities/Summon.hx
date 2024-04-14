@@ -92,7 +92,7 @@ class Summon extends Entity {
             } else {
                 for(e in Game.inst.entities) {
                     if(!e.collides(nx, ny)) continue;
-                    if(Std.isOfType(e, Enemy) && !careful) {
+                    if((!moved || Game.SLIDE_ATTACK) && Std.isOfType(e, Enemy) && !careful) {
                         var enemy = cast(e, Enemy);
                         pushStep(Hit(enemy));
                         if(!wouldKill(enemy)) {
@@ -101,7 +101,7 @@ class Summon extends Entity {
                         attacked = true;
                         break;
                     }
-                    if(Std.isOfType(e, Summon) && !careful) {
+                    if((!moved || Game.SLIDE_ATTACK) && Std.isOfType(e, Summon) && !careful) {
                         var summon = cast(e, Summon);
                         pushStep(HitSummon(summon));
                         attacked = true;
@@ -109,8 +109,10 @@ class Summon extends Entity {
                     }
                     if(!moved && Std.isOfType(e, Door)) {
                         var door = cast(e, Door);
-                        pushStep(Open(door));
-                        opened = true;
+                        if(door.canOpen()) {
+                            pushStep(Open(door));
+                            opened = true;
+                        }
                         break;
                     }
                 }
@@ -203,7 +205,6 @@ class Summon extends Entity {
                 tryMove(facingX, facingY, false);
             case slime:
                 if(entityFront != null) return false;
-                trace("slime " + floorId);
                 new Summon(Data.SummonKind.slime, floorId, tx + facingX, ty + facingY, false);
             case gnome:
                 if(entityFront != null) return false;
@@ -331,17 +332,17 @@ class Summon extends Entity {
         totalXP += amount;
         xp += amount;
         while(xp >= getXPNeeded()) {
-            levelsPending++;
             xp -= getXPNeeded();
+            levelsPending++;
         }
-        xpPendingSOD.setParameters(3. / Math.pow(1. + levelsPending, .2), 1., 1);
+        xpPendingSOD.setParameters(3.5 / Math.pow(1. + levelsPending, .2), 1., 1);
     }
 
     public function getXPRemaining() {
         return getXPNeeded() - xp;
     }
     public function getXPNeeded() {
-        return getXPNeededAt(level);
+        return getXPNeededAt(level + levelsPending);
     }
     inline function getXPNeededAt(level:Int) {
         return level * 10;
@@ -365,7 +366,8 @@ class Summon extends Entity {
             levels++;
             rem = 0;
         }
-        return {levelsPending: levels, ratio: rem / getXPNeededAt(level + levels)};
+        var ans = {levelsPending: levels, ratio: rem / getXPNeededAt(level + levels)};
+        return ans;
     }
 
     public function get_xpPending() {

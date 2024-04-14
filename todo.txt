@@ -1,19 +1,28 @@
-BUGS
-- Don't register state if couldn't move (move next to door)
-- Don't open door/attack after sliding
-- What if end of arrow blocked by other summon?
-
 DAY 3 (~8:00)
-- Fix XP leveling formula
+- Add credits
 - Finish level 2
-- Add medium robot
-- Finish level 3
 - Playtest
 
-AUDIO: 12:00
+AUDIO: 11:00
+- Door open
+- Stairs
+- Menu move
+- Menu enter
+- Move crab
+- Move gnome
+- Move slime
+- Clear step
+- Level up
+- Take item (potion, key)
+
+
 WEB EXPORT: 14:00
 
+BUGS
+- What if end of arrow blocked by other summon?
+
 IF TIME LEFT
+- Finish level 3
 - Pause when dead
 - Shadows
 - Medal room

@@ -91,7 +91,7 @@ class Level {
     var highlight : Graphics;
     var mouseTX : Int = -1;
     var mouseTY : Int = -1;
-    var floorCount : Int = 0;
+    public var floorCount(default, null) : Int = 0;
     public var currentLevelName : String = "";
     public var currentFloorId(get, never) : Int;
 
@@ -106,10 +106,15 @@ class Level {
     }
 
     function splitLevelName(id:String) {
+        var digits = [];
         var floor = 0;
         while(id.charCodeAt(id.length - 1) >= 48 && id.charCodeAt(id.length - 1) <= 57) {
-            floor = floor * 10 + id.charCodeAt(id.length - 1) - 48;
+            digits.push(id.charCodeAt(id.length - 1) - 48);
             id = id.substr(0, id.length - 1);
+        }
+        digits.reverse();
+        for(d in digits) {
+            floor = floor * 10 + d;
         }
         return {floor: floor, baseId: id};
     }
@@ -145,7 +150,7 @@ class Level {
         if(currentFloorId + dir < 1 || currentFloorId + dir > floorCount) return;
         setFloorId(state.floorId + dir);
     }
-    function setFloorId(id:Int) {
+    public function setFloorId(id:Int) {
         state.floorId = id;
         onFloorChange();
     }
@@ -247,7 +252,6 @@ class Level {
             prevPos[i] = new Vector(WIDTH_TILES, {x: -1, y: -1});
         }
         floors.sort(function(a, b) return splitLevelName(a.identifier).floor - splitLevelName(b.identifier).floor);
-        trace("Loaded " + floors.length + " floors");
         for(f in floors) {
             var r = new LevelRender(f);
             r.setVisible(renders.length == 0);

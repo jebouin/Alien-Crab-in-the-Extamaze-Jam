@@ -25,7 +25,12 @@ typedef State = {
 };
 
 class Game extends Scene {
+    // Gameplay flags
     public static inline var FORCE_FACING = true;
+    public static inline var SINGLE_USE_SPELLS = false; // not implemented
+    public static inline var CONTROL_SUMMON_FROM_DIFFERENT_FLOOR = true;
+    public static inline var SLIDE_ATTACK = false;
+
     public static inline var Z_TO_Y = -.5;
     public static inline var UNDO_STACK_SIZE = 1000;
     public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
@@ -52,6 +57,7 @@ class Game extends Scene {
     public var path : Path;
     public var fx : Fx;
     var holdActions : HoldActions;
+    var undoHoldActions : HoldActions;
     var mouseX : Float = 0;
     var mouseY : Float = 0;
     var mouseDown : Bool = false;
@@ -81,6 +87,9 @@ class Game extends Scene {
         holdActions.add(Action.moveRight, onMoveRight);
         holdActions.add(Action.moveUp, onMoveUp);
         holdActions.add(Action.moveDown, onMoveDown);
+        undoHoldActions = new HoldActions(.15, .06);
+        undoHoldActions.add(Action.undo, undo);
+        undoHoldActions.add(Action.redo, redo);
         fx = new Fx();
         level = new Level();
         level.loadLevel(Data.levels.get(levelId).prefix);
@@ -108,13 +117,8 @@ class Game extends Scene {
     override public function update(dt:Float) {
         super.update(dt);
         var controller = Main.inst.controller;
+        undoHoldActions.update(dt);
         if(!gameOver) {
-            if(controller.isPressed(Action.undo) && Key.isDown(Key.CTRL)) {
-                undo();
-            }
-            if(controller.isPressed(Action.redo) && Key.isDown(Key.CTRL)) {
-                redo();
-            }
             if(hero.canTakeAction) {
                 holdActions.update(dt);
                 if(controller.isPressed(Action.spell1)) {
@@ -155,7 +159,7 @@ class Game extends Scene {
                 if(newHero.deleted) {
                     gameOver = true;
                 } else {
-                    setHero(newHero);
+                    setHero(newHero, false);
                 }
             }
             if(gameOver) {
@@ -189,9 +193,9 @@ class Game extends Scene {
             path.visible = false;
             level.updateMousePos(mtx, mty, false);
         }
-        if(Key.isDown(Key.Y)) {
+        /*if(Key.isDown(Key.Y)) {
             level.loadLevel(level.currentLevelName);
-        }
+        }*/
         hudElement.update(dt);
         fx.updateConstantRate(dt);
         updateWorldPos();
@@ -216,6 +220,7 @@ class Game extends Scene {
             hero.setFacing(dx, dy);
         } else {
             if(hero.tryMove(dx, dy, false)) {
+                trace("MOVED");
                 Game.inst.saveState("move");
             }
         }
@@ -246,13 +251,16 @@ class Game extends Scene {
         if(gameOver || won || !hero.canTakeAction) return;
         var summonList = getSummonList();
         var id = summonList.indexOf(hero);
-        setHero(summonList[(id + 1) % summonList.length]);
+        setHero(summonList[(id + 1) % summonList.length], false);
+        onChange();
     }
     function getSummonList() {
         var summonList = [];
         for(e in entities) {
-            if(e.friendly && e.active && !e.deleted && Std.isOfType(e, Summon)) {
-                summonList.push(cast(e, Summon));
+            if(e.friendly && !e.deleted && Std.isOfType(e, Summon)) {
+                if(e.active || CONTROL_SUMMON_FROM_DIFFERENT_FLOOR) {
+                    summonList.push(cast(e, Summon));
+                }
             }
         }
         return summonList;
@@ -270,13 +278,19 @@ class Game extends Scene {
     public function onChange() {
         hudElement.onChange();
     }
-    public function setHero(s:Summon) {
+    public function setHero(s:Summon, changeFloorId:Bool=true) {
         if(hero != null) {
             hero.controlled = false;
         }
         hero = s;
         hero.controlled = true;
-        hero.floorId = level.currentFloorId;
+        if(changeFloorId) {
+            hero.floorId = level.currentFloorId;
+        } else if(hero.floorId != level.currentFloorId) {
+            level.setFloorId(hero.floorId);
+            fx.clear();
+            fx.floorChange();
+        }
     }
 
     public function getEntity(tx:Int, ty:Int) {
@@ -419,5 +433,9 @@ class Game extends Scene {
     }
     public function showQuitDialog() {
         new Confirmation();
+    }
+    public function debug() {
+        hero.giveXP(5);
+        onChange();
     }
 }

@@ -133,7 +133,9 @@ class HUD {
         var levelName = data.name;
         floorTextTop.text = levelName;
         var cid = Game.inst.level.currentFloorId;
-        if(cid >= data.firstFloorId) {
+        if(cid == Game.inst.level.floorCount) {
+            floorTextBot.text = "Final Floor";
+        } else if(cid >= data.firstFloorId) {
             floorTextBot.text = "Floor " + (cid - data.firstFloorId + 1);
         } else {
             floorTextBot.text = "Basement " + (1 + data.firstFloorId - cid);

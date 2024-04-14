@@ -67,7 +67,7 @@ class StageClear extends Scene {
         timer = new EaseTimer(IN_TIME);
         var clearLevel = Game.inst.hero.level;
         var prevClearLevel = Game.inst.prevClearLevel;
-        if(clearLevel > prevClearLevel) {
+        if(clearLevel > prevClearLevel && isCrab) {
             Game.inst.prevClearLevel = clearLevel;
             var recordFlow = new Flow(hud);
             recordFlow.horizontalSpacing = 5;

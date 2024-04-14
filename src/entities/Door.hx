@@ -18,6 +18,10 @@ class Door extends Entity {
         }
     }
 
+    public function canOpen() {
+        return Game.inst.inventory.getKeyCount(type) > 0;
+    }
+
     public function open() {
         Game.inst.onChange();
         Game.inst.fx.doorOpen(anim.x, anim.y, type);

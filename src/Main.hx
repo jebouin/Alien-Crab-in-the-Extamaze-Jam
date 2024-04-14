@@ -85,8 +85,8 @@ class Main extends hxd.App {
         controller.bindKey(Action.changeControl, Key.SPACE);
         controller.bindKey(Action.menuEnter, [Key.X, Key.SPACE, Key.ENTER]);
         #end
-        controller.bindKey(Action.undo, Key.Z);
-        controller.bindKey(Action.redo, Key.Y);
+        controller.bindKey(Action.undo, [Key.Z, Key.W]);
+        controller.bindKey(Action.redo, [Key.Y, Key.INTL_BACKSLASH]);
         controller.bindKey(Action.menuExit, [Key.ESCAPE, Key.P]);
     }
     function tick() {
@@ -146,6 +146,13 @@ class Main extends hxd.App {
         if(Key.isPressed(Key.G)) {
             engine.fullScreen = !engine.fullScreen;
         }
+        if(Key.isPressed(Key.Y)) {
+            Game.inst.debug();
+        }
+    }
+    #else
+    if(Key.isPressed(Key.F)) {
+        engine.fullScreen = !engine.fullScreen;
     }
     #end
 
