@@ -29,10 +29,11 @@ class Game extends Scene {
     static var _layer = 0;
     public static var LAYER_GROUND = _layer++;
     public static var LAYER_GROUND_SLIME = _layer++;
-    public static var LAYER_ENTITIES_GROUND = _layer++;
+    //public static var LAYER_ENTITIES_GROUND = _layer++;
     public static var LAYER_EFFECTS_BACK = _layer++;
-    public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_WALLS = _layer++;
+    public static var LAYER_ENTITIES_GROUND = _layer++;
+    public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_OVER = _layer++;
     public static var LAYER_EFFECTS_FRONT = _layer++;
     public static var LAYER_PATH = _layer++;
@@ -67,8 +68,8 @@ class Game extends Scene {
         holdActions.add(Action.moveDown, onMoveDown);
         fx = new Fx();
         level = new Level();
-        //level.loadLevel("Tutorial");
-        level.loadLevel("Test");
+        level.loadLevel("Tutorial");
+        //level.loadLevel("Test");
         updateWorldPos();
         inventory = new Inventory();
         hudElement = new HUD();
@@ -89,6 +90,12 @@ class Game extends Scene {
         super.update(dt);
         var controller = Main.inst.controller;
         if(!gameOver) {
+            if(controller.isPressed(Action.undo) && Key.isDown(Key.CTRL)) {
+                undo();
+            }
+            if(controller.isPressed(Action.redo) && Key.isDown(Key.CTRL)) {
+                redo();
+            }
             if(hero.canTakeAction) {
                 holdActions.update(dt);
                 if(controller.isPressed(Action.spell1)) {
@@ -163,7 +170,8 @@ class Game extends Scene {
     }
 
     function onClick(_) {
-        if(hero.canTakeAction) {
+        if(hero.canTakeAction && path.canRun()) {
+            saveState("move");
             path.run();
         }
     }
@@ -238,6 +246,7 @@ class Game extends Scene {
         }
         hero = s;
         hero.controlled = true;
+        hero.floorId = level.currentFloorId;
     }
 
     public function getEntity(tx:Int, ty:Int) {
@@ -261,6 +270,7 @@ class Game extends Scene {
         }
         trace(change + " " + undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
         redoStack = [];
+        trace(level.currentFloorId);
     }
 
     function debugState() {
@@ -285,8 +295,8 @@ class Game extends Scene {
             var heroId = s.getInt();
             inventory = s.getDynamic();
             s.endLoad();
-            level.updateActive();
             setHero(cast(entities[heroId], Summon));
+            level.updateActive();
             if(onSuccess != null) {
                 onSuccess();
             }

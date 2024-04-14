@@ -53,8 +53,12 @@ class Path {
         }
     }
 
+    public function canRun() {
+        return path != null && path.length > 1;
+    }
+
     public function run() {
-        if(path == null || path.length < 2) return;
+        if(!canRun()) return;
         for(i in 1...path.length - 1) {
             var dx = path[i].x - path[i - 1].x;
             var dy = path[i].y - path[i - 1].y;

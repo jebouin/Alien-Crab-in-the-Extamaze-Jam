@@ -59,6 +59,7 @@ enum abstract Action(Int) {
     var redo;
     var changeControl;
     var menuEnter;
+    var menuExit;
 }
 
 class Controller {

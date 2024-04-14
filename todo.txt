@@ -1,24 +1,27 @@
 DAY 2
-- Pause button and menu
+- Spell cost scaling
 - Level select
-- Kill summons for xp
 - Exit
+- Pause button and menu
 - Eye doors (save eye count)
-- Level design (20:00-03:00)
+
+- Level design (22:00-03:00)
 	- Tutorial maze
 	- Slippery tower
 	- Rise of the fallen robots
 
 BUGS
-- Don't open door after sliding
+- No level up display if exact xp amount
+- Don't register state if couldn't move (move next to door)
+- Don't open door/attack after sliding
 - What if end of arrow blocked by other summon?
 
-DAY 3
-- Polish
-- Audio
+DAY 3 (~8:00)
+- Polish and finish LD
 - Playtest
 
 AUDIO: 12:00
+WEB EXPORT: 14:00
 
 IF TIME LEFT
 - Pause when dead

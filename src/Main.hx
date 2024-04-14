@@ -83,6 +83,7 @@ class Main extends hxd.App {
         #end
         controller.bindKey(Action.undo, Key.Z);
         controller.bindKey(Action.redo, Key.Y);
+        controller.bindKey(Action.menuExit, [Key.ESCAPE, Key.P]);
     }
     function tick() {
         try {

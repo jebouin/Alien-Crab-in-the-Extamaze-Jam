@@ -1,5 +1,7 @@
 package entities;
 
+import h2d.filter.Glow;
+
 class Item extends Entity {
     @:s public var kind : Data.ItemKind;
     var item : Data.Item = null;
@@ -13,6 +15,7 @@ class Item extends Entity {
         super.init(kind.toString());
         isGround = true;
         item = Data.item.get(kind);
+        anim.filter = new Glow(0xFFFFFF, .5, 10, 1., 1., true);
     }
 
     override public function onSteppedOnBy(e:Summon) {
@@ -36,6 +39,10 @@ class Item extends Entity {
             Game.inst.hero.tryPickScroll(dragon);
         } else if(kind == scrollNone) {
             Game.inst.hero.tryForgetScroll();
+        } else if(kind == swordSmall) {
+            Game.inst.hero.atk += 1;
+        } else if(kind == swordLarge) {
+            Game.inst.hero.atk += 5;
         }
         delete();
         Game.inst.onChange();

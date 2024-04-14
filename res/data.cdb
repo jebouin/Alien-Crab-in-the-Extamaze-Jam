@@ -4,9 +4,8 @@
 			"name": "levels",
 			"columns": [
 				{
-					"typeStr": "1",
-					"name": "id",
-					"kind": null
+					"typeStr": "0",
+					"name": "id"
 				},
 				{
 					"typeStr": "1",
@@ -21,17 +20,22 @@
 			],
 			"lines": [
 				{
-					"id": "Tutorial",
-					"name": "Tutorial",
+					"id": "tutorial",
+					"name": "Tutorial maze",
 					"show": true
 				},
 				{
-					"id": "Second",
-					"name": "Second",
+					"id": "tower",
+					"name": "Slippery tower",
 					"show": true
 				},
 				{
-					"id": "Test",
+					"id": "robot",
+					"name": "Rise of the fallen robots",
+					"show": true
+				},
+				{
+					"id": "test",
 					"name": "Test",
 					"show": false
 				}
@@ -125,7 +129,7 @@
 				{
 					"id": "potionHPLarge",
 					"name": "Large HP potion",
-					"description": "Gain 100 HP",
+					"description": "Gain 50 HP",
 					"rarity": 0,
 					"icon": {
 						"file": "gfx/entities.png",
@@ -133,13 +137,13 @@
 						"x": 6,
 						"y": 1
 					},
-					"hpAdd": 100,
+					"hpAdd": 50,
 					"mpAdd": 0
 				},
 				{
 					"id": "potionHPSmall",
 					"name": "Small HP potion",
-					"description": "Gain 40 HP",
+					"description": "Gain 20 HP",
 					"rarity": 0,
 					"icon": {
 						"file": "gfx/entities.png",
@@ -147,13 +151,13 @@
 						"x": 7,
 						"y": 1
 					},
-					"hpAdd": 40,
+					"hpAdd": 20,
 					"mpAdd": 0
 				},
 				{
 					"id": "potionMPLarge",
 					"name": "Large mana potion",
-					"description": "Gain 100 MP",
+					"description": "Gain 50 MP",
 					"rarity": 0,
 					"icon": {
 						"file": "gfx/entities.png",
@@ -162,12 +166,12 @@
 						"y": 2
 					},
 					"hpAdd": 0,
-					"mpAdd": 100
+					"mpAdd": 50
 				},
 				{
 					"id": "potionMPSmall",
 					"name": "Small mana potion",
-					"description": "Gain 40 MP",
+					"description": "Gain 20 MP",
 					"rarity": 0,
 					"icon": {
 						"file": "gfx/entities.png",
@@ -176,7 +180,35 @@
 						"y": 2
 					},
 					"hpAdd": 0,
-					"mpAdd": 40
+					"mpAdd": 20
+				},
+				{
+					"id": "swordSmall",
+					"name": "Small sword",
+					"description": "Gain 1 ATK",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 6,
+						"y": 0
+					}
+				},
+				{
+					"id": "swordLarge",
+					"name": "Large sword",
+					"description": "Gain 5 ATK",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 7,
+						"y": 0
+					}
 				},
 				{
 					"id": "scrollSlime",
@@ -281,14 +313,14 @@
 				{
 					"id": "slime",
 					"name": "Summon a slippery slime",
-					"cost": 10,
+					"cost": 30,
 					"unlockLevel": 1,
 					"usedBy": "hero"
 				},
 				{
 					"id": "gnome",
 					"name": "Summon an armored gnome",
-					"cost": 20,
+					"cost": 15,
 					"unlockLevel": 1,
 					"usedBy": "hero"
 				},
@@ -362,10 +394,10 @@
 			"lines": [
 				{
 					"id": "hero",
-					"hp": 100,
-					"atk": 10,
+					"hp": 50,
+					"atk": 5,
 					"def": 0,
-					"mp": 15,
+					"mp": 0,
 					"name": "Alien Crab"
 				},
 				{
@@ -442,7 +474,22 @@
 			],
 			"lines": [
 				{
-					"atk": 3,
+					"id": "smallGhost",
+					"name": "Small Ghost",
+					"hp": 8,
+					"atk": 5,
+					"def": 0,
+					"level": 1,
+					"xp": 3,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 6,
+						"y": 6
+					}
+				},
+				{
+					"atk": 8,
 					"id": "fleshGhost",
 					"icon": {
 						"file": "gfx/entities.png",
@@ -450,17 +497,32 @@
 						"x": 4,
 						"y": 6
 					},
-					"hp": 30,
+					"hp": 20,
 					"def": 0,
 					"level": 3,
 					"name": "Flesh Ghost",
 					"xp": 6
 				},
 				{
+					"id": "spikyShell",
+					"name": "Spiky Shell",
+					"hp": 8,
+					"atk": 300,
+					"def": 0,
+					"level": 3,
+					"xp": 5,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 7,
+						"y": 8
+					}
+				},
+				{
 					"id": "cyclopGhost",
 					"name": "Cyclop Ghost",
 					"hp": 50,
-					"atk": 10,
+					"atk": 20,
 					"def": 0,
 					"level": 5,
 					"icon": {
