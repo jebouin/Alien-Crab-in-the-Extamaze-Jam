@@ -1,10 +1,4 @@
 DAY 2
-- Level up
-	- Level up choice with undo
-- Fix floor bug
-- Make cursor pointer work
-- Gnome
-- Dragon
 - Kill summons for xp
 - Exit
 - Eye doors (save eye count)
@@ -29,3 +23,4 @@ IF TIME LEFT
 - Shadows
 - Medal room
 - Hold undo
+- Dragon

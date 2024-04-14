@@ -136,6 +136,9 @@ class Summon extends Entity {
         if(facingX == -1 && facingY == 0) {
             dirStr = "Left";
         }
+        if(!controlled) {
+            dirStr += "Sleep";
+        }
         return base + dirStr;
     }
 
@@ -234,6 +237,7 @@ class Summon extends Entity {
 
     public function set_controlled(v:Bool) {
         this.controlled = v;
+        updateAnim();
         return v;
     }
 
