@@ -9,12 +9,11 @@ class Enemy extends Entity {
     public function new(kind:Data.EnemyKind, floorId:Int, tx:Int, ty:Int) {
         this.kind = kind;
         enemy = Data.enemy.get(kind);
-        this.tx = tx;
-        this.ty = ty;
         super("", floorId, tx, ty, enemy.hp, enemy.atk, enemy.def);
     }
 
     override public function init(?animName:String=null) {
+        enemy = Data.enemy.get(kind);
         super.init(kind.toString());
         targetable = true;
         anim.currentFrame = Math.random() * anim.frames.length;

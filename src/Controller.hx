@@ -55,6 +55,8 @@ enum abstract Action(Int) {
     var spell2;
     var level1;
     var level2;
+    var undo;
+    var redo;
     var changeControl;
     var menuEnter;
 }

@@ -171,9 +171,13 @@ class Game extends Scene {
         moveOrFace(0, 1);
     }
     public function castSpell(id:Data.SpellKind) {
+        if(!hero.canTakeAction) return;
+        Game.inst.saveState("cast spell");
         hero.castSpell(id);
     }
     public function chooseLevelUpPerk(isHP:Bool) {
+        if(!hero.canTakeAction) return;
+        Game.inst.saveState("level up");
         hero.chooseLevelUpPerk(isHP);
     }
     function getSummonList() {
@@ -186,6 +190,7 @@ class Game extends Scene {
         return summonList;
     }
     public function changeControl() {
+        if(!hero.canTakeAction) return;
         var summonList = getSummonList();
         var id = summonList.indexOf(hero);
         setHero(summonList[(id + 1) % summonList.length]);
@@ -222,6 +227,7 @@ class Game extends Scene {
     public function saveState(change:String) {
         var state = {change: change, content: getState()};
         undoStack.push(state);
+        lastChangeName = change;
         undoMemory += state.content.length;
         while(undoMemory > UNDO_STACK_MEM || undoStack.length > UNDO_STACK_SIZE) {
             var rem = undoStack[0].content.length;
@@ -230,6 +236,13 @@ class Game extends Scene {
         }
         trace(change + " " + undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
         redoStack = [];
+    }
+
+    function debugState() {
+        trace("UNDO STACK");
+        for(s in undoStack) {
+            trace("  " + s.change);
+        }
     }
 
     public function setState(bytes:Bytes, onSuccess:Void->Void, onError:String->Void) {

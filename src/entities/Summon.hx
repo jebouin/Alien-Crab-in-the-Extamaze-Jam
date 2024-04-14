@@ -52,6 +52,7 @@ class Summon extends Entity {
     }
 
     override public function init(?animName:String=null) {
+        summon = Data.summon.get(kind);
         super.init(getAnimName());
         queueTimer = new EaseTimer(STEP_DURATION_WALK);
         targetable = true;
