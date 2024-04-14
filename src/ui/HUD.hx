@@ -144,7 +144,7 @@ class HUD {
         controlButton.enabled = Game.inst.canChangeControl();
         quitButton.enabled = true;
         for(i in 0...4) {
-            var keyCount = Game.inst.inventory.keys[i];
+            var keyCount = Game.inst.inventory.getKeyCount(i + 1);
             keyTexts[i].text = "" + keyCount;
         }
 

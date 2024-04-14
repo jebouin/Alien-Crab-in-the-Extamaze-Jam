@@ -28,7 +28,7 @@ class StageClear extends Scene {
     var menu : Menu;
     var congrats : Text;
 
-    public function new() {
+    public function new(isCrab:Bool) {
         super("stage_clear");
         if(inst != null) {
             throw "StageClear is a singleton!";
@@ -51,10 +51,17 @@ class StageClear extends Scene {
         cont.paddingTop = 10;
         cont.horizontalAlign = Middle;
         congrats = new Text(Assets.fontLarge, cont);
-        congrats.text = "You found the exit!";
-        menu = new Menu(cont);
-        menu.addLine("Continue exploring", onContinuePressed, false);
-        menu.addLine("Back to level selection", onListPressed, false);
+        if(isCrab) {
+            congrats.text = "You found the exit!";
+            menu = new Menu(cont);
+            menu.addLine("Continue exploring", onContinuePressed, false);
+            menu.addLine("Back to level selection", onListPressed, false);
+        } else {
+            congrats.text = "I'm not leaving without my master!";
+            congrats.font = Assets.font;
+            menu = new Menu(cont);
+            menu.addLine("Go find Alien Crab", onContinuePressed, false);
+        }
         menu.init();
         timer = new EaseTimer(IN_TIME);
     }

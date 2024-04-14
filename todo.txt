@@ -1,5 +1,6 @@
 DAY 2
 - Eye doors (save eye count)
+- Other summon step on clear?
 
 - Level design (22:00-03:00)
 	- Tutorial maze

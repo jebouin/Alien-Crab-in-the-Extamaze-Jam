@@ -1,5 +1,7 @@
 package ui;
 
+import save.GameSaveData;
+import save.Save;
 import Controller.Action;
 import h2d.Tile;
 import h2d.Flow;
@@ -26,6 +28,7 @@ class Title extends Scene {
     var cont : Flow;
     var menu : Menu;
     var title : Text;
+    public var saveData : GameSaveData;
 
     public function new() {
         super("title");
@@ -33,6 +36,7 @@ class Title extends Scene {
             throw "Title is a singleton!";
         }
         inst = this;
+        saveData = Save.loadGameData();
         back = new Background(world);
         title = new Text(Assets.fontLarge, hud);
         title.text = "Alien Crab in the Extamaze";

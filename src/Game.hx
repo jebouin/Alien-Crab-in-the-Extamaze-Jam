@@ -1,5 +1,7 @@
 package ;
 
+import save.Save;
+import save.GameSaveData;
 import ui.Confirmation;
 import ui.Title;
 import ui.StageClear;
@@ -61,6 +63,7 @@ class Game extends Scene {
     public var won : Bool = false;
     var wonTimer : EaseTimer;
     public var levelId : Data.LevelsKind;
+    public var saveData : GameSaveData;
 
     public function new(levelId:Data.LevelsKind) {
         super("game");
@@ -69,6 +72,7 @@ class Game extends Scene {
         }
         inst = this;
         this.levelId = levelId;
+        saveData = Save.loadGameData();
         holdActions = new HoldActions(.15, .06);
         holdActions.add(Action.moveLeft, onMoveLeft);
         holdActions.add(Action.moveRight, onMoveRight);
@@ -158,7 +162,7 @@ class Game extends Scene {
             if(won) {
                 wonTimer.update(dt);
                 if(wonTimer.isDone()) {
-                    new StageClear();
+                    new StageClear(hero.kind == Data.SummonKind.hero);
                 }
             }
         }
@@ -402,6 +406,9 @@ class Game extends Scene {
     public function onExitReached() {
         wonTimer = new EaseTimer(WON_TIME);
         won = true;
+        if(hero.kind == Data.SummonKind.hero) {
+            saveData.onClear(levelId, hero.level);
+        }
     }
 
     public function resume() {

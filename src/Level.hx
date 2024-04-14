@@ -275,6 +275,9 @@ class Level {
             for(d in floor.l_Entities.all_Door3) {
                 new Door(floorId, d.cx, d.cy, 3);
             }
+            for(d in floor.l_Entities.all_Door4) {
+                new Door(floorId, d.cx, d.cy, 4);
+            }
             for(s in floor.l_Entities.all_StairUp) {
                 new Stairs(floorId, s.cx, s.cy, false);
             }
