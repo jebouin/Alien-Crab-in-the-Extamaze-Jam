@@ -70,6 +70,7 @@ class Main extends hxd.App {
         controller.bindKey(Action.level1, Key.L);
         controller.bindKey(Action.level2, Key.U);
         controller.bindKey(Action.changeControl, Key.I);
+        controller.bindKey(Action.menuEnter, [Key.N, Key.I]);
         #else
         controller.bindKey(Action.moveLeft, Key.LEFT);
         controller.bindKey(Action.moveRight, Key.RIGHT);
@@ -80,6 +81,7 @@ class Main extends hxd.App {
         controller.bindKey(Action.level1, Key.S);
         controller.bindKey(Action.level2, Key.D);
         controller.bindKey(Action.changeControl, Key.SPACE);
+        controller.bindKey(Action.menuEnter, [Key.X, Key.SPACE, Key.ENTER]);
         #end
         controller.bindKey(Action.undo, Key.Z);
         controller.bindKey(Action.redo, Key.Y);

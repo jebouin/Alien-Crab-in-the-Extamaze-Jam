@@ -1,5 +1,6 @@
 package ;
 
+import entities.Exit;
 import fx.DropShadow;
 import hxbit.Serializable;
 import h2d.Tile;
@@ -262,6 +263,7 @@ class Level {
             var floorId = splitLevelName(roomName).floor;
             for(hero in floor.l_Entities.all_Hero) {
                 Game.inst.hero = new Summon(Data.SummonKind.hero, floorId, hero.cx, hero.cy, true);
+                Game.inst.hero.floorId = floorId;
                 break;
             }
             for(d in floor.l_Entities.all_Door1) {
@@ -290,6 +292,9 @@ class Level {
             }
             for(a in floor.l_Entities.all_ArrowDown) {
                 new Arrow(floorId, a.cx, a.cy, Direction.Down);
+            }
+            for(e in floor.l_Entities.all_Exit) {
+                new Exit(floorId, e.cx, e.cy);
             }
             for(e in floor.l_Entities.getAllUntyped()) {
                 var id = e.entityType.getName(), idd = "";

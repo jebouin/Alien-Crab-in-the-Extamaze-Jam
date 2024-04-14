@@ -28,6 +28,7 @@ class Summon extends Entity {
     var queueTimer : EaseTimer;
 
     @:s public var spells : Array<Data.SpellKind> = [];
+    @:s public var spellUsedCount : Array<Int> = [];
     @:s public var xp : Int = 0;
     @:s public var level : Int = 1;
     @:s public var levelsPending : Int = 0;
@@ -45,6 +46,7 @@ class Summon extends Entity {
         }
         Game.inst.setHero(this);
         spells = [kick];
+        spellUsedCount = [0];
         if(kind == slime) {
             spells.push(sleep);
         } else if(kind == gnome) {
@@ -172,9 +174,15 @@ class Summon extends Entity {
         anim.y = sodY.pos;
     }
 
+    public function getSpellCost(i:Int) {
+        var mult = Math.pow(2, spellUsedCount[i]);
+        return Math.floor(Data.spell.get(spells[i]).cost * mult);
+    }
+
     public function castSpell(id:Data.SpellKind) {
-        var def = Data.spell.get(id);
-        if(mp < def.cost) return false;
+        var pos = spells.indexOf(id);
+        var cost = getSpellCost(pos);
+        if(mp < cost) return false;
         var entityFront = getEntityFront();
         var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY, false);
         if(collidesFront) return false;
@@ -203,13 +211,15 @@ class Summon extends Entity {
                 entityFront.atk >>= 1;
         }
         Game.inst.level.updateActive();
-        mp -= def.cost;
+        mp -= cost;
+        spellUsedCount[pos]++;
         Game.inst.onChange();
         return true;
     }
     public function canCastSpell(id:Data.SpellKind) {
-        var def = Data.spell.get(id);
-        if(mp < def.cost) return false;
+        var pos = spells.indexOf(id);
+        var cost = getSpellCost(pos);
+        if(mp < cost) return false;
         var entityFront = Game.inst.getEntity(tx + facingX, ty + facingY);
         var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY, false);
         if(collidesFront) return false;
@@ -225,7 +235,7 @@ class Summon extends Entity {
             case sleep | levelUp:
                 return true;
         }
-        return mp >= def.cost;
+        return mp >= cost;
     }
 
     public function chooseLevelUpPerk(isHP:Bool) {
@@ -357,8 +367,10 @@ class Summon extends Entity {
         if(this.kind != hero) return false;
         if(spells.length == 2) {
             spells.pop();
+            spellUsedCount.pop();
         }
         spells.push(spell);
+        spellUsedCount.push(0);
         return true;
     }
 
@@ -366,6 +378,7 @@ class Summon extends Entity {
         if(this.kind != hero) return false;
         if(spells.length == 1) return false;
         spells.pop();
+        spellUsedCount.pop();
         return true;
     }
 }

@@ -23,6 +23,7 @@ class Assets {
     static inline var LOOPS_COL_FALSE = "#fe5b59ff";
     static var sheets : StringMap<SpriteSheet>;
     public static var font : h2d.Font;
+    public static var fontLarge : h2d.Font;
 
     public static function init() {
         Data.load(hxd.Res.data.entry.getText());
@@ -34,6 +35,7 @@ class Assets {
             return getTile(sheet, tile);
         }
         font = Res.fonts._04b03.toFont();
+        fontLarge = Res.fonts.aldrich24.toFont();
     }
 
     static function loadAllSpriteSheets() {

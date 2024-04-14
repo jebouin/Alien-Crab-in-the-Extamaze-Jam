@@ -1,5 +1,6 @@
 package ;
 
+import ui.StageClear;
 import fx.Fx;
 import hxbit.Serializer;
 import haxe.io.Bytes;
@@ -25,6 +26,7 @@ class Game extends Scene {
     public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
     public static inline var WORLD_OFF_X = -Level.TS + 2;
     public static inline var WORLD_OFF_Y = -Level.TS + 2;
+    public static inline var WON_TIME = .35;
     public static var inst : Game;
     static var _layer = 0;
     public static var LAYER_GROUND = _layer++;
@@ -54,6 +56,8 @@ class Game extends Scene {
     var undoMemory : Int = 0;
     var lastChangeName : String = "Initial state";
     public var gameOver : Bool = false;
+    public var won : Bool = false;
+    var wonTimer : EaseTimer;
 
     public function new() {
         super("game");
@@ -84,6 +88,10 @@ class Game extends Scene {
     override public function delete() {
         inst = null;
         super.delete();
+    }
+
+    public function quit() {
+        delete();
     }
 
     override public function update(dt:Float) {
@@ -140,6 +148,12 @@ class Game extends Scene {
                 this.gameOver = true;
                 hudElement.onChange();
             }
+            if(won) {
+                wonTimer.update(dt);
+                if(wonTimer.isDone()) {
+                    new StageClear();
+                }
+            }
         }
         fx.update(dt);
     }
@@ -183,6 +197,7 @@ class Game extends Scene {
     }
 
     function moveOrFace(dx:Int, dy:Int) {
+        if(gameOver || won) return;
         if(Key.isDown(Key.SHIFT)) {
             hero.setFacing(dx, dy);
         } else {
@@ -204,14 +219,20 @@ class Game extends Scene {
         moveOrFace(0, 1);
     }
     public function castSpell(id:Data.SpellKind) {
-        if(!hero.canTakeAction) return;
+        if(gameOver || won || !hero.canTakeAction) return;
         Game.inst.saveState("cast spell");
         hero.castSpell(id);
     }
     public function chooseLevelUpPerk(isHP:Bool) {
-        if(!hero.canTakeAction) return;
+        if(gameOver || won || !hero.canTakeAction) return;
         Game.inst.saveState("level up");
         hero.chooseLevelUpPerk(isHP);
+    }
+    public function changeControl() {
+        if(gameOver || won || !hero.canTakeAction) return;
+        var summonList = getSummonList();
+        var id = summonList.indexOf(hero);
+        setHero(summonList[(id + 1) % summonList.length]);
     }
     function getSummonList() {
         var summonList = [];
@@ -221,12 +242,6 @@ class Game extends Scene {
             }
         }
         return summonList;
-    }
-    public function changeControl() {
-        if(!hero.canTakeAction) return;
-        var summonList = getSummonList();
-        var id = summonList.indexOf(hero);
-        setHero(summonList[(id + 1) % summonList.length]);
     }
     public function canChangeControl() {
         return getSummonList().length > 1;
@@ -300,7 +315,7 @@ class Game extends Scene {
             if(onSuccess != null) {
                 onSuccess();
             }
-            gameOver = false;
+            gameOver = won = false;
             fx.clear();
         } catch(e) {
             trace(e.details());
@@ -375,5 +390,14 @@ class Game extends Scene {
     function updateWorldPos() {
         world.x = WORLD_OFF_X + fx.shakeX;
         world.y = WORLD_OFF_Y + fx.shakeY;
+    }
+
+    public function onExitReached() {
+        wonTimer = new EaseTimer(WON_TIME);
+        won = true;
+    }
+
+    public function resume() {
+        won = false;
     }
 }

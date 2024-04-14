@@ -47,7 +47,7 @@ class SpellFlow extends Flow {
             name.lineSpacing = -1;
             name.textColor = !enabled ? 0x5a6988 : 0xFFFFFF;
             var cost = new Text(Assets.font, this);
-            cost.text = def.cost + " MP";
+            cost.text = Game.inst.hero.getSpellCost(i) + " MP";
             cost.textColor = !enabled ? 0x5a6988 : (Game.inst.hero.mp < def.cost ? 0x743f39 : 0x2ce8f5);
             var props = getProperties(cost);
             props.verticalAlign = Bottom;

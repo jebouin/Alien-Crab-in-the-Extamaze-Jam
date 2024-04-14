@@ -71,7 +71,8 @@
    { "name": "smallGhost", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 96, "w": 32, "h": 16 } }] },
    { "name": "swordSmall", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 0, "w": 16, "h": 16 } }] },
    { "name": "swordLarge", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 0, "w": 16, "h": 16 } }] },
-   { "name": "spikyShell", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 128, "w": 32, "h": 16 } }] }
+   { "name": "spikyShell", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 128, "w": 32, "h": 16 } }] },
+   { "name": "exit", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 208, "y": 47, "w": 16, "h": 17 } }] }
   ]
  }
 }
