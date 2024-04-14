@@ -10,12 +10,18 @@ class Menu extends Flow {
     public var selectedId(default, set) : Int;
     var holdActions : HoldActions;
     var sod : SecondOrderDynamics;
+    var anim : Anim;
 
     public function new(parent:Object) {
         super(parent);
         layout = Vertical;
-        verticalSpacing = 2;
-        sod = new SecondOrderDynamics(4., 1., 0, 0, Precise);
+        verticalSpacing = 4;
+        anim = new Anim();
+        anim.playFromName("ui", "cursor");
+        anim.rotation = -Math.PI * .5;
+        addChild(anim);
+        var props = getProperties(anim);
+        props.isAbsolute = true;
     }
 
     public function init() {
@@ -23,6 +29,10 @@ class Menu extends Flow {
         holdActions = new HoldActions();
         holdActions.add(Action.moveDown, moveDown);
         holdActions.add(Action.moveUp, moveUp);
+        reflow();
+        sod = new SecondOrderDynamics(4., 1., 0, getSelectedY(), Precise);
+        anim.y = Math.round(sod.pos) - 1;
+        anim.x = -5;
     }
 
     public function delete() {
@@ -50,6 +60,16 @@ class Menu extends Flow {
             if(lines[selectedId].canPress()) {
                 lines[selectedId].press();
             }
+        }
+        if(selectedId >= 0 && selectedId < lines.length) {
+            anim.visible = true;
+            var targetY = getSelectedY();
+            sod.update(dt, targetY);
+            anim.update(dt);
+            anim.y = Math.round(sod.pos) - 1;
+            anim.x = -5;
+        } else {
+            anim.visible = false;
         }
     }
     
@@ -82,7 +102,7 @@ class Menu extends Flow {
     
     public function getSelectedY() {
         var line = lines[selectedId];
-        return y + line.y + line.outerHeight / 2;
+        return line.y + line.outerHeight / 2;
     }
 
     public function set_selectedId(id:Int) {

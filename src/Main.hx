@@ -38,8 +38,8 @@ class Main extends hxd.App {
         SceneManager.init();
         initController();
         started = true;
-        //new Game("Tutorial");
-        new ui.Title();
+        new Game(tutorial);
+        //new ui.Title();
     }
     function onEvent(event:hxd.Event) {
         if(!started) return;

@@ -1,5 +1,6 @@
 package ;
 
+import ui.Confirmation;
 import ui.Title;
 import ui.StageClear;
 import fx.Fx;
@@ -59,6 +60,7 @@ class Game extends Scene {
     public var gameOver : Bool = false;
     public var won : Bool = false;
     var wonTimer : EaseTimer;
+    public var levelId : Data.LevelsKind;
 
     public function new(levelId:Data.LevelsKind) {
         super("game");
@@ -66,6 +68,7 @@ class Game extends Scene {
             throw "Game is a singleton!";
         }
         inst = this;
+        this.levelId = levelId;
         holdActions = new HoldActions(.15, .06);
         holdActions.add(Action.moveLeft, onMoveLeft);
         holdActions.add(Action.moveRight, onMoveRight);
@@ -86,8 +89,8 @@ class Game extends Scene {
     }
 
     override public function delete() {
-        inst = null;
         super.delete();
+        inst = null;
     }
 
     public function quit() {
@@ -115,6 +118,9 @@ class Game extends Scene {
                 }
                 if(controller.isPressed(Action.changeControl)) {
                     changeControl();
+                }
+                if(controller.isPressed(Action.menuExit)) {
+                    showQuitDialog();
                 }
             }
             var summonList = getSummonList();
@@ -400,5 +406,8 @@ class Game extends Scene {
 
     public function resume() {
         won = false;
+    }
+    public function showQuitDialog() {
+        new Confirmation();
     }
 }

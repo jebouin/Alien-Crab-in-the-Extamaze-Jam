@@ -44,6 +44,7 @@ class MenuLine extends Flow {
             interactive.onOver = onOver;
             interactive.onOut = onOut;
             interactive.onClick = onClick;
+            interactive.cursor = Button;
         }
     }
 

@@ -19,7 +19,10 @@ class HUD {
     var undoButton : Button;
     var redoButton : Button;
     var controlButton : Button;
-    var floorText : Text;
+    var quitButton : Button;
+    var floorTextContainer : Flow;
+    var floorTextTop : Text;
+    var floorTextBot : Text;
 
     var fightRow : Flow;
 
@@ -56,13 +59,18 @@ class HUD {
         floorRow.paddingTop = 2;
         floorRow.paddingBottom = 3;
         floorRow.verticalAlign = Middle;
-        floorRow.paddingLeft = 3;
+        floorRow.paddingLeft = 2;
         undoButton = Button.fromTile(Assets.getTile("ui", "undo"), onUndoClicked, floorRow);
         redoButton = Button.fromTile(Assets.getTile("ui", "redo"), onRedoClicked, floorRow);
         controlButton = Button.fromTile(Assets.getTile("ui", "control"), onControlClicked, floorRow);
-        floorText = new Text(Assets.font, floorRow);
-        var props = floorRow.getProperties(floorText);
-        props.paddingLeft = 16;
+        quitButton = Button.fromTile(Assets.getTile("ui", "pause"), onQuitClicked, floorRow);
+        floorTextContainer = new Flow(floorRow);
+        floorTextContainer.layout = Vertical;
+        floorTextContainer.paddingLeft = 4;
+        floorTextContainer.verticalSpacing = 1;
+        floorTextTop = new Text(Assets.font, floorTextContainer);
+        floorTextBot = new Text(Assets.font, floorTextContainer);
+        floorTextBot.textColor = 0xc0cbdc;
 
         fightRow = getRow();
 
@@ -122,7 +130,9 @@ class HUD {
     }
 
     public function onChange() {
-        floorText.text = Game.inst.level.currentLevelName + " - Floor " + Game.inst.level.currentFloorId;
+        var levelName = Data.levels.get(Game.inst.levelId).name;
+        floorTextTop.text = levelName;
+        floorTextBot.text = "Floor " + Game.inst.level.currentFloorId;
         for(i in 0...2) {
             spells[i].update(i, Game.inst.hero.spells.length > i ? Game.inst.hero.spells[i] : null);
         }
@@ -132,6 +142,7 @@ class HUD {
         undoButton.enabled = Game.inst.canUndo();
         redoButton.enabled = Game.inst.canRedo();
         controlButton.enabled = Game.inst.canChangeControl();
+        quitButton.enabled = true;
         for(i in 0...4) {
             var keyCount = Game.inst.inventory.keys[i];
             keyTexts[i].text = "" + keyCount;
@@ -223,5 +234,8 @@ class HUD {
     }
     function onControlClicked() {
         Game.inst.changeControl();
+    }
+    function onQuitClicked() {
+        Game.inst.showQuitDialog();
     }
 }

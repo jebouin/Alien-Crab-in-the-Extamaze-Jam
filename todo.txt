@@ -1,8 +1,4 @@
 DAY 2
-- Spell cost scaling
-- Level select
-- Exit
-- Pause button and menu
 - Eye doors (save eye count)
 
 - Level design (22:00-03:00)

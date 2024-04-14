@@ -7,31 +7,31 @@ import h2d.Text;
 import h2d.Interactive;
 import SceneManager.Scene;
 
-enum StageClearState {
+enum ConfirmationState {
     In;
     Idle;
     Out;
 }
 
-class StageClear extends Scene {
+class Confirmation extends Scene {
     public static var MARGIN_TOP = 30;
     public static var MARGIN_BOTTOM = 60;
     public static var MARGIN_SIDE = 20;
     public static var IN_TIME = .1;
     public static var OUT_TIME = .1;
-    public static var inst : StageClear;
+    public static var inst : Confirmation;
     var holdActions : HoldActions;
     var back : Interactive;
     var timer : EaseTimer;
-    var state : StageClearState = In;
+    var state : ConfirmationState = In;
     var cont : Flow;
     var menu : Menu;
-    var congrats : Text;
+    var title : Text;
 
     public function new() {
-        super("stage_clear");
+        super("confirmation");
         if(inst != null) {
-            throw "StageClear is a singleton!";
+            throw "Confirmation is a singleton!";
         }
         inst = this;
         back = new Interactive(Main.WIDTH, Main.HEIGHT, hud);
@@ -50,11 +50,11 @@ class StageClear extends Scene {
         cont.verticalSpacing = 30;
         cont.paddingTop = 10;
         cont.horizontalAlign = Middle;
-        congrats = new Text(Assets.fontLarge, cont);
-        congrats.text = "You found the exit!";
+        title = new Text(Assets.fontLarge, cont);
+        title.text = "Quit to level selection?";
         menu = new Menu(cont);
-        menu.addLine("Continue exploring", onContinuePressed, false);
-        menu.addLine("Back to level selection", onListPressed, false);
+        menu.addLine("No", onContinuePressed, false);
+        menu.addLine("Yes", onListPressed, false);
         menu.init();
         timer = new EaseTimer(IN_TIME);
     }
@@ -89,12 +89,14 @@ class StageClear extends Scene {
     }
 
     function onContinuePressed() {
-        Game.inst.resume();
+        trace("Resume");
         delete();
+        Game.inst.resume();
     }
 
     function onListPressed() {
-        Game.inst.quit();
+        trace("Quit");
         delete();
+        Game.inst.quit();
     }
 }
