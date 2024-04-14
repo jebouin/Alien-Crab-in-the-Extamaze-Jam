@@ -49,6 +49,10 @@ class Menu extends Flow {
         return line;
     }
 
+    public function removeLine(i:Int) {
+        lines.remove(lines[i]);
+    }
+
     public function update(dt:Float) {
         for(line in lines) {
             line.update(dt, selectedId == lines.indexOf(line));

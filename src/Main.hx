@@ -39,8 +39,8 @@ class Main extends hxd.App {
         initController();
         started = true;
         //new Game(tower);
-        new Game(tutorial);
-        //new ui.Title();
+        //new Game(tutorial);
+        new ui.Title();
     }
     function onEvent(event:hxd.Event) {
         if(!started) return;

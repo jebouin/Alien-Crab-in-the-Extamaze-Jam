@@ -88,6 +88,16 @@ class StageClear extends Scene {
             getCounterFlow(prevClearLevel);
             var arrow = new Bitmap(Assets.getTile("ui", "arrowSmall"), recordFlow);
             getCounterFlow(clearLevel);
+        } else {
+            var recordFlow = new Flow(hud);
+            recordFlow.horizontalSpacing = 5;
+            var text = new Text(Assets.font, recordFlow);
+            text.text = "Best max level: " + prevClearLevel;
+            text.textColor = 0x8b9bb4;
+            var props = recordFlow.getProperties(text);
+            props.paddingRight = 5;
+            recordFlow.x = menu.x + cont.x + 70;
+            recordFlow.y = menu.y + cont.y + 40;
         }
     }
 

@@ -2,6 +2,7 @@ DAY 3 (~8:00)
 - Add credits
 - Finish level 2
 - Playtest
+- Show max level reached
 
 AUDIO: 11:00
 - Door open
@@ -17,6 +18,11 @@ AUDIO: 11:00
 
 
 WEB EXPORT: 14:00
+
+SUBMIT: 15:00
+- Itch page
+- Map for easier key counting
+- Tips
 
 BUGS
 - What if end of arrow blocked by other summon?

@@ -77,6 +77,9 @@ class Title extends Scene {
             }
             cnt++;
         }
+        var last = menu.lines[2];
+        menu.removeLine(2);
+        last.disable();
         if(sumEye > 0 && cntEye > 1) {
             var score = new Flow(hud);
             score.y = Main.HEIGHT - 20;
@@ -86,11 +89,17 @@ class Title extends Scene {
             prefix.text = "Total: ";
             var icon = new Bitmap(Assets.getTile("ui", "eyeIconSmall"), score);
             var text = new Text(Assets.font, score);
-            text.text = "x" + sumEye;
+            text.text = "" + sumEye;
         }
         menu.verticalSpacing = 5;
         menu.init();
         timer = new EaseTimer(IN_TIME);
+        menu.paddingLeft = 18;
+        var credits = new Text(Assets.font, hud);
+        credits.text = "By jebouin";
+        credits.textColor = 0x8b9bb4;
+        credits.x = Main.WIDTH - credits.textWidth - 10;
+        credits.y = Main.HEIGHT - credits.textHeight - 10;
     }
 
     override public function delete() {

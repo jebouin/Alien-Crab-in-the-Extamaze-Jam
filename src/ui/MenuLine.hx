@@ -30,6 +30,11 @@ class MenuLine extends Flow {
         this.goesBack = goesBack;
     }
 
+    public function disable() {
+        text.textColor = 0x3a4466;
+        text.text += " (not in jam version)";
+    }
+
     public function init() {
 
     }
