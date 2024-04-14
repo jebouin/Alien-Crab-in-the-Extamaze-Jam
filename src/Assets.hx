@@ -1,5 +1,6 @@
 package ;
 
+import audio.VariedSound;
 import hxd.Res;
 import hxd.res.Font;
 import assets.AsepriteJson;
@@ -24,6 +25,7 @@ class Assets {
     static var sheets : StringMap<SpriteSheet>;
     public static var font : h2d.Font;
     public static var fontLarge : h2d.Font;
+    public static var sounds : Map<Data.SoundKind, VariedSound>;
 
     public static function init() {
         Data.load(hxd.Res.data.entry.getText());
@@ -36,6 +38,11 @@ class Assets {
         }
         font = Res.fonts._04b03.toFont();
         fontLarge = Res.fonts.aldrich24.toFont();
+        sounds = new Map<Data.SoundKind, VariedSound>();
+        for(def in Data.sound.all) {
+            var sound = new VariedSound(def);
+            sounds.set(def.id, sound);
+        }
     }
 
     static function loadAllSpriteSheets() {

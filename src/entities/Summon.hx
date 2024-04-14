@@ -1,5 +1,6 @@
 package entities;
 
+import audio.Audio;
 import format.as1.Data.PushItem;
 
 enum Step {
@@ -285,6 +286,7 @@ class Summon extends Entity {
         var delay  = STEP_DURATION_WALK;
         switch(step) {
             case Move(dx, dy):
+                Audio.playSound(Data.SoundKind.step);
                 tx += dx;
                 ty += dy;
                 setFacing(dx, dy);

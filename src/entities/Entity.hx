@@ -1,5 +1,6 @@
 package entities;
 
+import audio.Audio;
 import hxbit.Serializable;
 import h2d.Graphics;
 
@@ -70,6 +71,9 @@ class Entity implements Serializable {
         var killed = other.hp == 0;
         if(killed) {
             other.die();
+            Audio.playSound(Data.SoundKind.kill);
+        } else {
+            Audio.playSound(Data.SoundKind.hit);
         }
         var punchDist = 6;
         if(Std.isOfType(other, Summon)) {

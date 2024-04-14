@@ -661,6 +661,56 @@
 			"props": {
 				"displayIcon": "tile"
 			}
+		},
+		{
+			"name": "sound",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"kind": null,
+					"scope": null
+				},
+				{
+					"typeStr": "3",
+					"name": "variationCount",
+					"kind": null
+				},
+				{
+					"typeStr": "4",
+					"name": "volume",
+					"kind": null
+				}
+			],
+			"lines": [
+				{
+					"variationCount": 0,
+					"volume": 0.6,
+					"id": "stairs"
+				},
+				{
+					"id": "key",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "hit",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "kill",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "step",
+					"variationCount": 3,
+					"volume": 1
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],

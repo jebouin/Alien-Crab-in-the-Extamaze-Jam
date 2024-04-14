@@ -1,5 +1,7 @@
 package entities;
 
+import audio.Audio;
+
 class Stairs extends Entity {
     @:s var isDown : Bool = false;
 
@@ -15,6 +17,7 @@ class Stairs extends Entity {
 
     override public function onSteppedOnBy(e:Summon) {
         if(e == Game.inst.hero) {
+            Audio.playSound(stairs);
             Game.inst.changeFloor(isDown ? -1 : 1);
         }
     }

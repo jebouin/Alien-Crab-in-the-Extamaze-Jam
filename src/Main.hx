@@ -25,8 +25,10 @@ class Main extends hxd.App {
     var timeToSimulateConstantRate : Float = 0.;
     var started : Bool = false;
     var maxDrawCalls : Int = 0;
+    public var rand : Rand;
 
     override function init() {
+        rand = new Rand(111);
         renderer = new Renderer(s2d);
         Assets.init();
         engine.fullScreen = false;

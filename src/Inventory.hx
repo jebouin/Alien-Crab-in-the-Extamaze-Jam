@@ -1,5 +1,6 @@
 package ;
 
+import audio.Audio;
 import hxbit.Serializable;
 
 class Inventory implements Serializable {
@@ -31,5 +32,6 @@ class Inventory implements Serializable {
 
     public function gainKey(id:Int) {
         keys[id - 1]++;
+        Audio.playSound(key);
     }
 }
