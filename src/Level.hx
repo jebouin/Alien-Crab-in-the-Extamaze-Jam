@@ -337,7 +337,7 @@ class Level {
 
     public function addSlime(tx:Int, ty:Int) {
         for(e in Game.inst.entities) {
-            if(e.isGround && e.active && e.tx == tx && e.ty == ty) return false;
+            if(!e.deleted && e.isGround && e.active && e.tx == tx && e.ty == ty) return false;
         }
         var fid = currentFloorId - 1;
         state.hasSlime[fid][ty][tx] = true;

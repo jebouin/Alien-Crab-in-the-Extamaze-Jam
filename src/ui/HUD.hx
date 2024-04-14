@@ -234,7 +234,7 @@ class HUD {
                         friend = cast(target, Summon);
                     }
                 }
-                var loseHP = enemy == null ? 0 : enemy.atk;
+                var loseHP = (enemy == null || hero.atk >= enemy.hp) ? 0 : enemy.atk;
                 getFighterCell(true, hero, hero.level, hero.xp, loseHP);
                 if(enemy == null && friend == null) {
                     getFighterCell(false, enemy, 0, 0, 0);

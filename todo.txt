@@ -1,21 +1,19 @@
-DAY 2
-- Level design
-
 BUGS
-- Summoner sometimes disappear on spell?
 - Don't register state if couldn't move (move next to door)
 - Don't open door/attack after sliding
 - What if end of arrow blocked by other summon?
 
 DAY 3 (~8:00)
-- Polish and finish LD
+- Fix XP leveling formula
+- Finish level 2
+- Add medium robot
+- Finish level 3
 - Playtest
 
 AUDIO: 12:00
 WEB EXPORT: 14:00
 
 IF TIME LEFT
-- Explain eyes in exit screen
 - Pause when dead
 - Shadows
 - Medal room

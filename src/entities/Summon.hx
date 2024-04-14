@@ -68,7 +68,7 @@ class Summon extends Entity {
 
     public function tryMove(dx:Int, dy:Int, careful:Bool) {
         var entityFront = Game.inst.getEntity(tx + dx, ty + dy);
-        if(entityFront != null && Std.isOfType(entityFront, Enemy)) {
+        if(entityFront != null && (Std.isOfType(entityFront, Enemy) || Std.isOfType(entityFront, Summon))) {
             if(Game.FORCE_FACING && (facingX != dx || facingY != dy)) {
                 setFacing(dx, dy);
                 return false;
@@ -107,7 +107,7 @@ class Summon extends Entity {
                         attacked = true;
                         break;
                     }
-                    if(Std.isOfType(e, Door)) {
+                    if(!moved && Std.isOfType(e, Door)) {
                         var door = cast(e, Door);
                         pushStep(Open(door));
                         opened = true;
@@ -301,7 +301,7 @@ class Summon extends Entity {
                 setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
                 hit(target, facingX, facingY);
                 if(target.deleted) {
-                    giveXP(target.xp);
+                    giveXP(target.totalXP);
                 }
                 delay = STEP_DURATION_HIT_SUMMON;
             case TakeHit(target):

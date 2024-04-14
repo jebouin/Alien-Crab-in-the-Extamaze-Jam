@@ -45,7 +45,7 @@
    { "name": "textLV3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 64, "w": 10, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV5", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
-   { "name": "texLV6", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "textLV6", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 96, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV7", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 112, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV8", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "textLV9", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 64, "w": 9, "h": 12 }, "pivot": {"x": 0, "y": 0 } }] },
