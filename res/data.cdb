@@ -16,28 +16,37 @@
 					"typeStr": "2",
 					"name": "show",
 					"kind": null
+				},
+				{
+					"typeStr": "1",
+					"name": "prefix",
+					"kind": null
 				}
 			],
 			"lines": [
 				{
 					"id": "tutorial",
 					"name": "Tutorial maze",
-					"show": true
+					"show": true,
+					"prefix": "Tutorial"
 				},
 				{
 					"id": "tower",
 					"name": "Slippery tower",
-					"show": true
+					"show": true,
+					"prefix": "Tower"
 				},
 				{
 					"id": "robot",
 					"name": "Rise of the fallen robots",
-					"show": true
+					"show": true,
+					"prefix": "Robot"
 				},
 				{
 					"id": "test",
 					"name": "Test",
-					"show": false
+					"show": false,
+					"prefix": "Test"
 				}
 			],
 			"separators": [],

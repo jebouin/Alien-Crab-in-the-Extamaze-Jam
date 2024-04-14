@@ -24,6 +24,7 @@ AUDIO: 12:00
 WEB EXPORT: 14:00
 
 IF TIME LEFT
+- Explain eyes in exit screen
 - Pause when dead
 - Shadows
 - Medal room

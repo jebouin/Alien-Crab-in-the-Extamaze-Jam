@@ -1,5 +1,6 @@
 package ;
 
+import ui.Title;
 import ui.StageClear;
 import fx.Fx;
 import hxbit.Serializer;
@@ -32,9 +33,9 @@ class Game extends Scene {
     public static var LAYER_GROUND = _layer++;
     public static var LAYER_GROUND_SLIME = _layer++;
     //public static var LAYER_ENTITIES_GROUND = _layer++;
-    public static var LAYER_EFFECTS_BACK = _layer++;
     public static var LAYER_WALLS = _layer++;
     public static var LAYER_ENTITIES_GROUND = _layer++;
+    public static var LAYER_EFFECTS_BACK = _layer++;
     public static var LAYER_ENTITIES = _layer++;
     public static var LAYER_OVER = _layer++;
     public static var LAYER_EFFECTS_FRONT = _layer++;
@@ -59,7 +60,7 @@ class Game extends Scene {
     public var won : Bool = false;
     var wonTimer : EaseTimer;
 
-    public function new() {
+    public function new(levelId:Data.LevelsKind) {
         super("game");
         if(inst != null) {
             throw "Game is a singleton!";
@@ -72,8 +73,7 @@ class Game extends Scene {
         holdActions.add(Action.moveDown, onMoveDown);
         fx = new Fx();
         level = new Level();
-        level.loadLevel("Tutorial");
-        //level.loadLevel("Test");
+        level.loadLevel(Data.levels.get(levelId).prefix);
         updateWorldPos();
         inventory = new Inventory();
         hudElement = new HUD();
@@ -92,6 +92,7 @@ class Game extends Scene {
 
     public function quit() {
         delete();
+        new Title();
     }
 
     override public function update(dt:Float) {
