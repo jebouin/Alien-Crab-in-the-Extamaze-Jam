@@ -67,6 +67,13 @@ class Summon extends Entity {
     }
 
     public function tryMove(dx:Int, dy:Int) {
+        var entityFront = Game.inst.getEntity(tx + dx, ty + dy);
+        if(entityFront != null && Std.isOfType(entityFront, Enemy)) {
+            if(Game.FORCE_FACING && (facingX != dx || facingY != dy)) {
+                setFacing(dx, dy);
+                return false;
+            }
+        }
         var level = Game.inst.level;
         var moving = true, moved = false, attacked = false, opened = false;
         var ctx = tx, cty = ty;
@@ -347,10 +354,14 @@ class Summon extends Entity {
 
     public function getDisplayXP() {
         var levels = 0;
-        var rem = xpPendingSOD.pos;
+        var rem = Math.round(xpPendingSOD.pos * 1000) / 1000;
         while(rem >= getXPNeededAt(level + levels)) {
             rem -= getXPNeededAt(level + levels);
             levels++;
+        }
+        if(rem + .1 >= getXPNeededAt(level + levels)) {
+            levels++;
+            rem = 0;
         }
         return {levelsPending: levels, ratio: rem / getXPNeededAt(level + levels)};
     }

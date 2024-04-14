@@ -20,9 +20,9 @@ class GameSaveData implements Serializable {
         /*for(data in Data.levels.all) {
             maxLevel.set(data.id, Std.random(10) + 1);
         }*/
-        for(data in Data.levels.all) {
+        /*for(data in Data.levels.all) {
             maxLevel.set(data.id, 0);
-        }
+        }*/
         #end
         forceSave();
     }

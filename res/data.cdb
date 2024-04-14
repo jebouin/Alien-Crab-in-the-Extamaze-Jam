@@ -321,14 +321,14 @@
 				},
 				{
 					"id": "slime",
-					"name": "Summon a slippery slime",
-					"cost": 30,
+					"name": "Summon a great slime",
+					"cost": 35,
 					"unlockLevel": 1,
 					"usedBy": "hero"
 				},
 				{
 					"id": "gnome",
-					"name": "Summon an armored gnome",
+					"name": "Summon a lazy gnome",
 					"cost": 15,
 					"unlockLevel": 1,
 					"usedBy": "hero"
@@ -412,18 +412,18 @@
 				{
 					"id": "slime",
 					"hp": 10,
-					"atk": 3,
+					"atk": 50,
 					"def": 0,
 					"mp": 0,
-					"name": "Slippery Slime"
+					"name": "Great Slime"
 				},
 				{
 					"id": "gnome",
-					"hp": 200,
+					"hp": 20,
 					"atk": 1,
 					"def": 0,
 					"mp": 0,
-					"name": "Armored Gnome"
+					"name": "Lazy Gnome"
 				},
 				{
 					"id": "dragon",
@@ -531,7 +531,7 @@
 					"id": "cyclopGhost",
 					"name": "Cyclop Ghost",
 					"hp": 50,
-					"atk": 20,
+					"atk": 22,
 					"def": 0,
 					"level": 5,
 					"icon": {
@@ -541,6 +541,21 @@
 						"y": 8
 					},
 					"xp": 15
+				},
+				{
+					"id": "handGhost",
+					"name": "Cyclop Ghost",
+					"hp": 100,
+					"atk": 35,
+					"def": 0,
+					"level": 6,
+					"xp": 20,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 4,
+						"y": 10
+					}
 				},
 				{
 					"id": "xmultra",

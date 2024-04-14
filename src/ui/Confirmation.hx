@@ -89,13 +89,11 @@ class Confirmation extends Scene {
     }
 
     function onContinuePressed() {
-        trace("Resume");
         delete();
         Game.inst.resume();
     }
 
     function onListPressed() {
-        trace("Quit");
         delete();
         Game.inst.quit();
     }

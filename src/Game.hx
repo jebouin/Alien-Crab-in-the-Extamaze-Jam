@@ -25,6 +25,7 @@ typedef State = {
 };
 
 class Game extends Scene {
+    public static inline var FORCE_FACING = true;
     public static inline var Z_TO_Y = -.5;
     public static inline var UNDO_STACK_SIZE = 1000;
     public static inline var UNDO_STACK_MEM = 100 * 1024 * 1024;
@@ -298,7 +299,6 @@ class Game extends Scene {
         }
         trace(change + " " + undoStack.length + " undo steps stored using " + Math.floor(undoMemory / 1024) + "kB");
         redoStack = [];
-        trace(level.currentFloorId);
     }
 
     function debugState() {

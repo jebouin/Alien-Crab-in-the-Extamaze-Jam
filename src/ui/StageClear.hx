@@ -121,12 +121,12 @@ class StageClear extends Scene {
     }
 
     function onContinuePressed() {
-        Game.inst.resume();
         delete();
+        Game.inst.resume();
     }
 
     function onListPressed() {
-        Game.inst.quit();
         delete();
+        Game.inst.quit();
     }
 }

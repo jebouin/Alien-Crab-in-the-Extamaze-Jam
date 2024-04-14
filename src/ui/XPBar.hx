@@ -64,9 +64,9 @@ class XPBar extends Flow {
                 levelUpText.text += " x" + levelsPending;
             }
             levelUpText.textColor = 0xFFFFFF;
-            levelUpText.visible = true;
             levelUpText.x = Math.round((barWidth - levelUpText.textWidth) * .5);
             levelUpText.y = 2;
+            levelUpText.visible = true;
         } else {
             levelUpText.visible = false;
         }

@@ -42,7 +42,6 @@ class Scene {
 		hud.name = name + "_hud";
 		addEvents();
 		rand = new Rand(name.length);
-		trace("NEW SCENE: " + name);
 	}
 	public function delete() {
 		deleted = true;
@@ -53,7 +52,6 @@ class Scene {
 			onDelete();
 		}
 		SceneManager.remove(this);
-		trace("DELETE SCENE: " + name);
 	}
 	function addEvents() {
 		Main.inst.sevents.addScene(world);

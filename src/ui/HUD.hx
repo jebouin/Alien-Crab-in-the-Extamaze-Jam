@@ -88,7 +88,7 @@ class HUD {
         invRow.paddingLeft = 1;
         for(i in 0...4) {
             var keyFlow = new Flow(invRow);
-            keyFlow.minWidth = 35;
+            keyFlow.minWidth = i == 3 ? 50 : 30;
             keyFlow.backgroundTile = Assets.getTile("ui", "keyBack");
             keyFlow.borderRight = 4;
             keyFlow.minHeight = 30;
@@ -100,7 +100,6 @@ class HUD {
             var text = new Text(Assets.font, keyFlow);
             keyTexts.push(text);
         }
-
 
         cursor = new Anim();
         cursor.playFromName("ui", "cursor");
@@ -146,10 +145,15 @@ class HUD {
         for(i in 0...4) {
             var keyCount = Game.inst.inventory.getKeyCount(i + 1);
             keyTexts[i].text = "" + keyCount;
-            trace(i, Game.inst.inventory.getKeyCount(i + 1), Game.inst.inventory.usedEyes, Game.inst.saveData.getTotalEyeCount());
+            if(i == 3) {
+                var eyeCount = Game.inst.saveData.getTotalEyeCount();
+                if(eyeCount > 0) {
+                    keyTexts[i].text += "/" + eyeCount;
+                }
+            }
         }
 
-        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int, xp:Int) {
+        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int, xp:Int, loseHP:Int) {
             var f = new Flow(fightRow);
             f.minWidth = 70;
             f.minHeight = 55;
@@ -164,22 +168,31 @@ class HUD {
                 name.text = e.name;
                 var props = f.getProperties(name);
                 props.paddingBottom = 3;
-                function getRow(tile:Tile, text:String) {
+                function getRow(tile:Tile, text:String, lose:Int) {
                     var f = new Flow(f);
                     f.verticalAlign = Middle;
                     f.horizontalSpacing = 2;
+                    var loseText = new Text(Assets.font);
+                    loseText.text = "-" + lose;
+                    loseText.textColor = 0x8b9bb4;
+                    if(lose > 0 && !isLeft) {
+                        f.addChild(loseText);
+                    }
                     var icon = new Bitmap(tile, f);
                     var hpText = new Text(Assets.font, f);
                     hpText.text = text;
+                    if(lose > 0 && isLeft) {
+                        f.addChild(loseText);
+                    }
                     return f;
                 }
-                getRow(Assets.getTile("ui", "iconHPLarge"), "" + e.hp);
-                getRow(Assets.getTile("ui", "iconATK"), "" + e.atk);
+                getRow(Assets.getTile("ui", "iconHPLarge"), "" + e.hp, loseHP);
+                getRow(Assets.getTile("ui", "iconATK"), "" + e.atk, 0);
                 if(isLeft) {
-                    getRow(Assets.getTile("ui", "iconMP"), "" + e.mp);
+                    getRow(Assets.getTile("ui", "iconMP"), "" + e.mp, 0);
                 } else {
                     var needXP = Game.inst.hero.getXPRemaining();
-                    getRow(Assets.getTile("ui", "iconXP"), xp + " / " + needXP);
+                    getRow(Assets.getTile("ui", "iconXP"), xp + " / " + needXP, 0);
                 }
             }
             return f;
@@ -204,10 +217,9 @@ class HUD {
             fightRow.layout = Horizontal;
             var hero = Game.inst.hero;
             if(hero == null) {
-                getFighterCell(true, null, 0, 0);
-                getFighterCell(false, null, 0, 0);
+                getFighterCell(true, null, 0, 0, 0);
+                getFighterCell(false, null, 0, 0, 0);
             } else {
-                getFighterCell(true, hero, hero.level, hero.xp);
                 var target = hero.getEntityFront(), enemy = null, friend = null;
                 if(target != null) {
                     if(Std.isOfType(target, Enemy)) {
@@ -216,12 +228,14 @@ class HUD {
                         friend = cast(target, Summon);
                     }
                 }
+                var loseHP = enemy == null ? 0 : enemy.atk;
+                getFighterCell(true, hero, hero.level, hero.xp, loseHP);
                 if(enemy == null && friend == null) {
-                    getFighterCell(false, enemy, 0, 0);
+                    getFighterCell(false, enemy, 0, 0, 0);
                 } else if(friend != null) {
-                    getFighterCell(false, friend, friend.level, friend.totalXP);
+                    getFighterCell(false, friend, friend.level, friend.totalXP, hero.atk);
                 } else {
-                    getFighterCell(false, enemy, enemy.level, enemy.xp);
+                    getFighterCell(false, enemy, enemy.level, enemy.xp, hero.atk);
                 }
             }
         }

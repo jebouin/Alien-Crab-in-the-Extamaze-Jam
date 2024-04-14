@@ -1,12 +1,7 @@
 DAY 2
-
-- Level design (23:00-03:00)
-	- Tutorial maze
-	- Slippery tower
-	- Rise of the fallen robots
+- Level design
 
 BUGS
-- No level up display if exact xp amount
 - Don't register state if couldn't move (move next to door)
 - Don't open door/attack after sliding
 - What if end of arrow blocked by other summon?
