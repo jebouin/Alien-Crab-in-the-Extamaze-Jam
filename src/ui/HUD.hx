@@ -1,5 +1,6 @@
 package ui;
 
+import entities.Summon;
 import entities.Enemy;
 import h2d.Bitmap;
 import hxd.Cursor.CustomCursor;
@@ -109,6 +110,7 @@ class HUD {
         cursor.update(dt);
         cursor.x = Game.inst.hero.anim.x + Game.inst.world.x;
         cursor.y = Game.inst.hero.anim.y + Game.inst.world.y - 14 + Math.sin(timer * 10.) * 2.5;
+        cursor.visible = !Game.inst.gameOver;
         var hero = Game.inst.hero;
         if(hero.deleted) {
             xpBar.render(0, 0, 0, 0);
@@ -170,21 +172,45 @@ class HUD {
             }
             return f;
         }
+        fightRow.minHeight = fightRow.maxHeight = 55;
         fightRow.removeChildren();
-        var hero = Game.inst.hero;
-        if(hero == null) {
-            getFighterCell(true, null, 0, 0);
-            getFighterCell(false, null, 0, 0);
+        if(Game.inst.gameOver) {
+            fightRow.layout = Vertical;
+            var text = new Bitmap(Assets.getTile("ui", "gameOver"), fightRow);
+            var props = fightRow.getProperties(text);
+            props.horizontalAlign = Middle;
+            props.verticalAlign = Middle;
+            props.offsetY = -3;
+            var explain = new Text(Assets.font, fightRow);
+            explain.text = "Undo or restart!";
+            explain.textColor = 0x8b9bb4;
+            props = fightRow.getProperties(explain);
+            props.horizontalAlign = Middle;
+            props.verticalAlign = Middle;
+            props.offsetY = 2;
         } else {
-            getFighterCell(true, hero, hero.level, hero.xp);
-            var target = hero.getEntityFront(), enemy = null;
-            if(target != null && Std.isOfType(target, Enemy)) {
-                enemy = cast(target, Enemy);
-            }
-            if(enemy == null) {
-                getFighterCell(false, enemy, 0, 0);
+            fightRow.layout = Horizontal;
+            var hero = Game.inst.hero;
+            if(hero == null) {
+                getFighterCell(true, null, 0, 0);
+                getFighterCell(false, null, 0, 0);
             } else {
-                getFighterCell(false, enemy, enemy.level, enemy.xp);
+                getFighterCell(true, hero, hero.level, hero.xp);
+                var target = hero.getEntityFront(), enemy = null, friend = null;
+                if(target != null) {
+                    if(Std.isOfType(target, Enemy)) {
+                        enemy = cast(target, Enemy);
+                    } else if(Std.isOfType(target, Summon)) {
+                        friend = cast(target, Summon);
+                    }
+                }
+                if(enemy == null && friend == null) {
+                    getFighterCell(false, enemy, 0, 0);
+                } else if(friend != null) {
+                    getFighterCell(false, friend, friend.level, friend.totalXP);
+                } else {
+                    getFighterCell(false, enemy, enemy.level, enemy.xp);
+                }
             }
         }
     }

@@ -34,6 +34,8 @@ class Item extends Entity {
             Game.inst.hero.tryPickScroll(gnome);
         } else if(kind == scrollDragon) {
             Game.inst.hero.tryPickScroll(dragon);
+        } else if(kind == scrollNone) {
+            Game.inst.hero.tryForgetScroll();
         }
         delete();
         Game.inst.onChange();

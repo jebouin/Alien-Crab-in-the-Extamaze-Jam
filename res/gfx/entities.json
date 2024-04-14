@@ -66,7 +66,8 @@
    { "name": "gnomeDown", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 144, "w": 32, "h": 32 }, "pivot": {"x": 8, "y": 24 } }] },
    { "name": "gnomeDownSleep", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 144, "w": 16, "h": 32 }, "pivot": {"x": 8, "y": 24 } }] },
    { "name": "gnomeUp", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 176, "w": 32, "h": 32 }, "pivot": {"x": 8, "y": 24 } }] },
-   { "name": "gnomeUpSleep", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 176, "w": 16, "h": 32 }, "pivot": {"x": 8, "y": 24 } }] }
+   { "name": "gnomeUpSleep", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 32, "y": 176, "w": 16, "h": 32 }, "pivot": {"x": 8, "y": 24 } }] },
+   { "name": "scrollNone", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 128, "y": 32, "w": 16, "h": 16 } }] }
   ]
  }
 }

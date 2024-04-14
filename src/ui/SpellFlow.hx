@@ -51,6 +51,7 @@ class SpellFlow extends Flow {
             cost.textColor = !enabled ? 0x5a6988 : (Game.inst.hero.mp < def.cost ? 0x743f39 : 0x2ce8f5);
             var props = getProperties(cost);
             props.verticalAlign = Bottom;
+            props.offsetY = 3;
             props.paddingBottom = 2;
         }
         interactive.onClick = function(_) {

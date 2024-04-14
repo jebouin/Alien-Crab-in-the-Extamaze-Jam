@@ -219,6 +219,20 @@
 						"x": 11,
 						"y": 1
 					}
+				},
+				{
+					"id": "scrollNone",
+					"name": "Torn scroll",
+					"description": "Forget your spell",
+					"rarity": 0,
+					"hpAdd": 0,
+					"mpAdd": 0,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 11,
+						"y": 1
+					}
 				}
 			],
 			"separators": [],

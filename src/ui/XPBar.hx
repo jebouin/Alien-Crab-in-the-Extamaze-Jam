@@ -28,6 +28,9 @@ class XPBar extends Flow {
         var props = getProperties(barBack);
         props.isAbsolute = true;
         barWidth = width;
+        minWidth = maxWidth = width;
+        minHeight = maxHeight = HEIGHT;
+        backgroundTile = Tile.fromColor(0x181425, 4, 4);
         levelUpText = new Text(Assets.font, this);
         levelUpMat = new ColorMatrix();
         levelUpText.filter = new Group([new Outline(1., 1.), levelUpMat]);

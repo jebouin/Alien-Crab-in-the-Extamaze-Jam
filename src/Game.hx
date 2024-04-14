@@ -52,6 +52,7 @@ class Game extends Scene {
     var redoStack : Array<State> = [];
     var undoMemory : Int = 0;
     var lastChangeName : String = "Initial state";
+    public var gameOver : Bool = false;
 
     public function new() {
         super("game");
@@ -87,26 +88,50 @@ class Game extends Scene {
     override public function update(dt:Float) {
         super.update(dt);
         var controller = Main.inst.controller;
-        if(hero.canTakeAction) {
-            holdActions.update(dt);
-            if(controller.isPressed(Action.spell1)) {
-                castSpell(hero.spells[0]);
+        if(!gameOver) {
+            if(hero.canTakeAction) {
+                holdActions.update(dt);
+                if(controller.isPressed(Action.spell1)) {
+                    castSpell(hero.spells[0]);
+                }
+                if(controller.isPressed(Action.spell2) && hero.spells.length > 1) {
+                    castSpell(hero.spells[1]);
+                }
+                if(controller.isPressed(Action.changeControl)) {
+                    changeControl();
+                }
             }
-            if(controller.isPressed(Action.spell2) && hero.spells.length > 1) {
-                castSpell(hero.spells[1]);
+            var summonList = getSummonList();
+            var heroId = summonList.indexOf(hero);
+            var i = 0;
+            var gameOver = false;
+            while(i < entities.length) {
+                var entity = entities[i];
+                entity.update(dt);
+                if(entity.deleted) {
+                    if(Std.isOfType(entity, Summon)) {
+                        var summon = cast(entity, Summon);
+                        if(summon.kind == Data.SummonKind.hero) {
+                            gameOver = true;
+                        }
+                    }
+                    entities.splice(i, 1);
+                } else {
+                    i++;
+                }
             }
-            if(controller.isPressed(Action.changeControl)) {
-                changeControl();
+            if(hero.deleted) {
+                heroId = (heroId + 1) % summonList.length;
+                var newHero = summonList[heroId];
+                if(newHero.deleted) {
+                    gameOver = true;
+                } else {
+                    setHero(newHero);
+                }
             }
-        }
-        var i = 0;
-        while(i < entities.length) {
-            var entity = entities[i];
-            entity.update(dt);
-            if(entity.deleted) {
-                entities.splice(i, 1);
-            } else {
-                i++;
+            if(gameOver) {
+                this.gameOver = true;
+                hudElement.onChange();
             }
         }
         fx.update(dt);
@@ -258,13 +283,14 @@ class Game extends Scene {
                 entities.push(e);
             }
             var heroId = s.getInt();
-            hero = cast(entities[heroId], Summon);
             inventory = s.getDynamic();
             s.endLoad();
             level.updateActive();
+            setHero(cast(entities[heroId], Summon));
             if(onSuccess != null) {
                 onSuccess();
             }
+            gameOver = false;
             fx.clear();
         } catch(e) {
             trace(e.details());

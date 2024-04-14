@@ -6,6 +6,7 @@ enum Step {
     Move(dx:Int, dy:Int);
     TryMove(dx:Int, dy:Int);
     Hit(target:Enemy);
+    HitSummon(target:Summon);
     TakeHit(source:Entity);
     Open(door:Door);
 }
@@ -15,7 +16,8 @@ class Summon extends Entity {
     public static inline var PERK_MULT_ATK = 1;
     public static inline var STEP_DURATION_WALK = 2. / 60;
     public static inline var STEP_DURATION_HIT = 5. / 60;
-    @:s var kind : Data.SummonKind;
+    public static inline var STEP_DURATION_HIT_SUMMON = 3. / 60;
+    @:s public var kind : Data.SummonKind;
     public var summon : Data.Summon;
     @:s var facingX : Int = 0;
     @:s var facingY : Int = 1;
@@ -29,6 +31,7 @@ class Summon extends Entity {
     @:s public var xp : Int = 0;
     @:s public var level : Int = 1;
     @:s public var levelsPending : Int = 0;
+    @:s public var totalXP : Int = 0;
     public var xpPending(get, never) : Int;
     public var xpPendingSOD : SecondOrderDynamics;
 
@@ -58,6 +61,7 @@ class Summon extends Entity {
         targetable = true;
         friendly = true;
         xpPendingSOD = new SecondOrderDynamics(1, 1, 1, xpPending, Precise);
+        updateAnim();
     }
 
     public function tryMove(dx:Int, dy:Int) {
@@ -84,6 +88,12 @@ class Summon extends Entity {
                         if(!wouldKill(enemy)) {
                             pushStep(TakeHit(enemy));
                         }
+                        attacked = true;
+                        break;
+                    }
+                    if(Std.isOfType(e, Summon)) {
+                        var summon = cast(e, Summon);
+                        pushStep(HitSummon(summon));
                         attacked = true;
                         break;
                     }
@@ -121,7 +131,7 @@ class Summon extends Entity {
         Game.inst.onChange();
     }
 
-    inline function getAnimName() {
+    function getAnimName() {
         var base = kind.toString();
         var dirStr = "";
         if(facingX == 0 && facingY == 1) {
@@ -237,7 +247,9 @@ class Summon extends Entity {
 
     public function set_controlled(v:Bool) {
         this.controlled = v;
-        updateAnim();
+        if(anim != null) {
+            updateAnim();
+        }
         return v;
     }
 
@@ -266,6 +278,13 @@ class Summon extends Entity {
                     giveXP(target.xp);
                 }
                 delay = STEP_DURATION_HIT;
+            case HitSummon(target):
+                setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
+                hit(target, facingX, facingY);
+                if(target.deleted) {
+                    giveXP(target.xp);
+                }
+                delay = STEP_DURATION_HIT_SUMMON;
             case TakeHit(target):
                 target.hit(this, -facingX, -facingY);
                 delay = STEP_DURATION_HIT;
@@ -290,6 +309,7 @@ class Summon extends Entity {
     }
 
     public function giveXP(amount:Int) {
+        totalXP += amount;
         xp += amount;
         while(xp >= getXPNeeded()) {
             levelsPending++;
@@ -339,6 +359,13 @@ class Summon extends Entity {
             spells.pop();
         }
         spells.push(spell);
+        return true;
+    }
+
+    public function tryForgetScroll() {
+        if(this.kind != hero) return false;
+        if(spells.length == 1) return false;
+        spells.pop();
         return true;
     }
 }

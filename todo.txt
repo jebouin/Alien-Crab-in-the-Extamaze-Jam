@@ -1,15 +1,17 @@
 DAY 2
+- Pause button and menu
+- Level select
 - Kill summons for xp
 - Exit
 - Eye doors (save eye count)
-- Pause menu
-- Level select
+- Level design (20:00-03:00)
+	- Tutorial maze
+	- Slippery tower
+	- Rise of the fallen robots
 
 BUGS
 - Don't open door after sliding
 - What if end of arrow blocked by other summon?
-
-LEVEL DESIGN: 16:00
 
 DAY 3
 - Polish
