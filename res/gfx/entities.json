@@ -17,7 +17,6 @@
   "frameTags": [
   ],
   "layers": [
-   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" },
    { "name": "Layer 2", "opacity": 255, "blendMode": "normal" }
   ],
   "slices": [
@@ -29,8 +28,8 @@
    { "name": "key1", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 16, "w": 16, "h": 16 } }] },
    { "name": "key2", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 16, "w": 16, "h": 16 } }] },
    { "name": "key3", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 80, "y": 16, "w": 16, "h": 16 } }] },
-   { "name": "stairUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 48, "y": 48, "w": 16, "h": 16 } }] },
-   { "name": "stairDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 48, "w": 16, "h": 16 } }] },
+   { "name": "stairUp", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 46, "w": 16, "h": 18 }, "pivot": {"x": 8, "y": 10 } }] },
+   { "name": "stairDown", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 160, "y": 48, "w": 16, "h": 16 } }] },
    { "name": "heroUp", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 16, "w": 32, "h": 16 } }] },
    { "name": "heroRight", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 32, "w": 32, "h": 16 } }] },
    { "name": "heroLeft", "color": "#0000ffff", "data": "2,4", "keys": [{ "frame": 0, "bounds": {"x": 0, "y": 48, "w": 32, "h": 16 } }] },

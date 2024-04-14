@@ -175,7 +175,7 @@ class Fx {
         p.yy = y;
     }
 
-    function hitAnim(x:Float, y:Float, dx:Int, dy:Int) {
+    public function hitAnim(x:Float, y:Float, dx:Int, dy:Int) {
         var p = createAnimParticle(true, Assets.getAnimData("particles", "attack"));
         if(p == null) return;
         p.xx = x;

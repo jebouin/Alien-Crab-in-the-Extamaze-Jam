@@ -11,6 +11,7 @@ import h2d.Flow;
 class HUD {
     public static inline var WIDTH = 140;
     public static inline var SPELL_WIDTH = 70;
+    public static inline var HOTKEY_COL = 0x3a4466;
     var container : Flow;
 
     var floorRow : Flow;
@@ -64,6 +65,16 @@ class HUD {
 
         fightRow = getRow();
 
+        levelRow = getRow();
+        levelRow.layout = Vertical;
+        xpBar = new XPBar(levelRow, WIDTH);
+
+        var choicesRow = getRow();
+        choices = [new LevelUpChoiceFlow(choicesRow), new LevelUpChoiceFlow(choicesRow)];
+
+        spellRow = getRow();
+        spells = [new SpellFlow(spellRow), new SpellFlow(spellRow)];
+
         invRow = getRow();
         invRow.paddingLeft = 1;
         for(i in 0...4) {
@@ -81,15 +92,6 @@ class HUD {
             keyTexts.push(text);
         }
 
-        spellRow = getRow();
-        spells = [new SpellFlow(spellRow), new SpellFlow(spellRow)];
-
-        levelRow = getRow();
-        levelRow.layout = Vertical;
-        xpBar = new XPBar(levelRow, WIDTH);
-
-        var choicesRow = getRow();
-        choices = [new LevelUpChoiceFlow(choicesRow), new LevelUpChoiceFlow(choicesRow)];
 
         cursor = new Anim();
         cursor.playFromName("ui", "cursor");
@@ -133,7 +135,7 @@ class HUD {
             keyTexts[i].text = "" + keyCount;
         }
 
-        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int) {
+        function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int, xp:Int) {
             var f = new Flow(fightRow);
             f.minWidth = 70;
             f.minHeight = 55;
@@ -159,19 +161,31 @@ class HUD {
                 }
                 getRow(Assets.getTile("ui", "iconHPLarge"), "" + e.hp);
                 getRow(Assets.getTile("ui", "iconATK"), "" + e.atk);
-                getRow(Assets.getTile("ui", "iconMP"), "" + e.mp);
+                if(isLeft) {
+                    getRow(Assets.getTile("ui", "iconMP"), "" + e.mp);
+                } else {
+                    var needXP = Game.inst.hero.getXPRemaining();
+                    getRow(Assets.getTile("ui", "iconXP"), xp + " / " + needXP);
+                }
             }
             return f;
         }
         fightRow.removeChildren();
         var hero = Game.inst.hero;
-        getFighterCell(true, hero, hero == null ? 0 : hero.level);
-        if(hero != null) {
+        if(hero == null) {
+            getFighterCell(true, null, 0, 0);
+            getFighterCell(false, null, 0, 0);
+        } else {
+            getFighterCell(true, hero, hero.level, hero.xp);
             var target = hero.getEntityFront(), enemy = null;
             if(target != null && Std.isOfType(target, Enemy)) {
                 enemy = cast(target, Enemy);
             }
-            getFighterCell(false, enemy, enemy == null ? 0 : enemy.level);
+            if(enemy == null) {
+                getFighterCell(false, enemy, 0, 0);
+            } else {
+                getFighterCell(false, enemy, enemy.level, enemy.xp);
+            }
         }
     }
 

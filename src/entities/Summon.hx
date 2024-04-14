@@ -162,12 +162,15 @@ class Summon extends Entity {
         var def = Data.spell.get(id);
         if(mp < def.cost) return false;
         var entityFront = getEntityFront();
-        var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY);
+        var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY, false);
         if(collidesFront) return false;
         switch(id) {
             case kick:
+                if(entityFront == null) {
+                    Game.inst.fx.hitAnim(Level.TS * (tx + facingX + .5), Level.TS * (ty + facingY + .5), facingX, facingY);
+                }
                 if(entityFront == null || entityFront.isGround) return false;
-                hit(entityFront, facingX, facingY);
+                tryMove(facingX, facingY);
             case slime:
                 if(entityFront != null) return false;
                 new Summon(Data.SummonKind.slime, floorId, tx + facingX, ty + facingY, false);
@@ -190,6 +193,27 @@ class Summon extends Entity {
         Game.inst.onChange();
         return true;
     }
+    public function canCastSpell(id:Data.SpellKind) {
+        var def = Data.spell.get(id);
+        if(mp < def.cost) return false;
+        var entityFront = Game.inst.getEntity(tx + facingX, ty + facingY);
+        var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY, false);
+        if(collidesFront) return false;
+        switch(id) {
+            case kick | fireBreath:
+                return true;
+            case slime:
+                if(entityFront != null) return false;
+            case gnome:
+                if(entityFront != null) return false;
+            case dragon:
+                if(entityFront != null) return false;
+            case sleep | levelUp:
+                return true;
+        }
+        return mp >= def.cost;
+    }
+
     public function chooseLevelUpPerk(isHP:Bool) {
         if(isHP) {
             hp += getLevelUpPerkHP();
@@ -205,26 +229,6 @@ class Summon extends Entity {
     }
     public function getLevelUpPerkAtk() {
         return PERK_MULT_ATK * level;
-    }
-
-    public function canCastSpell(id:Data.SpellKind) {
-        var def = Data.spell.get(id);
-        var entityFront = Game.inst.getEntity(tx + facingX, ty + facingY);
-        var collidesFront = Game.inst.level.collides(tx + facingX, ty + facingY);
-        if(collidesFront) return false;
-        switch(id) {
-            case kick | fireBreath:
-                return true;
-            case slime:
-                if(entityFront != null) return false;
-            case gnome:
-                if(entityFront != null) return false;
-            case dragon:
-                if(entityFront != null) return false;
-            case sleep | levelUp:
-                return true;
-        }
-        return mp >= def.cost;
     }
 
     public function set_controlled(v:Bool) {
@@ -289,6 +293,9 @@ class Summon extends Entity {
         xpPendingSOD.setParameters(3. / Math.pow(1. + levelsPending, .2), 1., 1);
     }
 
+    public function getXPRemaining() {
+        return getXPNeeded() - xp;
+    }
     public function getXPNeeded() {
         return getXPNeededAt(level);
     }

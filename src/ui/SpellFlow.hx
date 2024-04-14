@@ -6,12 +6,14 @@ import h2d.Flow;
 class SpellFlow extends Flow {
     public var enabled(default, set) : Bool = false;
     var over : Bool = false;
+    var down : Bool = false;
 
     public function new(parent:Flow) {
         super(parent);
         padding = 3;
         minWidth = maxWidth = HUD.SPELL_WIDTH;
-        minHeight = 30;
+        minHeight = maxHeight = 33;
+        overflow = Hidden;
         borderWidth = borderHeight = 4;
         enableInteractive = true;
         layout = Vertical;
@@ -23,6 +25,15 @@ class SpellFlow extends Flow {
             over = false;
             updateBack();
         }
+        interactive.onPush = function(_) {
+            down = enabled ? true : false;
+            updateBack();
+        }
+        interactive.onRelease = function(_) {
+            down = false;
+            updateBack();
+        }
+        interactive.cursor = hxd.Cursor.Button;
         updateBack();
     }
 
@@ -47,10 +58,16 @@ class SpellFlow extends Flow {
                 Game.inst.castSpell(def.id);
             }
         }
+        var hotkey = new Text(Assets.font, this);
+        hotkey.textColor = HUD.HOTKEY_COL;
+        hotkey.text = i == 0 ? "X" : "C";
+        var props = getProperties(hotkey);
+        props.horizontalAlign = Right;
     }
 
     public function set_enabled(v:Bool) {
         enabled = v;
+        interactive.cursor = v ? hxd.Cursor.Button : hxd.Cursor.Default;
         updateBack();
         return v;
     }
@@ -58,7 +75,7 @@ class SpellFlow extends Flow {
     inline function getTile(over:Bool) {
         var name = "spellBlocked";
         if(enabled) {
-            name = over ? "spellOver" : "spell";
+            name = (down ? "spellDown" : (over ? "spellOver" : "spell"));
         }
         return Assets.getTile("ui", name);
     }

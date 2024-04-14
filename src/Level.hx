@@ -154,7 +154,6 @@ class Level {
     function onFloorChange() {
         for(e in Game.inst.entities) {
             e.active = e == Game.inst.hero || e.floorId == currentFloorId;
-            trace(e.floorId + " " + currentFloorId + " " + e.active + " " + e);
         }
         for(i in 0...floorCount) {
             renders[i].setVisible(i == currentFloorId - 1);

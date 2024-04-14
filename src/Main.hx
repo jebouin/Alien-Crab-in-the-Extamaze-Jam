@@ -60,13 +60,27 @@ class Main extends hxd.App {
     }
     function initController() {
         controller = new Controller();
+        #if debug
         controller.bindKey(Action.moveLeft, Key.R);
         controller.bindKey(Action.moveRight, Key.T);
         controller.bindKey(Action.moveUp, Key.F);
         controller.bindKey(Action.moveDown, Key.S);
         controller.bindKey(Action.spell1, Key.N);
         controller.bindKey(Action.spell2, Key.E);
+        controller.bindKey(Action.level1, Key.L);
+        controller.bindKey(Action.level2, Key.U);
         controller.bindKey(Action.changeControl, Key.I);
+        #else
+        controller.bindKey(Action.moveLeft, Key.LEFT);
+        controller.bindKey(Action.moveRight, Key.RIGHT);
+        controller.bindKey(Action.moveUp, Key.UP);
+        controller.bindKey(Action.moveDown, Key.DOWN);
+        controller.bindKey(Action.spell1, Key.X);
+        controller.bindKey(Action.spell2, Key.C);
+        controller.bindKey(Action.level1, Key.S);
+        controller.bindKey(Action.level2, Key.D);
+        controller.bindKey(Action.changeControl, Key.SPACE);
+        #end
     }
     function tick() {
         try {

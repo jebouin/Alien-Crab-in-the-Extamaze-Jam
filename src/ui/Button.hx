@@ -36,6 +36,7 @@ class Button extends Flow {
             isPushed = false;
             updateTile();
         }
+        interactive.cursor = hxd.Cursor.Button;
     }
 
     function updateTile() {
@@ -52,6 +53,7 @@ class Button extends Flow {
 
     public function set_enabled(v:Bool) {
         enabled = v;
+        interactive.cursor = v ? hxd.Cursor.Button : hxd.Cursor.Default;
         updateTile();
         return v;
     }
