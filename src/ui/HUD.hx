@@ -146,6 +146,7 @@ class HUD {
         for(i in 0...4) {
             var keyCount = Game.inst.inventory.getKeyCount(i + 1);
             keyTexts[i].text = "" + keyCount;
+            trace(i, Game.inst.inventory.getKeyCount(i + 1), Game.inst.inventory.usedEyes, Game.inst.saveData.getTotalEyeCount());
         }
 
         function getFighterCell(isLeft:Bool, ?e:entities.Entity=null, level:Int, xp:Int) {

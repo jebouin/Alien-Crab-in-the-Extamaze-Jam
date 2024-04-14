@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.Bitmap;
 import Controller.Action;
 import h2d.Tile;
 import h2d.Flow;
@@ -14,8 +15,8 @@ enum StageClearState {
 }
 
 class StageClear extends Scene {
-    public static var MARGIN_TOP = 30;
-    public static var MARGIN_BOTTOM = 60;
+    public static var MARGIN_TOP = 40;
+    public static var MARGIN_BOTTOM = 40;
     public static var MARGIN_SIDE = 20;
     public static var IN_TIME = .1;
     public static var OUT_TIME = .1;
@@ -47,7 +48,7 @@ class StageClear extends Scene {
         cont.x = MARGIN_SIDE;
         cont.y = MARGIN_TOP;
         cont.layout = Vertical;
-        cont.verticalSpacing = 30;
+        cont.verticalSpacing = 40;
         cont.paddingTop = 10;
         cont.horizontalAlign = Middle;
         congrats = new Text(Assets.fontLarge, cont);
@@ -64,6 +65,30 @@ class StageClear extends Scene {
         }
         menu.init();
         timer = new EaseTimer(IN_TIME);
+        var clearLevel = Game.inst.hero.level;
+        var prevClearLevel = Game.inst.prevClearLevel;
+        if(clearLevel > prevClearLevel) {
+            Game.inst.prevClearLevel = clearLevel;
+            var recordFlow = new Flow(hud);
+            recordFlow.horizontalSpacing = 5;
+            var text = new Text(Assets.font, recordFlow);
+            text.text = "New record!";
+            text.textColor = 0xfee761;
+            var props = recordFlow.getProperties(text);
+            props.paddingRight = 5;
+            function getCounterFlow(val:Int) {
+                var f = new Flow(recordFlow);
+                f.verticalAlign = Middle;
+                var icon = new Bitmap(Assets.getTile("ui", "eyeIconSmall"), f);
+                var text = new Text(Assets.font, f);
+                text.text = " " + val;
+            }
+            recordFlow.x = menu.x + cont.x + 70;
+            recordFlow.y = menu.y + cont.y + 40;
+            getCounterFlow(prevClearLevel);
+            var arrow = new Bitmap(Assets.getTile("ui", "arrowSmall"), recordFlow);
+            getCounterFlow(clearLevel);
+        }
     }
 
     override public function delete() {

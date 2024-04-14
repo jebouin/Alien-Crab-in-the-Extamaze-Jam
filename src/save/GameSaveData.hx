@@ -17,8 +17,11 @@ class GameSaveData implements Serializable {
             }
         }
         #if debug
+        /*for(data in Data.levels.all) {
+            maxLevel.set(data.id, Std.random(10) + 1);
+        }*/
         for(data in Data.levels.all) {
-            maxLevel.set(data.id, Std.random(10));
+            maxLevel.set(data.id, 0);
         }
         #end
         forceSave();
@@ -46,6 +49,7 @@ class GameSaveData implements Serializable {
     public function getTotalEyeCount() {
         var total = 0;
         for(data in Data.levels.all) {
+            if(!data.show) continue;
             total += maxLevel.get(data.id);
         }
         return total;

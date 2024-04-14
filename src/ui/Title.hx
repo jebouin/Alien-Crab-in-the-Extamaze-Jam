@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.Bitmap;
 import save.GameSaveData;
 import save.Save;
 import Controller.Action;
@@ -56,9 +57,36 @@ class Title extends Scene {
         cont.horizontalAlign = Middle;
         cont.borderHeight = cont.borderWidth = 5;
         menu = new Menu(cont);
+        var cnt = 0, sumEye = 0, cntEye = 0;
         for(level in Data.levels.all) {
             if(!level.show) continue;
-            menu.addLine(level.name, function() {onLevelChosen(level.id);}, false);
+            var line = menu.addLine(level.name, function() {onLevelChosen(level.id);}, false);
+            // Hacky
+            var val = saveData.getEyeCount(level.id);
+            sumEye += val;
+            if(val > 0) {
+                cntEye++;
+                var score = new Flow(hud);
+                score.horizontalSpacing = 1;
+                score.y = cont.y + menu.y + cnt * 13 + 11;
+                score.x = cont.x + menu.x + line.x + 40;
+                score.verticalAlign = Middle;
+                var icon = new Bitmap(Assets.getTile("ui", "eyeIconSmall"), score);
+                var text = new Text(Assets.font, score);
+                text.text = "" + val;
+            }
+            cnt++;
+        }
+        if(sumEye > 0 && cntEye > 1) {
+            var score = new Flow(hud);
+            score.y = Main.HEIGHT - 20;
+            score.x = 53;
+            score.verticalAlign = Middle;
+            var prefix = new Text(Assets.font, score);
+            prefix.text = "Total: ";
+            var icon = new Bitmap(Assets.getTile("ui", "eyeIconSmall"), score);
+            var text = new Text(Assets.font, score);
+            text.text = "x" + sumEye;
         }
         menu.verticalSpacing = 5;
         menu.init();

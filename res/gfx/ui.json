@@ -60,7 +60,9 @@
    { "name": "xpBar4", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 64, "y": 128, "w": 16, "h": 16 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "iconXP", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 57, "y": 104, "w": 12, "h": 9 }, "pivot": {"x": 0, "y": 0 } }] },
    { "name": "gameOver", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 17, "y": 154, "w": 88, "h": 13 }, "pivot": {"x": 0, "y": 0 } }] },
-   { "name": "pause", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 0, "w": 11, "h": 11 }, "pivot": {"x": 0, "y": 0 } }] }
+   { "name": "pause", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 144, "y": 0, "w": 11, "h": 11 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "eyeIconSmall", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 133, "y": 37, "w": 6, "h": 6 }, "pivot": {"x": 0, "y": 0 } }] },
+   { "name": "arrowSmall", "color": "#0000ffff", "keys": [{ "frame": 0, "bounds": {"x": 143, "y": 36, "w": 9, "h": 7 }, "pivot": {"x": 0, "y": 0 } }] }
   ]
  }
 }

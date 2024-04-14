@@ -64,6 +64,7 @@ class Game extends Scene {
     var wonTimer : EaseTimer;
     public var levelId : Data.LevelsKind;
     public var saveData : GameSaveData;
+    public var prevClearLevel : Int = 0;
 
     public function new(levelId:Data.LevelsKind) {
         super("game");
@@ -73,6 +74,7 @@ class Game extends Scene {
         inst = this;
         this.levelId = levelId;
         saveData = Save.loadGameData();
+        prevClearLevel = saveData.getEyeCount(levelId);
         holdActions = new HoldActions(.15, .06);
         holdActions.add(Action.moveLeft, onMoveLeft);
         holdActions.add(Action.moveRight, onMoveRight);
