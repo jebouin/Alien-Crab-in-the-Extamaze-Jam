@@ -1,5 +1,6 @@
 package ui;
 
+import h2d.Layers;
 import h2d.Object;
 import h2d.Tile;
 import CustomSpriteBatch;
@@ -43,9 +44,10 @@ class Background {
     var sb : CustomSpriteBatch;
     var rand : Rand;
 
-    public function new(parent:Object) {
+    public function new(parent:Layers, layer:Int) {
         tile = Tile.fromColor(0xFFFFFF, 1, 1);
-        sb = new CustomSpriteBatch(tile, parent);
+        sb = new CustomSpriteBatch(tile);
+        parent.add(sb, layer);
         rand = new Rand(456);
         for(i in 0...COUNT) {
             sb.add(new Star(rand));

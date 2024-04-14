@@ -259,6 +259,7 @@ class Level {
         }
         loadEntities();
         setFloorId(Game.inst.hero.floorId);
+        Game.inst.ysortEntities();
     }
 
     function loadEntities() {

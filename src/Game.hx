@@ -1,5 +1,6 @@
 package ;
 
+import ui.Background;
 import save.Save;
 import save.GameSaveData;
 import ui.Confirmation;
@@ -39,6 +40,7 @@ class Game extends Scene {
     public static inline var WON_TIME = .35;
     public static var inst : Game;
     static var _layer = 0;
+    public static var LAYER_BACK = _layer++;
     public static var LAYER_GROUND = _layer++;
     public static var LAYER_GROUND_SLIME = _layer++;
     //public static var LAYER_ENTITIES_GROUND = _layer++;
@@ -66,6 +68,7 @@ class Game extends Scene {
     var redoStack : Array<State> = [];
     var undoMemory : Int = 0;
     var lastChangeName : String = "Initial state";
+    var background : Background;
     public var gameOver : Bool = false;
     public var won : Bool = false;
     var wonTimer : EaseTimer;
@@ -102,6 +105,7 @@ class Game extends Scene {
         interactive.onPush = onPush;
         interactive.onRelease = onRelease;
         saveState("Initial state");
+        background = new Background(world, LAYER_BACK);
     }
 
     override public function delete() {
@@ -199,6 +203,7 @@ class Game extends Scene {
         hudElement.update(dt);
         fx.updateConstantRate(dt);
         updateWorldPos();
+        background.update(dt);
     }
 
     function onClick(_) {
@@ -340,6 +345,7 @@ class Game extends Scene {
             s.endLoad();
             setHero(cast(entities[heroId], Summon));
             level.updateActive();
+            ysortEntities();
             if(onSuccess != null) {
                 onSuccess();
             }
@@ -437,5 +443,9 @@ class Game extends Scene {
     public function debug() {
         hero.giveXP(5);
         onChange();
+    }
+
+    public function ysortEntities() {
+        world.ysort(Game.LAYER_ENTITIES);
     }
 }

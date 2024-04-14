@@ -597,6 +597,36 @@
 					}
 				},
 				{
+					"id": "generator",
+					"name": "Generator",
+					"hp": 100,
+					"atk": 0,
+					"def": 0,
+					"level": 10,
+					"xp": 50,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 11,
+						"y": 7
+					}
+				},
+				{
+					"id": "tdmini",
+					"name": "T-D Mini",
+					"hp": 200,
+					"atk": 60,
+					"def": 0,
+					"level": 12,
+					"xp": 80,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 9,
+						"y": 4
+					}
+				},
+				{
 					"id": "xmultra",
 					"name": "XM Ultra",
 					"hp": 500,
@@ -609,16 +639,16 @@
 						"x": 9,
 						"y": 4
 					},
-					"xp": 50
+					"xp": 100
 				},
 				{
-					"id": "generator",
-					"name": "Generator",
-					"hp": 100,
+					"id": "mainGenerator",
+					"name": "Main Generator",
+					"hp": 500,
 					"atk": 0,
 					"def": 0,
-					"level": 10,
-					"xp": 50,
+					"level": 20,
+					"xp": 350,
 					"icon": {
 						"file": "gfx/entities.png",
 						"size": 16,

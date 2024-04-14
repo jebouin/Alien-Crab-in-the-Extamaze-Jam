@@ -38,7 +38,7 @@ class Title extends Scene {
         }
         inst = this;
         saveData = Save.loadGameData();
-        back = new Background(world);
+        back = new Background(world, 0);
         title = new Text(Assets.fontLarge, hud);
         title.text = "Alien Crab in the Extamaze";
         title.x = Main.WIDTH / 2 - title.textWidth / 2;
