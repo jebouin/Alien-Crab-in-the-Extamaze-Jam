@@ -38,7 +38,8 @@ class Main extends hxd.App {
         SceneManager.init();
         initController();
         started = true;
-        new Game(tower);
+        //new Game(tower);
+        new Game(test);
         //new ui.Title();
     }
     function onEvent(event:hxd.Event) {

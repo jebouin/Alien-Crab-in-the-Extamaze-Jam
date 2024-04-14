@@ -215,7 +215,7 @@ class Game extends Scene {
         if(Key.isDown(Key.SHIFT)) {
             hero.setFacing(dx, dy);
         } else {
-            if(hero.tryMove(dx, dy)) {
+            if(hero.tryMove(dx, dy, false)) {
                 Game.inst.saveState("move");
             }
         }
@@ -263,6 +263,7 @@ class Game extends Scene {
 
     public function changeFloor(dir:Int) {
         level.changeFloor(dir);
+        hero.floorId = level.currentFloorId;
         fx.clear();
         fx.floorChange();
     }

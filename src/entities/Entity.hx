@@ -137,6 +137,9 @@ class Entity implements Serializable {
         } else {
             anim.remove();
         }
+        if(Std.isOfType(this, Summon)) {
+            trace("SET ACTIVE ", this, v);
+        }
         return v;
     }
 

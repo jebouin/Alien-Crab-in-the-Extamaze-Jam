@@ -421,7 +421,7 @@
 				{
 					"id": "slime",
 					"hp": 10,
-					"atk": 50,
+					"atk": 30,
 					"def": 0,
 					"mp": 0,
 					"name": "Great Slime"
@@ -525,10 +525,25 @@
 					"id": "spikyShell",
 					"name": "Spiky Shell",
 					"hp": 8,
-					"atk": 300,
+					"atk": 100,
 					"def": 0,
 					"level": 3,
 					"xp": 5,
+					"icon": {
+						"file": "gfx/entities.png",
+						"size": 16,
+						"x": 7,
+						"y": 8
+					}
+				},
+				{
+					"id": "spikierShell",
+					"name": "Spikier Shell",
+					"hp": 32,
+					"atk": 200,
+					"def": 0,
+					"level": 5,
+					"xp": 25,
 					"icon": {
 						"file": "gfx/entities.png",
 						"size": 16,

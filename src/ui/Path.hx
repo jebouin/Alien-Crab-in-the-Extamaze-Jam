@@ -66,7 +66,7 @@ class Path {
         }
         var dx = path[path.length - 1].x - path[path.length - 2].x;
         var dy = path[path.length - 1].y - path[path.length - 2].y;
-        Game.inst.hero.pushStep(TryMove(dx, dy));
+        Game.inst.hero.pushStep(TryMove(dx, dy, path.length > 2));
     }
 
     public function set_visible(v:Bool) {

@@ -26,13 +26,13 @@ class Arrow extends Entity {
 
     override public function onSteppedOnBy(e:Summon) {
         if(dir == Right) {
-            e.pushStep(TryMove(1, 0));
+            e.pushStep(TryMove(1, 0, true));
         } else if(dir == Down) {
-            e.pushStep(TryMove(0, 1));
+            e.pushStep(TryMove(0, 1, true));
         } else if(dir == Left) {
-            e.pushStep(TryMove(-1, 0));
+            e.pushStep(TryMove(-1, 0, true));
         } else if(dir == Up) {
-            e.pushStep(TryMove(0, -1));
+            e.pushStep(TryMove(0, -1, true));
         }
     }
 }

@@ -4,7 +4,7 @@ import format.as1.Data.PushItem;
 
 enum Step {
     Move(dx:Int, dy:Int);
-    TryMove(dx:Int, dy:Int);
+    TryMove(dx:Int, dy:Int, careful:Bool);
     Hit(target:Enemy);
     HitSummon(target:Summon);
     TakeHit(source:Entity);
@@ -66,7 +66,7 @@ class Summon extends Entity {
         updateAnim();
     }
 
-    public function tryMove(dx:Int, dy:Int) {
+    public function tryMove(dx:Int, dy:Int, careful:Bool) {
         var entityFront = Game.inst.getEntity(tx + dx, ty + dy);
         if(entityFront != null && Std.isOfType(entityFront, Enemy)) {
             if(Game.FORCE_FACING && (facingX != dx || facingY != dy)) {
@@ -74,6 +74,7 @@ class Summon extends Entity {
                 return false;
             }
         }
+        setFacing(dx, dy);
         var level = Game.inst.level;
         var moving = true, moved = false, attacked = false, opened = false;
         var ctx = tx, cty = ty;
@@ -91,7 +92,7 @@ class Summon extends Entity {
             } else {
                 for(e in Game.inst.entities) {
                     if(!e.collides(nx, ny)) continue;
-                    if(Std.isOfType(e, Enemy)) {
+                    if(Std.isOfType(e, Enemy) && !careful) {
                         var enemy = cast(e, Enemy);
                         pushStep(Hit(enemy));
                         if(!wouldKill(enemy)) {
@@ -100,7 +101,7 @@ class Summon extends Entity {
                         attacked = true;
                         break;
                     }
-                    if(Std.isOfType(e, Summon)) {
+                    if(Std.isOfType(e, Summon) && !careful) {
                         var summon = cast(e, Summon);
                         pushStep(HitSummon(summon));
                         attacked = true;
@@ -199,9 +200,10 @@ class Summon extends Entity {
                     Game.inst.fx.hitAnim(Level.TS * (tx + facingX + .5), Level.TS * (ty + facingY + .5), facingX, facingY);
                 }
                 if(entityFront == null || entityFront.isGround) return false;
-                tryMove(facingX, facingY);
+                tryMove(facingX, facingY, false);
             case slime:
                 if(entityFront != null) return false;
+                trace("slime " + floorId);
                 new Summon(Data.SummonKind.slime, floorId, tx + facingX, ty + facingY, false);
             case gnome:
                 if(entityFront != null) return false;
@@ -286,8 +288,8 @@ class Summon extends Entity {
                 ty += dy;
                 setFacing(dx, dy);
                 onMoved();
-            case TryMove(dx, dy):
-                tryMove(dx, dy);
+            case TryMove(dx, dy, careful):
+                tryMove(dx, dy, careful);
             case Hit(target):
                 setFacing(Util.sign(target.tx - tx), Util.sign(target.ty - ty));
                 hit(target, facingX, facingY);

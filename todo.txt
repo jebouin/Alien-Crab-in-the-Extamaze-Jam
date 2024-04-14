@@ -2,6 +2,7 @@ DAY 2
 - Level design
 
 BUGS
+- Summoner sometimes disappear on spell?
 - Don't register state if couldn't move (move next to door)
 - Don't open door/attack after sliding
 - What if end of arrow blocked by other summon?
