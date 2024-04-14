@@ -129,9 +129,15 @@ class HUD {
     }
 
     public function onChange() {
-        var levelName = Data.levels.get(Game.inst.levelId).name;
+        var data = Data.levels.get(Game.inst.levelId);
+        var levelName = data.name;
         floorTextTop.text = levelName;
-        floorTextBot.text = "Floor " + Game.inst.level.currentFloorId;
+        var cid = Game.inst.level.currentFloorId;
+        if(cid >= data.firstFloorId) {
+            floorTextBot.text = "Floor " + (cid - data.firstFloorId + 1);
+        } else {
+            floorTextBot.text = "Basement " + (1 + data.firstFloorId - cid);
+        }
         for(i in 0...2) {
             spells[i].update(i, Game.inst.hero.spells.length > i ? Game.inst.hero.spells[i] : null);
         }

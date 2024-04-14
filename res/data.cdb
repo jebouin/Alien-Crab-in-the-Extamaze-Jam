@@ -21,6 +21,11 @@
 					"typeStr": "1",
 					"name": "prefix",
 					"kind": null
+				},
+				{
+					"typeStr": "3",
+					"name": "firstFloorId",
+					"kind": null
 				}
 			],
 			"lines": [
@@ -28,25 +33,29 @@
 					"id": "tutorial",
 					"name": "Tutorial maze",
 					"show": true,
-					"prefix": "Tutorial"
+					"prefix": "Tutorial",
+					"firstFloorId": 1
 				},
 				{
 					"id": "tower",
 					"name": "Slippery tower",
 					"show": true,
-					"prefix": "Tower"
+					"prefix": "Tower",
+					"firstFloorId": 3
 				},
 				{
 					"id": "robot",
 					"name": "Fallen robots",
 					"show": true,
-					"prefix": "Robot"
+					"prefix": "Robot",
+					"firstFloorId": 1
 				},
 				{
 					"id": "test",
 					"name": "Test",
 					"show": false,
-					"prefix": "Test"
+					"prefix": "Test",
+					"firstFloorId": 1
 				}
 			],
 			"separators": [],
@@ -544,7 +553,7 @@
 				},
 				{
 					"id": "handGhost",
-					"name": "Cyclop Ghost",
+					"name": "Hand Ghost",
 					"hp": 100,
 					"atk": 35,
 					"def": 0,
