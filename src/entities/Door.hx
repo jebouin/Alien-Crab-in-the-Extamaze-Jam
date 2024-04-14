@@ -1,5 +1,6 @@
 package entities;
 
+import audio.Audio;
 import h2d.Bitmap;
 
 class Door extends Entity {
@@ -25,6 +26,7 @@ class Door extends Entity {
     public function open() {
         Game.inst.onChange();
         Game.inst.fx.doorOpen(anim.x, anim.y, type);
+        Audio.playSound(type == 4 ? Data.SoundKind.doorEye : Data.SoundKind.doorNormal);
         delete();
     }
 

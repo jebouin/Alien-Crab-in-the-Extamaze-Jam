@@ -1,23 +1,14 @@
 DAY 3 (~8:00)
-- Add credits
-- Finish level 2
-- Playtest
-- Show max level reached
 
 AUDIO: 11:00
-- Door open
-- Stairs
 - Menu move
 - Menu enter
-- Move crab
-- Move gnome
-- Move slime
-- Clear step
-- Level up
 - Take item (potion, key)
+- Spell
 
 
 WEB EXPORT: 14:00
+- Playtest
 
 SUBMIT: 15:00
 - Itch page

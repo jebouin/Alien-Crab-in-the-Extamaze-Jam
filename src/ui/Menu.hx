@@ -1,5 +1,6 @@
 package ui;
 
+import audio.Audio;
 import hxd.Key;
 import Controller.Action;
 import h2d.Object;
@@ -102,6 +103,7 @@ class Menu extends Flow {
         return true;
     }
     function onSuccessfulMove() {
+        Audio.playSound(Data.SoundKind.menuMove);
     }
     
     public function getSelectedY() {
@@ -121,6 +123,7 @@ class Menu extends Flow {
         var id = lines.indexOf(line);
         if(id != -1) {
             selectedId = id;
+            Audio.playSound(Data.SoundKind.menuMove);
         }
     }
     public function onMouseOutLine(line:MenuLine) {

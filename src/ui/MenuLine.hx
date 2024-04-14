@@ -1,5 +1,6 @@
 package ui;
 
+import audio.Audio;
 import hxd.Event;
 import h2d.Font;
 import h2d.Text;
@@ -58,6 +59,7 @@ class MenuLine extends Flow {
     }
     public function press() {
         if(onPressed != null) {
+            Audio.playSound(Data.SoundKind.menuEnter);
             onPressed();
             return true;
         }

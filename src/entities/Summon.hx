@@ -331,13 +331,18 @@ class Summon extends Entity {
     }
 
     public function giveXP(amount:Int) {
+        var playSound = false;
         totalXP += amount;
         xp += amount;
         while(xp >= getXPNeeded()) {
             xp -= getXPNeeded();
             levelsPending++;
+            playSound = true;
         }
         xpPendingSOD.setParameters(3.5 / Math.pow(1. + levelsPending, .2), 1., 1);
+        if(playSound) {
+            Audio.playSound(Data.SoundKind.levelUp);
+        }
     }
 
     public function getXPRemaining() {

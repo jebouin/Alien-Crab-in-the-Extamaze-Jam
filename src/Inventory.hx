@@ -32,6 +32,5 @@ class Inventory implements Serializable {
 
     public function gainKey(id:Int) {
         keys[id - 1]++;
-        Audio.playSound(key);
     }
 }

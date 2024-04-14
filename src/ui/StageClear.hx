@@ -1,5 +1,6 @@
 package ui;
 
+import audio.Audio;
 import h2d.Bitmap;
 import Controller.Action;
 import h2d.Tile;
@@ -88,6 +89,7 @@ class StageClear extends Scene {
             getCounterFlow(prevClearLevel);
             var arrow = new Bitmap(Assets.getTile("ui", "arrowSmall"), recordFlow);
             getCounterFlow(clearLevel);
+            Audio.playSound(Data.SoundKind.clearTileRecord);
         } else {
             var recordFlow = new Flow(hud);
             recordFlow.horizontalSpacing = 5;
@@ -98,6 +100,7 @@ class StageClear extends Scene {
             props.paddingRight = 5;
             recordFlow.x = menu.x + cont.x + 70;
             recordFlow.y = menu.y + cont.y + 40;
+            Audio.playSound(Data.SoundKind.clearTile);
         }
     }
 

@@ -1,5 +1,6 @@
 package entities;
 
+import audio.Audio;
 import h2d.filter.Glow;
 
 class Item extends Entity {
@@ -27,12 +28,16 @@ class Item extends Entity {
         }
         if(kind == key1) {
             Game.inst.inventory.gainKey(1);
+            Audio.playSound(Data.SoundKind.itemKey);
         } else if(kind == key2) {
             Game.inst.inventory.gainKey(2);
+            Audio.playSound(Data.SoundKind.itemKey);
         } else if(kind == key3) {
             Game.inst.inventory.gainKey(3);
+            Audio.playSound(Data.SoundKind.itemKey);
         } else if(kind == scrollSlime) {
             Game.inst.hero.tryPickScroll(slime);
+            Audio.playSound(Data.SoundKind.itemScroll);
         } else if(kind == scrollGnome) {
             Game.inst.hero.tryPickScroll(gnome);
         } else if(kind == scrollDragon) {

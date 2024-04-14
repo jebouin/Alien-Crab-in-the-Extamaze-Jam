@@ -689,9 +689,24 @@
 					"id": "stairs"
 				},
 				{
-					"id": "key",
+					"id": "itemKey",
 					"variationCount": 0,
-					"volume": 1
+					"volume": 0.85
+				},
+				{
+					"id": "itemScroll",
+					"variationCount": 0,
+					"volume": 0.85
+				},
+				{
+					"id": "itemPotion",
+					"variationCount": 0,
+					"volume": 0.85
+				},
+				{
+					"id": "itemBonus",
+					"variationCount": 0,
+					"volume": 0.85
 				},
 				{
 					"id": "hit",
@@ -706,6 +721,46 @@
 				{
 					"id": "step",
 					"variationCount": 3,
+					"volume": 1
+				},
+				{
+					"id": "doorEye",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "doorNormal",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "gameOver",
+					"variationCount": 0,
+					"volume": 0.75
+				},
+				{
+					"id": "levelUp",
+					"variationCount": 0,
+					"volume": 0.8
+				},
+				{
+					"id": "clearTile",
+					"variationCount": 0,
+					"volume": 0.8
+				},
+				{
+					"id": "clearTileRecord",
+					"variationCount": 0,
+					"volume": 0.8
+				},
+				{
+					"id": "menuEnter",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "menuMove",
+					"variationCount": 0,
 					"volume": 1
 				}
 			],

@@ -1,5 +1,6 @@
 package ;
 
+import audio.Audio;
 import ui.Background;
 import save.Save;
 import save.GameSaveData;
@@ -150,6 +151,7 @@ class Game extends Scene {
                         var summon = cast(entity, Summon);
                         if(summon.kind == Data.SummonKind.hero) {
                             gameOver = true;
+                            Audio.playSound(Data.SoundKind.gameOver);
                         }
                     }
                     entities.splice(i, 1);
@@ -207,7 +209,7 @@ class Game extends Scene {
     }
 
     function onClick(_) {
-        if(hero.canTakeAction && path.canRun()) {
+        if(hero.canTakeAction && path.canRun() && !gameOver) {
             saveState("move");
             path.run();
         }

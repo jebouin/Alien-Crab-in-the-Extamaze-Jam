@@ -40,7 +40,7 @@ class Main extends hxd.App {
         SceneManager.init();
         initController();
         started = true;
-        //new Game(tower);
+        //new Game(tutorial);
         //new Game(tutorial);
         new ui.Title();
     }
