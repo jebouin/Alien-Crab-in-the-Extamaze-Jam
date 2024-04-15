@@ -20,7 +20,8 @@ SUBMIT: 15:00
 - Map for easier key counting
 - Tips
 
-Ran out of time to playtest as much as I'd have liked but both levels should be doable without too much grinding. Has a bit too much back-and-forth
+Ran out of time to playtest as much as I'd have liked so there is too much back-and-forth especially in the second level.
+
 Tips: Keep undo pressed, move with mouse, when to use ATK/HP, map for easier key counting
 
 Reach the top of mysterious space towers

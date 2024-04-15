@@ -9600,22 +9600,6 @@
 						},
 						{
 							"__identifier": "Door4",
-							"__grid": [4,10],
-							"__pivot": [0,0],
-							"__tags": ["door"],
-							"__tile": { "tilesetUid": 30, "x": 192, "y": 64, "w": 16, "h": 16 },
-							"__smartColor": "#EAD4AA",
-							"iid": "dcb20940-d7b0-11ee-972c-0f97c4fa0707",
-							"width": 15,
-							"height": 15,
-							"defUid": 136,
-							"px": [64,160],
-							"fieldInstances": [],
-							"__worldX": 1728,
-							"__worldY": 368
-						},
-						{
-							"__identifier": "Door4",
 							"__grid": [4,9],
 							"__pivot": [0,0],
 							"__tags": ["door"],
@@ -9789,22 +9773,6 @@
 							"fieldInstances": [],
 							"__worldX": 1792,
 							"__worldY": 256
-						},
-						{
-							"__identifier": "Door4",
-							"__grid": [8,2],
-							"__pivot": [0,0],
-							"__tags": ["door"],
-							"__tile": { "tilesetUid": 30, "x": 192, "y": 64, "w": 16, "h": 16 },
-							"__smartColor": "#EAD4AA",
-							"iid": "e1401ce0-d7b0-11ee-972c-43f218e52363",
-							"width": 15,
-							"height": 15,
-							"defUid": 136,
-							"px": [128,32],
-							"fieldInstances": [],
-							"__worldX": 1792,
-							"__worldY": 240
 						},
 						{
 							"__identifier": "Door1",
@@ -10028,6 +9996,38 @@
 							"px": [176,32],
 							"fieldInstances": [],
 							"__worldX": 1840,
+							"__worldY": 240
+						},
+						{
+							"__identifier": "Door4",
+							"__grid": [4,10],
+							"__pivot": [0,0],
+							"__tags": ["door"],
+							"__tile": { "tilesetUid": 30, "x": 192, "y": 64, "w": 16, "h": 16 },
+							"__smartColor": "#EAD4AA",
+							"iid": "a0fca530-d7b0-11ee-972c-d1bf6df9d3aa",
+							"width": 15,
+							"height": 15,
+							"defUid": 136,
+							"px": [64,160],
+							"fieldInstances": [],
+							"__worldX": 1728,
+							"__worldY": 368
+						},
+						{
+							"__identifier": "Door4",
+							"__grid": [8,2],
+							"__pivot": [0,0],
+							"__tags": ["door"],
+							"__tile": { "tilesetUid": 30, "x": 192, "y": 64, "w": 16, "h": 16 },
+							"__smartColor": "#EAD4AA",
+							"iid": "a15c7870-d7b0-11ee-972c-bd98c32eaf9c",
+							"width": 15,
+							"height": 15,
+							"defUid": 136,
+							"px": [128,32],
+							"fieldInstances": [],
+							"__worldX": 1792,
 							"__worldY": 240
 						}
 					]
