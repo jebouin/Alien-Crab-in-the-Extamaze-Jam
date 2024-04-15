@@ -1,11 +1,7 @@
 DAY 3 (~8:00)
 WEB EXPORT: 14:00
+- Weird mouse offset
 - Playtest
-
-SUBMIT: 15:00
-- Itch page
-- Map for easier key counting
-- Tips
 
 BUGS
 - What if end of arrow blocked by other summon?
@@ -17,3 +13,38 @@ IF TIME LEFT
 - Medal room
 - Hold undo
 - Dragon
+
+
+SUBMIT: 15:00
+- Itch page
+- Map for easier key counting
+- Tips
+
+Ran out of time to playtest as much as I'd have liked but both levels should be doable without too much grinding. Has a bit too much back-and-forth
+Tips: Keep undo pressed, move with mouse, when to use ATK/HP, map for easier key counting
+
+Reach the top of mysterious space towers
+Puzzle/RPG/optimization
+The game is quite complex, consider playing the tutorial level first to get used to the mechanics!
+
+KEYBOARD CONTROLS
+- Move with arrow keys
+- Cast a spell with X or C
+- Choose a level-up perk with S or D
+- Take control of a minion with SPACE BAR
+- Undo/redo with Z/Y (hold for fast undo)
+- Pause with P or ESCAPE
+- Toggle fullscreen with F
+
+MOUSE CONTROLS
+- Click on a reachable tile to move
+- Click on a monster to face it, click again to attack it with your basic spell
+- Use the right panel for everything else:
+	- Cast a spell
+	- Choose a level-up perk
+	- Take control of a minion
+	- Undo/redo
+	- Pause
+	
+Made in 48 hours for 
+Inspired by Tactical Nexus and Tower of the Sorcerer

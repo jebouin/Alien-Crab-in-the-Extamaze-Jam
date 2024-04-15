@@ -50,10 +50,13 @@ class Summon extends Entity {
         spellUsedCount = [0];
         if(kind == slime) {
             spells.push(sleep);
+            spellUsedCount.push(0);
         } else if(kind == gnome) {
             spells.push(levelUp);
+            spellUsedCount.push(0);
         } else if(kind == dragon) {
             spells.push(fireBreath);
+            spellUsedCount.push(0);
         }
     }
 

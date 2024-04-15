@@ -3,8 +3,6 @@ package ui;
 import entities.Summon;
 import entities.Enemy;
 import h2d.Bitmap;
-import hxd.Cursor.CustomCursor;
-import sdl.Cursor;
 import h2d.Text;
 import h2d.Tile;
 import h2d.Flow;
@@ -140,7 +138,7 @@ class HUD {
         } else if(cid >= data.firstFloorId) {
             floorTextBot.text = "Floor " + (cid - data.firstFloorId + 1);
         } else {
-            floorTextBot.text = "Basement " + (1 + data.firstFloorId - cid);
+            floorTextBot.text = "Basement " + (data.firstFloorId - cid);
         }
         for(i in 0...2) {
             spells[i].update(i, Game.inst.hero.spells.length > i ? Game.inst.hero.spells[i] : null);

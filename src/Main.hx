@@ -1,5 +1,6 @@
 package ;
 
+import save.Save;
 import hxd.System;
 import hxd.Key;
 import Controller;
@@ -28,6 +29,7 @@ class Main extends hxd.App {
     public var rand : Rand;
 
     override function init() {
+        Save.init();
         rand = new Rand(111);
         renderer = new Renderer(s2d);
         Assets.init();
@@ -113,6 +115,10 @@ class Main extends hxd.App {
         }
         #if debug
         updateDebug();
+        #else
+        if(Key.isPressed(Key.F)) {
+            engine.fullScreen = !engine.fullScreen;
+        }
         #end
     }
     inline function updateSimulation(dt:Float) {
@@ -151,10 +157,6 @@ class Main extends hxd.App {
         if(Key.isPressed(Key.Y)) {
             Game.inst.debug();
         }
-    }
-    #else
-    if(Key.isPressed(Key.F)) {
-        engine.fullScreen = !engine.fullScreen;
     }
     #end
 

@@ -15,7 +15,7 @@
 		{
 			"text": "Run",
 			"color": "orange",
-			"command": "hl bin/dev/gameJamBase.hl",
+			"command": "hl bin/dev/alienCrab3.hl",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -10
@@ -82,7 +82,7 @@
         {
 			"text": "Profile",
 			"color": "yellow",
-			"command": "cp bin/pak/resWeb.pak res.pak && hl --profile 10000 \"bin/dev/gameJamBase.hl\" && mv hlprofile.dump tools/ && hl tools/profiler.hl tools/hlprofile.dump && rm res.pak",
+			"command": "cp bin/pak/resWeb.pak res.pak && hl --profile 10000 \"bin/dev/alienCrab3.hl\" && mv hlprofile.dump tools/ && hl tools/profiler.hl tools/hlprofile.dump && rm res.pak",
 			"alignment": "right",
 			"skipTerminateQuickPick": false,
 			"priority": -19

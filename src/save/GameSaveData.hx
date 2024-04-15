@@ -8,6 +8,7 @@ class GameSaveData implements Serializable {
     @:s public var maxLevel(default, null) : Map<Data.LevelsKind, Int> = new Map<Data.LevelsKind, Int>();
 
     public function new() {
+        init();
     }
 
     public function init() {

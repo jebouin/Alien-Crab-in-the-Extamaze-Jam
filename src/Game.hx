@@ -105,6 +105,7 @@ class Game extends Scene {
         interactive.onClick = onClick;
         interactive.onPush = onPush;
         interactive.onRelease = onRelease;
+        interactive.onMove = onMouseMove;
         saveState("Initial state");
         background = new Background(world, LAYER_BACK);
     }
@@ -131,6 +132,12 @@ class Game extends Scene {
                 }
                 if(controller.isPressed(Action.spell2) && hero.spells.length > 1) {
                     castSpell(hero.spells[1]);
+                }
+                if(controller.isPressed(Action.level1)) {
+                    chooseLevelUpPerk(true);
+                }
+                if(controller.isPressed(Action.level2)) {
+                    chooseLevelUpPerk(false);
                 }
                 if(controller.isPressed(Action.changeControl)) {
                     changeControl();
@@ -187,8 +194,8 @@ class Game extends Scene {
         for(entity in entities) {
             entity.updateConstantRate(dt);
         }
-        mouseX = Main.inst.s2d.mouseX / Main.inst.renderer.pixelPerfectScale;
-        mouseY = Main.inst.s2d.mouseY / Main.inst.renderer.pixelPerfectScale;
+        /*mouseX = hud.mouseX;
+        mouseY = hud.mouseY;*/
         var mtx = Std.int((mouseX - Game.WORLD_OFF_X) / Level.TS);
         var mty = Std.int((mouseY - Game.WORLD_OFF_Y) / Level.TS);
         if(hero.canTakeAction) {
@@ -262,6 +269,7 @@ class Game extends Scene {
         var id = summonList.indexOf(hero);
         setHero(summonList[(id + 1) % summonList.length], false);
         onChange();
+        Audio.playSound(Data.SoundKind.menuMove);
     }
     function getSummonList() {
         var summonList = [];
@@ -454,5 +462,10 @@ class Game extends Scene {
 
     public function ysortEntities() {
         world.ysort(Game.LAYER_ENTITIES);
+    }
+
+    public function onMouseMove(e) {
+        mouseX = e.relX;
+        mouseY = e.relY;
     }
 }
