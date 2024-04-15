@@ -11,7 +11,6 @@
 bin/*
 !bin/js
 bin/js/*.js
-promo/*
 res/.tmp
 res/LevelProject/backups/*
 res/music/export*
