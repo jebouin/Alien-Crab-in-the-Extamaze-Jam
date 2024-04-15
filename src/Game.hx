@@ -248,11 +248,13 @@ class Game extends Scene {
         if(gameOver || won || !hero.canTakeAction) return;
         Game.inst.saveState("cast spell");
         hero.castSpell(id);
+        Audio.playSound(Data.SoundKind.spell);
     }
     public function chooseLevelUpPerk(isHP:Bool) {
         if(gameOver || won || !hero.canTakeAction) return;
         Game.inst.saveState("level up");
         hero.chooseLevelUpPerk(isHP);
+        Audio.playSound(Data.SoundKind.menuEnter);
     }
     public function changeControl() {
         if(gameOver || won || !hero.canTakeAction) return;
@@ -398,6 +400,7 @@ class Game extends Scene {
             showStatus("Failed to undo: " + err);
         });
         onChange();
+        Audio.playSound(Data.SoundKind.menuBack);
     }
 
     public function canRedo() {
@@ -417,6 +420,7 @@ class Game extends Scene {
             showStatus("Failed to redo: " + err);
         });
         onChange();
+        Audio.playSound(Data.SoundKind.menuMove);
     }
 
     public function showStatus(str:String) {
@@ -440,6 +444,7 @@ class Game extends Scene {
         won = false;
     }
     public function showQuitDialog() {
+        Audio.playSound(Data.SoundKind.menuEnter);
         new Confirmation();
     }
     public function debug() {

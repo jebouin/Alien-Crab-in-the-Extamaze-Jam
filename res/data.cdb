@@ -691,22 +691,22 @@
 				{
 					"id": "itemKey",
 					"variationCount": 0,
-					"volume": 0.85
+					"volume": 0.7
 				},
 				{
 					"id": "itemScroll",
 					"variationCount": 0,
-					"volume": 0.85
+					"volume": 0.7
 				},
 				{
 					"id": "itemPotion",
 					"variationCount": 0,
-					"volume": 0.85
+					"volume": 0.7
 				},
 				{
 					"id": "itemBonus",
 					"variationCount": 0,
-					"volume": 0.85
+					"volume": 0.7
 				},
 				{
 					"id": "hit",
@@ -726,12 +726,12 @@
 				{
 					"id": "doorEye",
 					"variationCount": 0,
-					"volume": 1
+					"volume": 0.8
 				},
 				{
 					"id": "doorNormal",
 					"variationCount": 0,
-					"volume": 1
+					"volume": 0.9
 				},
 				{
 					"id": "gameOver",
@@ -759,7 +759,17 @@
 					"volume": 1
 				},
 				{
+					"id": "menuBack",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
 					"id": "menuMove",
+					"variationCount": 0,
+					"volume": 1
+				},
+				{
+					"id": "spell",
 					"variationCount": 0,
 					"volume": 1
 				}

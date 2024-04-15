@@ -1,12 +1,4 @@
 DAY 3 (~8:00)
-
-AUDIO: 11:00
-- Menu move
-- Menu enter
-- Take item (potion, key)
-- Spell
-
-
 WEB EXPORT: 14:00
 - Playtest
 
