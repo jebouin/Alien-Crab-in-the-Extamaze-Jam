@@ -1,4 +1,4 @@
-Resource management RPG game made in 48 hours for Ludum Dare 55.
+Resource management RPG made in 48 hours for Ludum Dare 55.
 
 [Play it here](https://jebouin.itch.io/alien-crab-3)
 
